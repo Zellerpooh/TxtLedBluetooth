@@ -25,7 +25,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.
     @BindView(R.id.radio_group)
     RadioGroup radioGroup;
     private MainPresenter mPresenter;
-
     private MusicFragment mMusicFragment;
     private LightFragment mLightFragment;
     private SettingFragment mSettingFragment;
