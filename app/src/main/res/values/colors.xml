@@ -3,4 +3,18 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--底部导航栏背景-->
+    <color name="dark_grey">#3a3a3b</color>
+    <!--底部导航栏选中-->
+    <color name="bright_blue">#40caf4</color>
+    <!--底部导航栏未选中-->
+    <color name="gray">#9a9a9b</color>
+    <!--底部导航栏分隔线-->
+    <color name="dark_gray">#4b4b4c</color>
+    <!--fragment背景色-->
+    <color name="dark_blue">#085e74</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#ff000000</color>
+
 </resources>
