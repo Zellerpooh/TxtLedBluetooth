@@ -26,7 +26,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.
     RadioGroup radioGroup;
     private MainPresenter mPresenter;
     private MusicFragment mMusicFragment;
-    private MusicFragment mMusicFragmen;
     private LightFragment mLightFragment;
     private SettingFragment mSettingFragment;
 
