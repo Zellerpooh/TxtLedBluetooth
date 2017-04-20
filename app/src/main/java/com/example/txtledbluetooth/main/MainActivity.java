@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity implements MainView {
         if (mSourcesFragment == null) {
             mSourcesFragment = new SourcesFragment();
         }
-        showFragment(mDashboardFragment);
+        showFragment(mSourcesFragment);
     }
 
     @Override

@@ -2,9 +2,11 @@ package com.example.txtledbluetooth.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,15 +21,17 @@ import butterknife.ButterKnife;
  */
 
 public class ItemLayout extends RelativeLayout {
-    @BindView(R.id.layout_top)
+    @BindView(R.id.layout_item)
     RelativeLayout layoutItem;
+    @BindView(R.id.iv_item_left)
+    ImageView ivLeft;
+    @BindView(R.id.iv_item_right)
+    ImageView ivRight;
     @BindView(R.id.tv_left)
     TextView tvLeft;
-    @BindView(R.id.tv_right)
-    TextView tvRight;
     private Context mContext;
     public OnItemListener onItemListener;
-    public OnTvRightListener onTvRightListener;
+    public OnIvRightListener onIvRightListener;
 
     public OnItemListener getOnItemListener() {
         return onItemListener;
@@ -37,20 +41,20 @@ public class ItemLayout extends RelativeLayout {
         this.onItemListener = onItemListener;
     }
 
-    public OnTvRightListener getOnTvRightListener() {
-        return onTvRightListener;
+    public OnIvRightListener getOnTvRightListener() {
+        return onIvRightListener;
     }
 
-    public void setOnTvRightListener(OnTvRightListener onTvRightListener) {
-        this.onTvRightListener = onTvRightListener;
+    public void setOnTvRightListener(OnIvRightListener onIvRightListener) {
+        this.onIvRightListener = onIvRightListener;
     }
 
     public interface OnItemListener {
         void onClickItemListener(View v);
     }
 
-    public interface OnTvRightListener {
-        void onClickTvRightListener(View v);
+    public interface OnIvRightListener {
+        void onClickIvRightListener(View v);
     }
 
     public ItemLayout(Context context) {
@@ -63,8 +67,10 @@ public class ItemLayout extends RelativeLayout {
 
     public ItemLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        Drawable drawableLeft = null;
+        Drawable drawableRight = null;
         String strLeft = "";
-        String strRight = "";
+        int itemBgColor = 0;
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ItemLayout,
                 defStyleAttr, 0);
         int n = a.getIndexCount();
@@ -74,16 +80,32 @@ public class ItemLayout extends RelativeLayout {
                 case R.styleable.ItemLayout_text_left:
                     strLeft = a.getString(attr);
                     break;
-                case R.styleable.ItemLayout_text_right:
-                    strRight = a.getString(attr);
+                case R.styleable.ItemLayout_iv_left:
+                    drawableLeft = a.getDrawable(attr);
+                    break;
+                case R.styleable.ItemLayout_iv_right:
+                    drawableRight = a.getDrawable(attr);
+                    break;
+                case R.styleable.ItemLayout_item_bg:
+                    itemBgColor = a.getColor(attr, R.color.content_bg);
                     break;
             }
 
         }
         a.recycle();
         init(context);
-        tvRight.setText(strRight);
+        if (drawableLeft != null) {
+            ivLeft.setImageDrawable(drawableLeft);
+        } else {
+            ivLeft.setVisibility(GONE);
+        }
         tvLeft.setText(strLeft);
+        if (drawableRight != null) {
+            ivRight.setImageDrawable(drawableRight);
+        } else {
+            ivRight.setVisibility(GONE);
+        }
+        layoutItem.setBackgroundColor(itemBgColor);
     }
 
     public void init(Context c) {
@@ -103,11 +125,11 @@ public class ItemLayout extends RelativeLayout {
                 }
             }
         });
-        tvRight.setOnClickListener(new OnClickListener() {
+        ivRight.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onTvRightListener != null) {
-                    onTvRightListener.onClickTvRightListener(v);
+                if (onIvRightListener != null) {
+                    onIvRightListener.onClickIvRightListener(v);
                 }
             }
         });

@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-   >
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,18 +13,13 @@
 
         <TextView
             android:id="@+id/tv_toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/main_text_size" />
+            style="@style/main_tv"
+            android:layout_gravity="center" />
 
         <TextView
             android:id="@+id/tv_toolbar_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/main_tv"
             android:layout_gravity="right"
-            android:textSize="@dimen/main_text_size"
             android:visibility="gone" />
 
     </android.support.v7.widget.Toolbar>

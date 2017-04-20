@@ -10,4 +10,7 @@
     <string name="lighting">Lighting</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="select_an_input">Select an input</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="aux_in">Aux-In</string>
 </resources>

@@ -13,4 +13,6 @@
     <color name="black">#ff000000</color>
     <color name="dark">#111111</color>
     <color name="text_color">#b8b8b8</color>
+    <color name="content_bg">#171717</color>
+    <color name="item_selected_bg">#212121</color>
 </resources>
