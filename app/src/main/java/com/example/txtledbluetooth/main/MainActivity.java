@@ -57,6 +57,7 @@ public class MainActivity extends BaseActivity implements MainView {
                 getColorStateList(R.drawable.menu_icon_dashboard));
         navigationView.setItemTextColor(getResources().
                 getColorStateList(R.drawable.menu_icon_dashboard));
+        navigationView.setItemBackground(getResources().getDrawable(R.drawable.menu_item));
         setupDrawerContent(navigationView);
         switchDashboard();
     }
