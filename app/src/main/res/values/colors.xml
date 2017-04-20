@@ -4,11 +4,7 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#00acc1</color>
 
-    <color name="dark_grey">#3a3a3b</color>
-    <color name="bright_blue">#40caf4</color>
     <color name="gray">#252521</color>
-    <color name="dark_gray">#4b4b4c</color>
-    <color name="dark_blue">#085e74</color>
     <color name="white">#ffffff</color>
     <color name="black">#ff000000</color>
     <color name="dark">#111111</color>

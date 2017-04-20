@@ -94,18 +94,20 @@ public class ItemLayout extends RelativeLayout {
         }
         a.recycle();
         init(context);
-        if (drawableLeft != null) {
-            ivLeft.setImageDrawable(drawableLeft);
-        } else {
-            ivLeft.setVisibility(GONE);
-        }
         tvLeft.setText(strLeft);
-        if (drawableRight != null) {
-            ivRight.setImageDrawable(drawableRight);
-        } else {
-            ivRight.setVisibility(GONE);
-        }
+        ivLeft.setImageDrawable(drawableLeft);
+        ivRight.setImageDrawable(drawableRight);
         layoutItem.setBackgroundColor(itemBgColor);
+    }
+
+    public void setIsItemSelected(boolean isItemSelected) {
+        if (isItemSelected) {
+            layoutItem.setBackgroundColor(getResources().getColor(R.color.item_selected_bg));
+            ivRight.setImageResource(R.mipmap.icon_selected);
+        } else {
+            layoutItem.setBackgroundColor(getResources().getColor(R.color.content_bg));
+            ivRight.setImageResource(0);
+        }
     }
 
     public void init(Context c) {
