@@ -53,7 +53,10 @@ public class MainActivity extends BaseActivity implements MainView {
         mDrawerToggle.setHomeAsUpIndicator(null);
         mDrawerToggle.syncState();
         drawerLayout.setDrawerListener(mDrawerToggle);
-        navigationView.setItemIconTintList(null);
+        navigationView.setItemIconTintList(getResources().
+                getColorStateList(R.drawable.menu_icon_dashboard));
+        navigationView.setItemTextColor(getResources().
+                getColorStateList(R.drawable.menu_icon_dashboard));
         setupDrawerContent(navigationView);
         switchDashboard();
     }
