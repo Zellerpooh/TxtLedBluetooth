@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">GP229 CES</string>
     <string name="ok">确定</string>
-    <string name="music">MUSIC</string>
-    <string name="mood_light">MOOD LIGHT</string>
-    <string name="setting">SETTING</string>
+    <string name="music">Music</string>
+    <string name="settings">Settings</string>
+    <string name="speaker_options">SPEAKER OPTIONS</string>
+    <string name="about">About</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="sources">Sources</string>
+    <string name="lighting">Lighting</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 </resources>

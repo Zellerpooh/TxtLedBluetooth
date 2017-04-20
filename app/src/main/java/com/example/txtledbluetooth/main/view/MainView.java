@@ -6,9 +6,15 @@ package com.example.txtledbluetooth.main.view;
  */
 
 public interface MainView {
+    void switchDashboard();
+
+    void switchSources();
+
     void switchMusic();
 
-    void switchLight();
+    void switchLighting();
 
-    void switchSetting();
+    void switchSettings();
+
+    void switchAbout();
 }

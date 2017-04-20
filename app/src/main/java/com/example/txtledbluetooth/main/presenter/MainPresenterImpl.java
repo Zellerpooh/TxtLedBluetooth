@@ -18,14 +18,23 @@ public class MainPresenterImpl implements MainPresenter {
     @Override
     public void switchNavigation(int id) {
         switch (id) {
-            case R.id.rb_music:
+            case R.id.nav_item_dashboard:
+                mMainView.switchDashboard();
+                break;
+            case R.id.nav_item_sources:
+                mMainView.switchSources();
+                break;
+            case R.id.nav_item_music:
                 mMainView.switchMusic();
                 break;
-            case R.id.rb_light:
-                mMainView.switchLight();
+            case R.id.nav_item_lighting:
+                mMainView.switchLighting();
                 break;
-            case R.id.rb_setting:
-                mMainView.switchSetting();
+            case R.id.nav_item_setting:
+                mMainView.switchSettings();
+                break;
+            case R.id.nav_item_about:
+                mMainView.switchAbout();
                 break;
         }
     }
