@@ -3,6 +3,7 @@ package com.example.txtledbluetooth.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +26,14 @@ public class ItemLayout extends RelativeLayout {
     RelativeLayout layoutItem;
     @BindView(R.id.iv_item_left)
     ImageView ivLeft;
+    @BindView(R.id.tv_left_top)
+    TextView tvLeftTop;
+    @BindView(R.id.tv_left_bottom)
+    TextView tvLeftBottom;
+    @BindView(R.id.tv_right)
+    TextView tvRight;
     @BindView(R.id.iv_item_right)
     ImageView ivRight;
-    @BindView(R.id.tv_left)
-    TextView tvLeft;
     private Context mContext;
     public OnItemListener onItemListener;
     public OnIvRightListener onIvRightListener;
@@ -69,7 +74,9 @@ public class ItemLayout extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         Drawable drawableLeft = null;
         Drawable drawableRight = null;
-        String strLeft = "";
+        String strLeftTop = "";
+        String strLeftBottom = "";
+        String strRight = "";
         int itemBgColor = 0;
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ItemLayout,
                 defStyleAttr, 0);
@@ -77,8 +84,14 @@ public class ItemLayout extends RelativeLayout {
         for (int i = 0; i < n; i++) {
             int attr = a.getIndex(i);
             switch (attr) {
-                case R.styleable.ItemLayout_text_left:
-                    strLeft = a.getString(attr);
+                case R.styleable.ItemLayout_text_left_top:
+                    strLeftTop = a.getString(attr);
+                    break;
+                case R.styleable.ItemLayout_text_left_bottom:
+                    strLeftBottom = a.getString(attr);
+                    break;
+                case R.styleable.ItemLayout_text_right:
+                    strRight = a.getString(attr);
                     break;
                 case R.styleable.ItemLayout_iv_left:
                     drawableLeft = a.getDrawable(attr);
@@ -94,20 +107,49 @@ public class ItemLayout extends RelativeLayout {
         }
         a.recycle();
         init(context);
-        tvLeft.setText(strLeft);
-        ivLeft.setImageDrawable(drawableLeft);
-        ivRight.setImageDrawable(drawableRight);
+        tvLeftTop.setText(strLeftTop);
+        if (TextUtils.isEmpty(strLeftBottom)) {
+            tvLeftBottom.setVisibility(GONE);
+        } else {
+            tvLeftBottom.setVisibility(VISIBLE);
+            tvLeftBottom.setText(strLeftBottom);
+        }
+        tvRight.setText(strRight);
+        if (drawableLeft == null) {
+            ivLeft.setVisibility(GONE);
+        } else {
+            ivLeft.setVisibility(VISIBLE);
+            ivLeft.setImageDrawable(drawableLeft);
+        }
+        if (drawableRight == null) {
+            ivRight.setVisibility(GONE);
+        } else {
+            ivRight.setVisibility(VISIBLE);
+            ivRight.setImageDrawable(drawableRight);
+        }
+
         layoutItem.setBackgroundColor(itemBgColor);
     }
 
     public void setIsItemSelected(boolean isItemSelected) {
         if (isItemSelected) {
             layoutItem.setBackgroundColor(getResources().getColor(R.color.item_selected_bg));
+            ivRight.setVisibility(VISIBLE);
             ivRight.setImageResource(R.mipmap.icon_selected);
         } else {
             layoutItem.setBackgroundColor(getResources().getColor(R.color.content_bg));
-            ivRight.setImageResource(0);
+            ivRight.setVisibility(GONE);
         }
+    }
+
+    public void setTvRightStr(String showStr) {
+        if (!TextUtils.isEmpty(showStr)) {
+            tvRight.setText(showStr);
+        }
+    }
+
+    public String getTvLeftStr() {
+        return tvLeftTop.getText().toString();
     }
 
     public void init(Context c) {

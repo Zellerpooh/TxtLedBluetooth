@@ -11,4 +11,7 @@
     <color name="text_color">#b8b8b8</color>
     <color name="content_bg">#171717</color>
     <color name="item_selected_bg">#212121</color>
+    <color name="text_hint_color">#4d4d4d</color>
+    <color name="medium_gray">#969696</color>
+
 </resources>

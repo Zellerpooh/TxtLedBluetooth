@@ -5,7 +5,11 @@
     <dimen name="title_height">50dp</dimen>
     <dimen name="item_height">75dp</dimen>
     <dimen name="main_text_size">16sp</dimen>
+    <dimen name="big_text_size">18sp</dimen>
     <dimen name="text_size">14sp</dimen>
     <dimen name="item_padding_left">24dp</dimen>
     <dimen name="divide_padding_right">32dp</dimen>
+    <dimen name="logo_margin_top">65dp</dimen>
+    <dimen name="app_name_size">28sp</dimen>
+    <dimen name="ver_tv_size">22sp</dimen>
 </resources>

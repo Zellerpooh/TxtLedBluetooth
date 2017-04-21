@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ItemLayout">
-        <attr name="text_left" format="string" />
         <attr name="iv_left" format="reference" />
+        <attr name="text_left_top" format="string" />
+        <attr name="text_left_bottom" format="string" />
+        <attr name="text_right" format="string" />
         <attr name="iv_right" format="reference" />
         <attr name="item_bg" format="color" />
     </declare-styleable>

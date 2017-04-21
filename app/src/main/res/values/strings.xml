@@ -13,4 +13,17 @@
     <string name="select_an_input">Select an input</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="aux_in">Aux-In</string>
+    <string name="creative_halo">Creative Halo</string>
+    <string name="ver_info">Version 1.1.48</string>
+    <string name="copyright_info">Copyright © Creative Technology Ltd., 2016-2017.\nAll rights reserved.</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="firmware_ver">Firmware Version 2.0.3</string>
+    <string name="audio_prompts">Audio Prompts</string>
+    <string name="voice_and_tones">Voice and Tones</string>
+    <string name="auto_standby">Auto Standby</string>
+    <string name="auto_standby_hint">Switch to standby mode after one day being idle</string>
+    <string name="reset_to_default">Reset to factory default</string>
+    <string name="reset_to_default_hint">Restore all your configuration to original conditioin</string>
+    <string name="off">off</string>
+    <string name="tones_only">Tones Only</string>
 </resources>

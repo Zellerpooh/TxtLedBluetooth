@@ -8,24 +8,26 @@
     <TextView
         android:id="@+id/tv_hint"
         style="@style/main_tv"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:text="@string/select_an_input" />
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/item_padding_left"
+        android:layout_marginTop="@dimen/item_padding_left"
+        android:text="@string/select_an_input"
+        android:textColor="@color/text_hint_color"
+        android:textSize="@dimen/text_size" />
 
     <com.example.txtledbluetooth.widget.ItemLayout
         android:id="@+id/item_bluetooth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/main_tv"
         android:layout_below="@+id/tv_hint"
+        custom:item_bg="@color/item_selected_bg"
         custom:iv_left="@mipmap/icon_bluetooth"
         custom:iv_right="@mipmap/icon_selected"
-        custom:item_bg="@color/item_selected_bg"
-        custom:text_left="@string/bluetooth" />
+        custom:text_left_top="@string/bluetooth" />
 
     <com.example.txtledbluetooth.widget.ItemLayout
         android:id="@+id/item_aux_in"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/main_tv"
         android:layout_below="@+id/item_bluetooth"
         custom:iv_left="@mipmap/icon_aux_in"
-        custom:text_left="@string/aux_in" />
+        custom:text_left_top="@string/aux_in" />
 </RelativeLayout>

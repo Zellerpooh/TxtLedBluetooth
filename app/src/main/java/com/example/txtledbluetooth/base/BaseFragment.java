@@ -29,18 +29,4 @@ public abstract class BaseFragment extends Fragment {
         return view;
     }
 
-    public void replaceFragment(BaseFragment fragment, int resId) {
-        replaceFragment(fragment, resId, true);
-    }
-
-    public void replaceFragment(BaseFragment fragment, int resId, boolean addToBackStack) {
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.screen_left_out, R.anim.screen_right_in,
-                R.anim.screen_left_in, R.anim.screen_right_out);
-        transaction.replace(resId, fragment);
-        if (addToBackStack) {
-            transaction.addToBackStack(null);
-        }
-        transaction.commitAllowingStateLoss();
-    }
 }

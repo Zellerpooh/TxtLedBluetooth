@@ -15,6 +15,7 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
  */
 
 public class Utils {
+    public static final String ITEM_RIGHT_TEXT = "item_right_text";
 
     public static DisplayImageOptions getImageOptions(int defaultIconId) {
         return getImageOptions(defaultIconId, 0);

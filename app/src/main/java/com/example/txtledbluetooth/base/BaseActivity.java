@@ -35,16 +35,14 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(R.mipmap.icon_left_arrow);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
             setTitle("");
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
         }
     }
 }

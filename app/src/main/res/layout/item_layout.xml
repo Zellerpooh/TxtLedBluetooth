@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_item"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
-  >
+    android:layout_height="75dp">
 
     <ImageView
         android:id="@+id/iv_item_left"
@@ -13,13 +12,37 @@
         android:layout_marginLeft="@dimen/item_padding_left"
         android:src="@mipmap/icon_bluetooth" />
 
-    <TextView
-        android:id="@+id/tv_left"
-        style="@style/main_tv"
-        android:layout_centerVertical="true"
+    <RelativeLayout
+        android:id="@+id/layout_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/item_padding_left"
         android:layout_toRightOf="@+id/iv_item_left"
-        android:text="@string/bluetooth" />
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_left_top"
+            style="@style/main_tv"
+            android:text="@string/bluetooth"
+            android:textColor="@drawable/menu_icon_dashboard" />
+
+        <TextView
+            android:id="@+id/tv_left_bottom"
+            style="@style/main_tv"
+            android:layout_below="@+id/tv_left_top"
+            android:text="@string/bluetooth"
+            android:textColor="@color/medium_gray"
+            android:textSize="@dimen/text_size" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_right"
+        style="@style/main_tv"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/iv_item_right"
+        android:text="@string/bluetooth"
+        android:textColor="@color/colorAccent" />
 
     <ImageView
         android:id="@+id/iv_item_right"
