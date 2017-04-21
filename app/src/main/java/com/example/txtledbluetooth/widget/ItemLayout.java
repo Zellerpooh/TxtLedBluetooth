@@ -151,7 +151,9 @@ public class ItemLayout extends RelativeLayout {
     public String getTvLeftStr() {
         return tvLeftTop.getText().toString();
     }
-
+    public String getTvRightStr() {
+        return tvRight.getText().toString();
+    }
     public void init(Context c) {
         this.mContext = c;
         LayoutInflater.from(mContext).inflate(R.layout.item_layout, this, true);

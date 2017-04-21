@@ -13,6 +13,7 @@ import com.example.txtledbluetooth.base.BaseFragment;
 import com.example.txtledbluetooth.setting.presenter.SettingPresenter;
 import com.example.txtledbluetooth.setting.presenter.SettingPresenterImp;
 import com.example.txtledbluetooth.setting.view.SettingView;
+import com.example.txtledbluetooth.utils.SharedPreferenceUtils;
 import com.example.txtledbluetooth.utils.Utils;
 import com.example.txtledbluetooth.widget.ItemLayout;
 
@@ -46,6 +47,7 @@ public class SettingFragment extends BaseFragment implements SettingView {
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setting, null);
         ButterKnife.bind(this, view);
+        itemAudioPrompts.setTvRightStr(SharedPreferenceUtils.getAudioPromptsModel(getActivity()));
         itemAudioPrompts.setOnItemListener(new ItemLayout.OnItemListener() {
             @Override
             public void onClickItemListener(View v) {
@@ -73,7 +75,6 @@ public class SettingFragment extends BaseFragment implements SettingView {
     @Override
     public void setAudioPrompts() {
         Intent intent = new Intent(getActivity(), AudioPromptsActivity.class);
-        intent.putExtra(Utils.ITEM_RIGHT_TEXT, itemAudioPrompts.getTvLeftStr());
         startActivityForResult(intent, REQUEST_SETTING);
     }
 
@@ -92,6 +93,8 @@ public class SettingFragment extends BaseFragment implements SettingView {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SETTING && resultCode == RESULT_OK) {
             itemAudioPrompts.setTvRightStr(data.getStringExtra(Utils.ITEM_RIGHT_TEXT));
+            SharedPreferenceUtils.saveAudioPromptsModel(getActivity(),
+                    itemAudioPrompts.getTvRightStr());
         }
     }
 }

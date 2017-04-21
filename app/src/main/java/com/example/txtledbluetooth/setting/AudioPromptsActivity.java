@@ -8,6 +8,7 @@ import com.example.txtledbluetooth.base.BaseActivity;
 import com.example.txtledbluetooth.setting.presenter.AudioPromptsPresenter;
 import com.example.txtledbluetooth.setting.presenter.AudioPromptsPresenterImp;
 import com.example.txtledbluetooth.setting.view.AudioPromptsView;
+import com.example.txtledbluetooth.utils.SharedPreferenceUtils;
 import com.example.txtledbluetooth.utils.Utils;
 import com.example.txtledbluetooth.widget.ItemLayout;
 
@@ -55,8 +56,13 @@ public class AudioPromptsActivity extends BaseActivity implements AudioPromptsVi
     }
 
     private void initItemBgColor() {
-        String itemText = getIntent().getStringExtra(Utils.ITEM_RIGHT_TEXT);
-        switch (itemText) {
+        String itemText = SharedPreferenceUtils.getAudioPromptsModel(this);
+        if (itemText.equals(itemOff.getTvLeftStr())) {
+            selectOffEffect();
+        } else if (itemText.equals(itemTonesOnly.getTvLeftStr())) {
+            selectTonesSelected();
+        } else if (itemText.equals(itemVoiceAndTones.getTvLeftStr())) {
+            selectVoiceAndTonesEffect();
         }
     }
 
