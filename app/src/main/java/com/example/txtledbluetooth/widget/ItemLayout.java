@@ -132,8 +132,11 @@ public class ItemLayout extends RelativeLayout {
             ivRight.setVisibility(VISIBLE);
             ivRight.setImageDrawable(drawableRight);
         }
-
-        layoutItem.setBackgroundColor(itemBgColor);
+        if (itemBgColor == 0) {
+            layoutItem.setBackground(getResources().getDrawable(R.drawable.ripple_list_item_effect));
+        } else {
+            layoutItem.setBackgroundColor(itemBgColor);
+        }
     }
 
     public void setIsItemSelected(boolean isItemSelected) {
@@ -156,9 +159,11 @@ public class ItemLayout extends RelativeLayout {
     public String getTvLeftStr() {
         return tvLeftTop.getText().toString();
     }
+
     public String getTvRightStr() {
         return tvRight.getText().toString();
     }
+
     public void init(Context c) {
         this.mContext = c;
         LayoutInflater.from(mContext).inflate(R.layout.item_layout, this, true);

@@ -30,11 +30,11 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         void onItemClick(View view, int position);
     }
 
-    public LightAdapter(Context mContext, ArrayList<Lighting> mLightingList,OnItemClickListener
+    public LightAdapter(Context mContext, ArrayList<Lighting> mLightingList, OnItemClickListener
             mOnItemClickListener) {
         this.mContext = mContext;
         this.mLightingList = mLightingList;
-        this.mOnItemClickListener=mOnItemClickListener;
+        this.mOnItemClickListener = mOnItemClickListener;
     }
 
     @Override
@@ -72,6 +72,8 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         public LightViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setBackground(mContext.getResources().getDrawable(R.drawable.
+                    ripple_list_item_effect));
             itemView.setOnClickListener(this);
         }
 
