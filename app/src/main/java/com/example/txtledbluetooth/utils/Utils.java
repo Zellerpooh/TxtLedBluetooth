@@ -6,8 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import com.example.txtledbluetooth.R;
+import com.example.txtledbluetooth.bean.Lighting;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+
+import java.util.ArrayList;
 
 /**
  * Created by KomoriWu
@@ -47,6 +50,24 @@ public class Utils {
             dialog.setCancelable(true);
             dialog.show();
         }
+    }
+
+    public static ArrayList<Lighting> getLightList(Context context) {
+        String[] lightNames = context.getResources().getStringArray(R.array.lighting_name);
+        int[] lightIcons = {R.mipmap.icon_moon_light, R.mipmap.icon_fireworks,
+                R.mipmap.icon_blue_skies, R.mipmap.icon_rainbow, R.mipmap.icon_pulsate,
+                R.mipmap.icon_glow, R.mipmap.icon_monochrome};
+        ArrayList<Lighting> lightingList = new ArrayList<>();
+        boolean isEdit;
+        for (int i = 0; i < lightIcons.length; i++) {
+            if (i == 5) {
+                isEdit = true;
+            } else {
+                isEdit = false;
+            }
+            lightingList.add(i, new Lighting(lightNames[i], lightIcons[i], isEdit));
+        }
+        return lightingList;
     }
 
 }

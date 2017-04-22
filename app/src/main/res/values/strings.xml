@@ -25,5 +25,15 @@
     <string name="reset_to_default">Reset to factory default</string>
     <string name="reset_to_default_hint">Restore all your configuration to original conditioin</string>
     <string name="off">off</string>
+    <string name="on_capital">ON</string>
+    <string name="off_capital">OFF</string>
     <string name="tones_only">Tones Only</string>
+    <string name="moon_light">Moon Light</string>
+    <string name="fireworks">Fireworks</string>
+    <string name="blue_skies">Blue Skies</string>
+    <string name="rainbow">Rainbow</string>
+    <string name="pulsate">Pulsate</string>
+    <string name="glow">Glow</string>
+    <string name="monochrome">Monochrome</string>
+
 </resources>

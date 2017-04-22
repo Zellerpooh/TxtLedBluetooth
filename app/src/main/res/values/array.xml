@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="lighting_name">
+        <item>@string/moon_light</item>
+        <item>@string/fireworks</item>
+        <item>@string/blue_skies</item>
+        <item>@string/rainbow</item>
+        <item>@string/pulsate</item>
+        <item>@string/glow</item>
+        <item>@string/monochrome</item>
+    </string-array>
+</resources>

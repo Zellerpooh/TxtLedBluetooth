@@ -114,7 +114,12 @@ public class ItemLayout extends RelativeLayout {
             tvLeftBottom.setVisibility(VISIBLE);
             tvLeftBottom.setText(strLeftBottom);
         }
-        tvRight.setText(strRight);
+        if (TextUtils.isEmpty(strRight)) {
+            tvRight.setVisibility(GONE);
+        } else {
+            tvRight.setVisibility(VISIBLE);
+            tvRight.setText(strRight);
+        }
         if (drawableLeft == null) {
             ivLeft.setVisibility(GONE);
         } else {
