@@ -38,8 +38,9 @@
     <string name="glow">Glow</string>
     <string name="monochrome">Monochrome</string>
     <string name="no_support_ble">Phone does not support BLE !</string>
-    <string name="open_ble">To open and connect bluetooth</string>
-    <string name="conn_timeout">Connection timeout</string>
-    <string name="init_the_bluetooth">Initialize the bluetooth</string>
+    <string name="open_ble">Whether to open the Bluetooth?</string>
+    <string name="conn_timeout">Connection timeout!</string>
+    <string name="init_the_bluetooth">Initialize the bluetooth&#8230;</string>
+    <string name="conn_ble_success">Connection %s successful!</string>
 
 </resources>

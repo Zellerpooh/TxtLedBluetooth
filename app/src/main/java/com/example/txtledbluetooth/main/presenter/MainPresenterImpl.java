@@ -28,11 +28,8 @@ public class MainPresenterImpl implements MainPresenter, MainModelImpl.OnInitBle
     @Override
     public void initBle(Context context) {
         mMainView.showProgress();
-        HashMap<String, String> map = Utils.getBleAddressName(context);
-        String address = map.get(Utils.BLE_ADDRESS);
-        String name = map.get(Utils.BLE_NAME);
         mMainModel.initBle(context, MyApplication.getBluetoothClient(context), Utils.
-                getBleConnectOptions(), address, name, this);
+                getBleConnectOptions(), this);
     }
 
     @Override

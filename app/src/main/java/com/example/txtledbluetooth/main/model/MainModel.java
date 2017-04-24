@@ -13,5 +13,5 @@ import com.inuker.bluetooth.library.connect.options.BleConnectOptions;
 
 public interface MainModel {
     void initBle(Context context, BluetoothClient client, BleConnectOptions bleConnectOptions,
-                 String macAddress, String name,MainModelImpl.OnInitBleListener onInitBleListener);
+                MainModelImpl.OnInitBleListener onInitBleListener);
 }

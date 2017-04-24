@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import com.example.txtledbluetooth.R;
 import com.example.txtledbluetooth.bean.Lighting;
 import com.inuker.bluetooth.library.connect.options.BleConnectOptions;
+import com.inuker.bluetooth.library.search.SearchRequest;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
@@ -24,7 +25,7 @@ import java.util.HashMap;
 public class Utils {
     public static final String ITEM_RIGHT_TEXT = "item_right_text";
     public static final String AUDIO_PROMPTS_DEFAULT_MODEL = "Voice and Tones";
-    public static final String BLE_NAME = "ble_name";
+    public static final String BLE_NAME = "Creative Halo-207";
     public static final String BLE_ADDRESS = "ble_address";
 
     public static DisplayImageOptions getImageOptions(int defaultIconId) {
@@ -92,10 +93,11 @@ public class Utils {
     public static BleConnectOptions getBleConnectOptions() {
         BleConnectOptions options = new BleConnectOptions.Builder()
                 .setConnectRetry(3)   // 连接如果失败重试3次
-                .setConnectTimeout(20000)   // 连接超时30s
+                .setConnectTimeout(10000)   // 连接超时10s
                 .setServiceDiscoverRetry(3)  // 发现服务如果失败重试3次
                 .setServiceDiscoverTimeout(10000)  // 发现服务超时20s
                 .build();
         return options;
     }
+
 }

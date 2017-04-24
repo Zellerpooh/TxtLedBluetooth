@@ -1,5 +1,6 @@
 package com.example.txtledbluetooth.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -20,6 +21,7 @@ import butterknife.BindView;
 public abstract class BaseActivity extends AppCompatActivity {
     public Toolbar toolbar;
     public TextView tvTitle;
+    public ProgressDialog progressDialog;
 
     public abstract void init();
 
@@ -27,6 +29,21 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+    }
+
+    public void showProgressDialog(int id) {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+        }
+        progressDialog.setMessage(getString(id));
+        progressDialog.show();
+
+    }
+
+    public void hideProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.hide();
+        }
     }
 
     public void initToolbar() {
@@ -45,4 +62,5 @@ public abstract class BaseActivity extends AppCompatActivity {
             setTitle("");
         }
     }
+
 }

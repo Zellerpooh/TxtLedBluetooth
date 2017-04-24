@@ -4,6 +4,7 @@ package com.example.txtledbluetooth.utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.ProgressBar;
@@ -126,4 +127,9 @@ public class AlertUtils {
         }
     }
 
+    public static void showProgressDialog(Context context,int id) {
+        ProgressDialog progressDialog=new ProgressDialog(context);
+        progressDialog.setMessage(context.getString(id));
+        progressDialog.show();
+    }
 }

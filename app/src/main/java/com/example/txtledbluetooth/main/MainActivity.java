@@ -1,10 +1,15 @@
 package com.example.txtledbluetooth.main;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +32,13 @@ import com.example.txtledbluetooth.about.AboutFragment;
 import com.example.txtledbluetooth.setting.SettingFragment;
 import com.example.txtledbluetooth.sources.SourcesFragment;
 import com.example.txtledbluetooth.utils.AlertUtils;
+import com.example.txtledbluetooth.utils.Utils;
+import com.inuker.bluetooth.library.connect.response.BleConnectResponse;
+import com.inuker.bluetooth.library.model.BleGattProfile;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,7 +78,7 @@ public class MainActivity extends BaseActivity implements MainView {
         navigationView.setItemBackground(getResources().getDrawable(R.drawable.menu_item));
         setupDrawerContent(navigationView);
         switchDashboard();
-
+        mPresenter.initBle(this);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -84,8 +96,7 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     public void showProgress() {
-        AlertUtils.showAlertDialog(this, R.string.init_the_bluetooth);
-
+        showProgressDialog(R.string.init_the_bluetooth);
     }
 
     @Override
@@ -144,22 +155,28 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     public void hideProgress() {
-
+        hideProgressDialog();
     }
 
     @Override
     public void showLoadSuccessMsg(String name) {
-
+        AlertUtils.showAlertDialog(this, String.format(getString(R.string.conn_ble_success),
+                name));
     }
 
     @Override
     public void showLoadFailMsg(String message) {
-
+        AlertUtils.showAlertDialog(this, message, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS));
+            }
+        });
     }
 
     @Override
     public void showLoadExceptionMsg(String exception) {
-
+        AlertUtils.showAlertDialog(this, exception);
     }
 
 

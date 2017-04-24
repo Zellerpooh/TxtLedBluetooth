@@ -3,12 +3,16 @@ package com.example.txtledbluetooth.main.model;
 import android.content.Context;
 
 import com.example.txtledbluetooth.R;
+import com.example.txtledbluetooth.utils.Utils;
 import com.inuker.bluetooth.library.BluetoothClient;
 import com.inuker.bluetooth.library.connect.options.BleConnectOptions;
 import com.inuker.bluetooth.library.connect.response.BleConnectResponse;
 import com.inuker.bluetooth.library.model.BleGattCharacter;
 import com.inuker.bluetooth.library.model.BleGattProfile;
 import com.inuker.bluetooth.library.model.BleGattService;
+import com.inuker.bluetooth.library.search.SearchRequest;
+import com.inuker.bluetooth.library.search.SearchResult;
+import com.inuker.bluetooth.library.search.response.SearchResponse;
 
 import java.util.List;
 
@@ -20,38 +24,69 @@ import static com.inuker.bluetooth.library.Constants.REQUEST_SUCCESS;
  */
 
 public class MainModelImpl implements MainModel {
-
+    private static final int SEARCH_TIMEOUT = 5000;
+    private static final int SEARCH_TIMEOUT_NUMBER = 2;
 
     @Override
-    public void initBle(final Context context, final BluetoothClient client, BleConnectOptions
-            bleConnectOptions, String macAddress, final String name, final OnInitBleListener
+    public void initBle(final Context context, final BluetoothClient client, final BleConnectOptions
+            bleConnectOptions, final OnInitBleListener
                                 onInitBleListener) {
         if (client.isBleSupported()) {
             if (client.isBluetoothOpened()) {
-                onInitBleListener.onFailure(context.getString(R.string.open_ble));
-            } else {
-                client.connect(macAddress, bleConnectOptions, new BleConnectResponse() {
+                SearchRequest request = new SearchRequest.Builder()
+                        .searchBluetoothLeDevice(SEARCH_TIMEOUT, SEARCH_TIMEOUT_NUMBER).build();
+                client.search(request, new SearchResponse() {
                     @Override
-                    public void onResponse(int code, BleGattProfile profile) {
-                        if (code == REQUEST_SUCCESS) {
-                            List<BleGattService> services = profile.getServices();
-                            for (BleGattService service : services) {
-                                List<BleGattCharacter> characters = service.getCharacters();
-                                for (BleGattCharacter character : characters) {
-                                    //sql
-                                }
-                            }
-                            onInitBleListener.onSuccess(name);
-                        } else {
-                            onInitBleListener.onFailure(context.getString(R.string.conn_timeout));
+                    public void onSearchStarted() {
+
+                    }
+                    @Override
+                    public void onDeviceFounded(SearchResult device) {
+                        if (device.getName().contains(Utils.BLE_NAME)) {
+                            connBle(context, client, bleConnectOptions, device.getAddress(),
+                                    device.getName(), onInitBleListener);
                         }
                     }
+                    @Override
+                    public void onSearchStopped() {
+
+                    }
+                    @Override
+                    public void onSearchCanceled() {
+
+                    }
                 });
+
+
+            } else {
+                onInitBleListener.onFailure(context.getString(R.string.open_ble));
             }
         } else {
             onInitBleListener.OnException(context.getString(R.string.no_support_ble));
         }
 
+    }
+
+    private void connBle(final Context context, BluetoothClient client, BleConnectOptions
+            bleConnectOptions, String address, final String name,
+                         final OnInitBleListener onInitBleListener) {
+        client.connect(address, bleConnectOptions, new BleConnectResponse() {
+            @Override
+            public void onResponse(int code, BleGattProfile profile) {
+                if (code == REQUEST_SUCCESS) {
+                    List<BleGattService> services = profile.getServices();
+                    for (BleGattService service : services) {
+                        List<BleGattCharacter> characters = service.getCharacters();
+                        for (BleGattCharacter character : characters) {
+                            //sql
+                        }
+                    }
+                    onInitBleListener.onSuccess(name);
+                } else {
+                    onInitBleListener.OnException(context.getString(R.string.conn_timeout));
+                }
+            }
+        });
     }
 
     public interface OnInitBleListener {
