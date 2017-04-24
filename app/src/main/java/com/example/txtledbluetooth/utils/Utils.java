@@ -27,6 +27,8 @@ public class Utils {
     public static final String AUDIO_PROMPTS_DEFAULT_MODEL = "Voice and Tones";
     public static final String BLE_NAME = "Creative Halo-207";
     public static final String BLE_ADDRESS = "ble_address";
+    public static final String RECEIVE_SERVICE = "6677";
+    public static final String SEND_SERVICE = "7777";
 
     public static DisplayImageOptions getImageOptions(int defaultIconId) {
         return getImageOptions(defaultIconId, 0);
@@ -75,18 +77,6 @@ public class Utils {
             lightingList.add(i, new Lighting(lightNames[i], lightIcons[i], isEdit));
         }
         return lightingList;
-    }
-
-    public static HashMap<String, String> getBleAddressName(Context context) {
-        BluetoothManager bluetoothManager =
-                (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
-        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
-        String address = bluetoothAdapter.getAddress();
-        String name = bluetoothAdapter.getName();
-        HashMap<String, String> map = new HashMap<>();
-        map.put(BLE_ADDRESS, address);
-        map.put(BLE_NAME, name);
-        return map;
     }
 
 

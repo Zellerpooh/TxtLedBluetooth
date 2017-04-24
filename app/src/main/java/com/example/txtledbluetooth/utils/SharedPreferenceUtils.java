@@ -14,6 +14,45 @@ import java.util.Map;
 public class SharedPreferenceUtils {
     public static final String AUDIO_PROMPTS_MODEL_NAME = "audio_prompts_model_name";
     public static final String AUDIO_PROMPTS_MODEL_KEY = "audio_prompts_model_key";
+    public static final String MAC_ADDRESS_NAME = "mac_address_name";
+    public static final String MAC_ADDRESS_KEY = "mac_address_key";
+    public static final String RECEIVE_SERVICE_NAME = "receive_service_name";
+    public static final String RECEIVE_SERVICE_KEY = "receive_service_key";
+    public static final String RECEIVE_CHARACTER_NAME = "receive_character_name";
+    public static final String RECEIVE_CHARACTER_KEY = "receive_character_key";
+    public static final String SEND_SERVICE_NAME = "send_service_name";
+    public static final String SEND_SERVICE_KEY = "send_service_key";
+    public static final String SEND_CHARACTER_NAME = "send_character_name";
+    public static final String SEND_CHARACTER_KEY = "send_character_key";
+
+    public static void saveMacAddress(Context context, String macAddress) {
+        SharedPreferenceUtils.saveSharedPreference(context, MAC_ADDRESS_NAME,
+                MAC_ADDRESS_KEY, macAddress);
+    }
+
+    public static String getMacAddress(Context context) {
+        return SharedPreferenceUtils.getSharedPreferenceString(context, MAC_ADDRESS_NAME,
+                MAC_ADDRESS_KEY);
+    }
+    public static void saveSendService(Context context, String serviceUUID) {
+        SharedPreferenceUtils.saveSharedPreference(context, SEND_SERVICE_NAME,
+                SEND_SERVICE_KEY, serviceUUID);
+    }
+
+    public static String getSendService(Context context) {
+        return SharedPreferenceUtils.getSharedPreferenceString(context, SEND_SERVICE_NAME,
+                SEND_SERVICE_KEY);
+    }
+
+    public static void saveSendCharacter(Context context, String characterUUID) {
+        SharedPreferenceUtils.saveSharedPreference(context, SEND_CHARACTER_NAME,
+                SEND_CHARACTER_KEY, characterUUID);
+    }
+
+    public static String getSendCharacter(Context context) {
+        return SharedPreferenceUtils.getSharedPreferenceString(context, SEND_CHARACTER_NAME,
+                SEND_CHARACTER_KEY);
+    }
 
     public static void saveAudioPromptsModel(Context context, String model) {
         SharedPreferenceUtils.saveSharedPreference(context, AUDIO_PROMPTS_MODEL_NAME,
