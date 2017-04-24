@@ -1,5 +1,8 @@
 package com.example.txtledbluetooth.main;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
@@ -9,8 +12,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.txtledbluetooth.R;
+import com.example.txtledbluetooth.application.MyApplication;
 import com.example.txtledbluetooth.base.BaseActivity;
 import com.example.txtledbluetooth.dashboard.DashboardFragment;
 import com.example.txtledbluetooth.light.LightFragment;
@@ -21,6 +26,7 @@ import com.example.txtledbluetooth.music.MusicFragment;
 import com.example.txtledbluetooth.about.AboutFragment;
 import com.example.txtledbluetooth.setting.SettingFragment;
 import com.example.txtledbluetooth.sources.SourcesFragment;
+import com.example.txtledbluetooth.utils.AlertUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,6 +66,7 @@ public class MainActivity extends BaseActivity implements MainView {
         navigationView.setItemBackground(getResources().getDrawable(R.drawable.menu_item));
         setupDrawerContent(navigationView);
         switchDashboard();
+
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -73,6 +80,12 @@ public class MainActivity extends BaseActivity implements MainView {
                         return true;
                     }
                 });
+    }
+
+    @Override
+    public void showProgress() {
+        AlertUtils.showAlertDialog(this, R.string.init_the_bluetooth);
+
     }
 
     @Override
@@ -127,6 +140,26 @@ public class MainActivity extends BaseActivity implements MainView {
             mAboutFragment = new AboutFragment();
         }
         showFragment(mAboutFragment);
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void showLoadSuccessMsg(String name) {
+
+    }
+
+    @Override
+    public void showLoadFailMsg(String message) {
+
+    }
+
+    @Override
+    public void showLoadExceptionMsg(String exception) {
+
     }
 
 

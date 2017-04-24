@@ -31,4 +31,6 @@ dependencies {
     /*注解框架*/
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    /*蓝牙框架*/
+    compile 'com.inuker.bluetooth:library:1.4.0'
 }

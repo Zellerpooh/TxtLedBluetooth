@@ -2,15 +2,19 @@ package com.example.txtledbluetooth.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.DialogInterface;
 
 import com.example.txtledbluetooth.R;
 import com.example.txtledbluetooth.bean.Lighting;
+import com.inuker.bluetooth.library.connect.options.BleConnectOptions;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by KomoriWu
@@ -20,6 +24,8 @@ import java.util.ArrayList;
 public class Utils {
     public static final String ITEM_RIGHT_TEXT = "item_right_text";
     public static final String AUDIO_PROMPTS_DEFAULT_MODEL = "Voice and Tones";
+    public static final String BLE_NAME = "ble_name";
+    public static final String BLE_ADDRESS = "ble_address";
 
     public static DisplayImageOptions getImageOptions(int defaultIconId) {
         return getImageOptions(defaultIconId, 0);
@@ -70,4 +76,26 @@ public class Utils {
         return lightingList;
     }
 
+    public static HashMap<String, String> getBleAddressName(Context context) {
+        BluetoothManager bluetoothManager =
+                (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
+        String address = bluetoothAdapter.getAddress();
+        String name = bluetoothAdapter.getName();
+        HashMap<String, String> map = new HashMap<>();
+        map.put(BLE_ADDRESS, address);
+        map.put(BLE_NAME, name);
+        return map;
+    }
+
+
+    public static BleConnectOptions getBleConnectOptions() {
+        BleConnectOptions options = new BleConnectOptions.Builder()
+                .setConnectRetry(3)   // 连接如果失败重试3次
+                .setConnectTimeout(20000)   // 连接超时30s
+                .setServiceDiscoverRetry(3)  // 发现服务如果失败重试3次
+                .setServiceDiscoverTimeout(10000)  // 发现服务超时20s
+                .build();
+        return options;
+    }
 }

@@ -6,6 +6,8 @@ package com.example.txtledbluetooth.main.view;
  */
 
 public interface MainView {
+    void showProgress();
+
     void switchDashboard();
 
     void switchSources();
@@ -17,4 +19,13 @@ public interface MainView {
     void switchSettings();
 
     void switchAbout();
+
+    void hideProgress();
+
+    void showLoadSuccessMsg(String name);
+
+    void showLoadFailMsg(String message);
+
+    void showLoadExceptionMsg(String exception);
+
 }
