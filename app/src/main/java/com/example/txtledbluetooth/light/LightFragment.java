@@ -71,7 +71,6 @@ public class LightFragment extends BaseFragment implements LightView, LightAdapt
 
     @Override
     public void onItemClick(View view, int position) {
-
         mLightPresenter.operateItemBluetooth(position);
     }
 }
