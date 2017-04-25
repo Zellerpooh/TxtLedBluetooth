@@ -33,8 +33,14 @@ public class LightPresenterImpl implements LightPresenter {
         this.mContext = mContext;
         mLightModel = new LightModelImpl();
         mLightView.showLightData();
-        mServiceUUID = UUID.fromString(SharedPreferenceUtils.getSendService(mContext));
-        mCharacterUUID = UUID.fromString(SharedPreferenceUtils.getSendCharacter(mContext));
+        String serviceUUID = SharedPreferenceUtils.getSendService(mContext);
+        String characterUUID = SharedPreferenceUtils.getSendCharacter(mContext);
+        if (!TextUtils.isEmpty(serviceUUID)) {
+            mServiceUUID = UUID.fromString(serviceUUID);
+        }
+        if (!TextUtils.isEmpty(characterUUID)) {
+            mCharacterUUID = UUID.fromString(characterUUID);
+        }
         mMacAddress = SharedPreferenceUtils.getMacAddress(mContext);
     }
 

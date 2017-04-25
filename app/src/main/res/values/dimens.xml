@@ -12,5 +12,5 @@
     <dimen name="logo_margin_top">65dp</dimen>
     <dimen name="app_name_size">28sp</dimen>
     <dimen name="ver_tv_size">22sp</dimen>
-    <dimen name="touch_area">48dp</dimen>
+    <dimen name="touch_area">56dp</dimen>
 </resources>

@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity implements MainView {
         navigationView.setItemBackground(getResources().getDrawable(R.drawable.menu_item));
         setupDrawerContent(navigationView);
         switchDashboard();
-        mPresenter.initBle(this);
+//        mPresenter.initBle(this);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
