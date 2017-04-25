@@ -68,19 +68,24 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
     public void onBindViewHolder(LightViewHolder holder, int position) {
         holder.itemView.setTag(position);
         holder.layoutRight.setTag(position);
+        Lighting lighting = mLightingList.get(position);
+        holder.ivLightIcon.setImageResource(lighting.getLightingIcon());
+        holder.tvLightName.setText(lighting.getLightingName());
         if (mList.get(position)) {
-            holder.layoutRight.setVisibility(View.VISIBLE);
             holder.itemView.setBackgroundColor(mContext.getResources().getColor(
                     R.color.item_selected_bg));
-            holder.ivRight.setImageResource(R.mipmap.icon_right_arrow);
+            if (lighting.isEdit()) {
+                holder.layoutRight.setVisibility(View.VISIBLE);
+                holder.ivRight.setImageResource(R.mipmap.icon_right_arrow);
+            }else {
+                holder.layoutRight.setVisibility(View.GONE);
+            }
         } else {
             holder.layoutRight.setVisibility(View.GONE);
             holder.itemView.setBackgroundColor(mContext.getResources().getColor(
                     R.color.content_bg));
         }
-        Lighting lighting = mLightingList.get(position);
-        holder.ivLightIcon.setImageResource(lighting.getLightingIcon());
-        holder.tvLightName.setText(lighting.getLightingName());
+
     }
 
     @Override

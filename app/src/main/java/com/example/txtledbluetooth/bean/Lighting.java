@@ -8,10 +8,12 @@ package com.example.txtledbluetooth.bean;
 public class Lighting {
     private String lightingName;
     private int lightingIcon;
+    private boolean isEdit;
 
-    public Lighting(String lightingName, int lightingIcon) {
+    public Lighting(String lightingName, int lightingIcon, boolean isEdit) {
         this.lightingName = lightingName;
         this.lightingIcon = lightingIcon;
+        this.isEdit = isEdit;
     }
 
     public String getLightingName() {
@@ -30,4 +32,11 @@ public class Lighting {
         this.lightingIcon = lightingIcon;
     }
 
+    public boolean isEdit() {
+        return isEdit;
+    }
+
+    public void setEdit(boolean edit) {
+        isEdit = edit;
+    }
 }

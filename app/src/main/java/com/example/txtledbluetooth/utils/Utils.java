@@ -30,6 +30,7 @@ public class Utils {
     public static final String RECEIVE_SERVICE = "6677";
     public static final String SEND_SERVICE = "7777";
     public static final String LIGHT_MODEL_NAME = "light_model_name";
+    public static final String LIGHT_MODEL_ID = "LIGHT_MODEL_ID";
 
     public static DisplayImageOptions getImageOptions(int defaultIconId) {
         return getImageOptions(defaultIconId, 0);
@@ -66,10 +67,18 @@ public class Utils {
         String[] lightNames = context.getResources().getStringArray(R.array.lighting_name);
         int[] lightIcons = {R.mipmap.icon_moon_light, R.mipmap.icon_fireworks,
                 R.mipmap.icon_blue_skies, R.mipmap.icon_rainbow, R.mipmap.icon_pulsate,
-                R.mipmap.icon_glow, R.mipmap.icon_monochrome};
+                R.mipmap.icon_glow, R.mipmap.icon_monochrome, R.mipmap.icon_monochrome,
+                R.mipmap.icon_monochrome, R.mipmap.icon_monochrome, R.mipmap.icon_monochrome,
+                R.mipmap.icon_monochrome};
         ArrayList<Lighting> lightingList = new ArrayList<>();
+        boolean isEdit;
         for (int i = 0; i < lightIcons.length; i++) {
-            lightingList.add(i, new Lighting(lightNames[i], lightIcons[i]));
+            if (i == 8 || i == 11) {
+                isEdit = false;
+            }else {
+                isEdit = true;
+            }
+            lightingList.add(i, new Lighting(lightNames[i], lightIcons[i], isEdit));
         }
         return lightingList;
     }
@@ -83,6 +92,41 @@ public class Utils {
                 .setServiceDiscoverTimeout(10000)  // 发现服务超时20s
                 .build();
         return options;
+    }
+
+    public static String[] getPopWindowItems(Context context, int position) {
+        String[] items = new String[]{};
+        switch (position) {
+            case 0:
+                items = context.getResources().getStringArray(R.array.moonlight_color_type);
+                break;
+            case 1:
+            case 2:
+                items = context.getResources().getStringArray(R.array.hot_wheels_color_type);
+                break;
+            case 3:
+                items = context.getResources().getStringArray(R.array.spectrum_color_type);
+                break;
+            case 4:
+                items = context.getResources().getStringArray(R.array.pulsate_color_type);
+                break;
+            case 5:
+                items = context.getResources().getStringArray(R.array.morph_color_type);
+                break;
+            case 6:
+            case 7:
+                items = context.getResources().getStringArray(R.array.beat_meter_color_type);
+                break;
+            case 8:
+                items = context.getResources().getStringArray(R.array.wave_color_type);
+                break;
+            case 9:
+                items = context.getResources().getStringArray(R.array.solo_color_type);
+                break;
+
+
+        }
+        return items;
     }
 
 }

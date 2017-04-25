@@ -6,8 +6,18 @@
     android:layout_height="match_parent"
     android:background="@color/content_bg"
     tools:context="com.example.txtledbluetooth.light.EditLightActivity">
+
     <include
         android:id="@+id/layout_appbar"
         layout="@layout/toolbar" />
 
+    <TextView
+        android:id="@+id/tv_chose_color_type"
+        style="@style/main_tv"
+        android:layout_below="@+id/layout_appbar"
+        android:layout_marginLeft="@dimen/item_padding_left"
+        android:layout_marginTop="@dimen/item_padding_left"
+        android:drawablePadding="@dimen/activity_horizontal_margin"
+        android:drawableRight="@mipmap/icon_down_arrow"
+        android:textColor="@color/colorAccent" />
 </RelativeLayout>

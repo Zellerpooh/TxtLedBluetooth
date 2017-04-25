@@ -30,7 +30,7 @@
     <string name="on_capital">ON</string>
     <string name="off_capital">OFF</string>
     <string name="tones_only">Tones Only</string>
-    <string name="moon_light">Moon Light</string>
+    <string name="moon_light">Moonlight</string>
     <string name="fireworks">Fireworks</string>
     <string name="blue_skies">Blue Skies</string>
     <string name="rainbow">Rainbow</string>
@@ -46,5 +46,25 @@
     <string name="setting">setting </string>
     <string name="revert">Revert</string>
     <string name="exit_program_hint">Again according to exit the program</string>
-
+    <string name="random">Random</string>
+    <string name="color1">1-color</string>
+    <string name="color2">2-color</string>
+    <string name="color3">3-color</string>
+    <string name="color7">7-color</string>
+    <string name="white">White</string>
+    <string name="colored">Colored</string>
+    <string name="default_">Default</string>
+    <string name="full">Full</string>
+    <string name="ice_blue">Ice Blue</string>
+    <string name="orange">Orange</string>
+    <string name="mood">Mood</string>
+    <string name="hot_wheels">Hot Wheels</string>
+    <string name="spectrum">spectrum</string>
+    <string name="morph">Morph</string>
+    <string name="beat_meter">Beat Meter</string>
+    <string name="cycle_all">Cycle All</string>
+    <string name="cycle">Cycle</string>
+    <string name="wave">Wave</string>
+    <string name="solo">Solo</string>
+    <string name="auroa">Auroa</string>
 </resources>

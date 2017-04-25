@@ -3,10 +3,51 @@
     <string-array name="lighting_name">
         <item>@string/moon_light</item>
         <item>@string/fireworks</item>
-        <item>@string/blue_skies</item>
-        <item>@string/rainbow</item>
+        <item>@string/hot_wheels</item>
+        <item>@string/spectrum</item>
         <item>@string/pulsate</item>
-        <item>@string/glow</item>
-        <item>@string/monochrome</item>
+        <item>@string/morph</item>
+        <item>@string/beat_meter</item>
+        <item>@string/cycle_all</item>
+        <item>@string/cycle</item>
+        <item>@string/wave</item>
+        <item>@string/solo</item>
+        <item>@string/auroa</item>
+    </string-array>
+    <string-array name="hot_wheels_color_type">
+        <item>@string/random</item>
+        <item>@string/color1</item>
+        <item>@string/color3</item>
+        <item>@string/color7</item>
+    </string-array>
+    <string-array name="moonlight_color_type">
+        <item>@string/white</item>
+        <item>@string/colored</item>
+    </string-array>
+    <string-array name="spectrum_color_type">
+        <item>@string/default_</item>
+        <item>@string/full</item>
+    </string-array>
+    <string-array name="pulsate_color_type">
+        <item>@string/moon_light</item>
+        <item>@string/color1</item>
+        <item>@string/color3</item>
+        <item>@string/color7</item>
+    </string-array>
+    <string-array name="morph_color_type">
+        <item>@string/color2</item>
+        <item>@string/color3</item>
+        <item>@string/color7</item>
+    </string-array>
+    <string-array name="beat_meter_color_type">
+        <item>@string/default_</item>
+    </string-array>
+    <string-array name="wave_color_type">
+        <item>@string/ice_blue</item>
+        <item>@string/rainbow</item>
+    </string-array>
+    <string-array name="solo_color_type">
+        <item>@string/orange</item>
+        <item>@string/mood</item>
     </string-array>
 </resources>

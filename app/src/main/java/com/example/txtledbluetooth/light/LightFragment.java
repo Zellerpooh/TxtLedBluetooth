@@ -71,6 +71,7 @@ public class LightFragment extends BaseFragment implements LightView, LightAdapt
     public void editLight(int id) {
         String[] lightNames = getActivity().getResources().getStringArray(R.array.lighting_name);
         Intent intent = new Intent(getActivity(), EditLightActivity.class);
+        intent.putExtra(Utils.LIGHT_MODEL_ID, id);
         intent.putExtra(Utils.LIGHT_MODEL_NAME, lightNames[id]);
         startActivity(intent);
     }
