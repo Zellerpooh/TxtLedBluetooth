@@ -15,7 +15,7 @@ public class BleCommandUtils {
     public static final String FIREWORK = HEAD + "lfwk" + LIGHT_MODEL + END;
     public static final String BLUE_SKIES = HEAD + "lhwl" + LIGHT_MODEL + END;
     public static final String RAINBOW = HEAD + "lrbw" + LIGHT_MODEL + END;
-    public static final String PULSATE = HEAD + "llmsa" + LIGHT_MODEL + END;
+    public static final String PULSATE = HEAD + "lmsa" + LIGHT_MODEL + END;
     public static final String GLOW = HEAD + "lclg" + LIGHT_MODEL + END;
     public static final String MONOCHROME = HEAD + "lcbn" + LIGHT_MODEL + END;
     //其他设置

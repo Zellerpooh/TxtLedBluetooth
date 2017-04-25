@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.txtledbluetooth.R;
@@ -25,16 +26,22 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
     private Context mContext;
     private ArrayList<Lighting> mLightingList;
     private OnItemClickListener mOnItemClickListener;
+    private OnIvRightClickListener mOnIvRightClickListener;
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
+    public interface OnIvRightClickListener {
+        void onIvRightClick(View view, int position);
+    }
+
     public LightAdapter(Context mContext, ArrayList<Lighting> mLightingList, OnItemClickListener
-            mOnItemClickListener) {
+            mOnItemClickListener, OnIvRightClickListener mOnIvRightClickListener) {
         this.mContext = mContext;
         this.mLightingList = mLightingList;
         this.mOnItemClickListener = mOnItemClickListener;
+        this.mOnIvRightClickListener = mOnIvRightClickListener;
     }
 
     @Override
@@ -68,6 +75,8 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         TextView tvLightName;
         @BindView(R.id.iv_item_right)
         ImageView ivRight;
+        @BindView(R.id.layout_right)
+        RelativeLayout layoutRight;
 
         public LightViewHolder(View itemView) {
             super(itemView);
@@ -75,13 +84,24 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
             itemView.setBackground(mContext.getResources().getDrawable(R.drawable.
                     ripple_list_item_effect));
             itemView.setOnClickListener(this);
+            layoutRight.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(view, this.getPosition());
+            switch (view.getId()) {
+                case R.id.layout_right:
+                    if (mOnIvRightClickListener != null) {
+                        mOnIvRightClickListener.onIvRightClick(view, this.getPosition());
+                    }
+                    break;
+                default:
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onItemClick(view, this.getPosition());
+                    }
+                    break;
             }
+
         }
     }
 }

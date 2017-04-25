@@ -4,8 +4,8 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:layout_width="match_parent"
         android:id="@+id/layout_item"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/item_height">
 
         <ImageView
@@ -45,20 +45,23 @@
             android:id="@+id/tv_right"
             style="@style/main_tv"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/iv_item_right"
+            android:layout_toLeftOf="@+id/layout_right"
             android:text="@string/bluetooth"
             android:textColor="@color/colorAccent"
             android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/iv_item_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <RelativeLayout
+            android:id="@+id/layout_right"
+            android:layout_width="@dimen/touch_area"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/item_padding_left"
-            android:gravity="center"
-            android:src="@mipmap/icon_selected" />
+            android:gravity="center">
 
+            <ImageView
+                android:id="@+id/iv_item_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_selected" />
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

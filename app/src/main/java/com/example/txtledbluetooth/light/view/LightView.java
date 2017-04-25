@@ -7,5 +7,5 @@ package com.example.txtledbluetooth.light.view;
 
 public interface LightView {
     void showLightData();
-    void editLight();
+    void editLight(int id);
 }

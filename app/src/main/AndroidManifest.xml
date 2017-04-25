@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.txtledbluetooth">
+
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
+
     <application
+        android:name=".application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name=".application.MyApplication"
         android:theme="@style/AppTheme">
         <activity android:name=".main.MainActivity">
             <intent-filter>
@@ -22,9 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".setting.AudioPromptsActivity"/>
-        <service
-            android:name="com.inuker.bluetooth.library.BluetoothService" />
+        <activity android:name=".setting.AudioPromptsActivity" />
+
+        <service android:name="com.inuker.bluetooth.library.BluetoothService" />
+
+        <activity android:name=".light.EditLightActivity"></activity>
     </application>
 
 </manifest>

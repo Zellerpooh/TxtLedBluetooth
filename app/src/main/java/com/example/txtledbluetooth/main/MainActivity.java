@@ -1,5 +1,6 @@
 package com.example.txtledbluetooth.main;
 
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -46,6 +47,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements MainView {
+    public static final int REQUEST_CODE_SETTING = 1;
+    public static final int REQUEST_CODE_ALLOW = 2;
     @BindView(R.id.frame_content)
     FrameLayout frameContent;
     @BindView(R.id.navigation_view)
@@ -168,12 +171,28 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     public void showLoadFailMsg(String message) {
-        AlertUtils.showAlertDialog(this, message, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                startActivity(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS));
-            }
-        });
+        final Intent intent = new Intent();
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setNegativeButton(R.string.setting, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        intent.setAction(Settings.ACTION_BLUETOOTH_SETTINGS);
+                        startActivityForResult(intent, REQUEST_CODE_SETTING);
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        intent.setAction(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                        startActivityForResult(intent, REQUEST_CODE_ALLOW);
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        dialog.setCancelable(true);
+        dialog.show();
     }
 
     @Override
@@ -189,5 +208,13 @@ public class MainActivity extends BaseActivity implements MainView {
                 .commit();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if ((requestCode == REQUEST_CODE_ALLOW && resultCode == RESULT_OK)||
+                requestCode==REQUEST_CODE_SETTING) {
+            mPresenter.initBle(this);
+        }
 
+    }
 }

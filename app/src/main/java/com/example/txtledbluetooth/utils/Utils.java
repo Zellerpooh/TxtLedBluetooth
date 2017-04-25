@@ -29,6 +29,7 @@ public class Utils {
     public static final String BLE_ADDRESS = "ble_address";
     public static final String RECEIVE_SERVICE = "6677";
     public static final String SEND_SERVICE = "7777";
+    public static final String LIGHT_MODEL_NAME = "light_model_name";
 
     public static DisplayImageOptions getImageOptions(int defaultIconId) {
         return getImageOptions(defaultIconId, 0);

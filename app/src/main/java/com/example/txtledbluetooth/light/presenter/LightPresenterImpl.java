@@ -41,12 +41,8 @@ public class LightPresenterImpl implements LightPresenter {
 
     @Override
     public void operateItemBluetooth(int id) {
-
         String command = "";
         switch (id) {
-            case R.id.iv_item_right:
-                mLightView.editLight();
-                break;
             case 0:
                 command = BleCommandUtils.MOON_LIGHT;
                 break;
@@ -70,9 +66,14 @@ public class LightPresenterImpl implements LightPresenter {
                 break;
         }
         if (!TextUtils.isEmpty(command)) {
-            mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext),mMacAddress
+            mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress
                     , mServiceUUID, mCharacterUUID, command);
         }
+    }
+
+    @Override
+    public void operateTvRightBluetooth(int id) {
+        mLightView.editLight(id);
     }
 
     @Override

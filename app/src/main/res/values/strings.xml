@@ -42,5 +42,8 @@
     <string name="conn_timeout">Connection timeout!</string>
     <string name="init_the_bluetooth">Initialize the bluetooth&#8230;</string>
     <string name="conn_ble_success">Connection %s successful!</string>
+    <string name="allow">allow</string>
+    <string name="setting">setting </string>
+    <string name="revert">Revert</string>
 
 </resources>

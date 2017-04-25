@@ -1,5 +1,6 @@
 package com.example.txtledbluetooth.light;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +30,7 @@ import butterknife.ButterKnife;
  */
 
 public class LightFragment extends BaseFragment implements LightView, LightAdapter.
-        OnItemClickListener {
+        OnItemClickListener, LightAdapter.OnIvRightClickListener {
     @BindView(R.id.tv_switch)
     TextView tvSwitch;
     @BindView(R.id.switch_view)
@@ -60,17 +61,26 @@ public class LightFragment extends BaseFragment implements LightView, LightAdapt
     public void showLightData() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mLightAdapter = new LightAdapter(getActivity(), Utils.getLightList(getActivity()),this);
+        mLightAdapter = new LightAdapter(getActivity(), Utils.getLightList(getActivity()),
+                this, this);
         recyclerView.setAdapter(mLightAdapter);
     }
 
     @Override
-    public void editLight() {
-
+    public void editLight(int id) {
+        String[] lightNames = getActivity().getResources().getStringArray(R.array.lighting_name);
+        Intent intent = new Intent(getActivity(), EditLightActivity.class);
+        intent.putExtra(Utils.LIGHT_MODEL_NAME, lightNames[id]);
+        startActivity(intent);
     }
 
     @Override
     public void onItemClick(View view, int position) {
         mLightPresenter.operateItemBluetooth(position);
+    }
+
+    @Override
+    public void onIvRightClick(View view, int position) {
+        mLightPresenter.operateTvRightBluetooth(position);
     }
 }
