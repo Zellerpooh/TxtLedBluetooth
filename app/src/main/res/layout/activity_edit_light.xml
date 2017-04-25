@@ -20,4 +20,14 @@
         android:drawablePadding="@dimen/activity_horizontal_margin"
         android:drawableRight="@mipmap/icon_down_arrow"
         android:textColor="@color/colorAccent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_chose_color_type">
+
+        <com.example.txtledbluetooth.widget.color.ColorPalette
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
 </RelativeLayout>
