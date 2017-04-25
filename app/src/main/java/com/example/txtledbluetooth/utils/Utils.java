@@ -68,14 +68,8 @@ public class Utils {
                 R.mipmap.icon_blue_skies, R.mipmap.icon_rainbow, R.mipmap.icon_pulsate,
                 R.mipmap.icon_glow, R.mipmap.icon_monochrome};
         ArrayList<Lighting> lightingList = new ArrayList<>();
-        boolean isEdit;
         for (int i = 0; i < lightIcons.length; i++) {
-            if (i == 5) {
-                isEdit = true;
-            } else {
-                isEdit = false;
-            }
-            lightingList.add(i, new Lighting(lightNames[i], lightIcons[i], isEdit));
+            lightingList.add(i, new Lighting(lightNames[i], lightIcons[i]));
         }
         return lightingList;
     }

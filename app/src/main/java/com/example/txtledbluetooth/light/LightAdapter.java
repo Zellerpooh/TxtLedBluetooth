@@ -1,6 +1,7 @@
 package com.example.txtledbluetooth.light;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import com.example.txtledbluetooth.R;
 import com.example.txtledbluetooth.bean.Lighting;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +30,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
     private ArrayList<Lighting> mLightingList;
     private OnItemClickListener mOnItemClickListener;
     private OnIvRightClickListener mOnIvRightClickListener;
+    private List<Boolean> mList;
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
@@ -42,6 +46,10 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         this.mLightingList = mLightingList;
         this.mOnItemClickListener = mOnItemClickListener;
         this.mOnIvRightClickListener = mOnIvRightClickListener;
+        mList = new ArrayList<>();
+        for (Lighting lighting : mLightingList) {
+            mList.add(false);
+        }
     }
 
     @Override
@@ -52,15 +60,21 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
 
     @Override
     public void onBindViewHolder(LightViewHolder holder, int position) {
+        holder.itemView.setTag(position);
+        holder.layoutRight.setTag(position);
+        if (mList.get(position)) {
+            holder.layoutRight.setVisibility(View.VISIBLE);
+            holder.itemView.setBackgroundColor(mContext.getResources().getColor(
+                    R.color.item_selected_bg));
+            holder.ivRight.setImageResource(R.mipmap.icon_right_arrow);
+        } else {
+            holder.layoutRight.setVisibility(View.GONE);
+            holder.itemView.setBackgroundColor(mContext.getResources().getColor(
+                    R.color.content_bg));
+        }
         Lighting lighting = mLightingList.get(position);
         holder.ivLightIcon.setImageResource(lighting.getLightingIcon());
         holder.tvLightName.setText(lighting.getLightingName());
-        if (lighting.isEdit()) {
-            holder.ivRight.setVisibility(View.VISIBLE);
-            holder.ivRight.setImageResource(R.mipmap.icon_right_arrow);
-        } else {
-            holder.ivRight.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -68,7 +82,8 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         return mLightingList == null ? 0 : mLightingList.size();
     }
 
-    public class LightViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class LightViewHolder extends RecyclerView.ViewHolder implements View.
+            OnClickListener {
         @BindView(R.id.iv_item_left)
         ImageView ivLightIcon;
         @BindView(R.id.tv_left_top)
@@ -81,23 +96,30 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         public LightViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setBackground(mContext.getResources().getDrawable(R.drawable.
-                    ripple_list_item_effect));
             itemView.setOnClickListener(this);
             layoutRight.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+            int position = (int) view.getTag();
             switch (view.getId()) {
                 case R.id.layout_right:
                     if (mOnIvRightClickListener != null) {
-                        mOnIvRightClickListener.onIvRightClick(view, this.getPosition());
+                        mOnIvRightClickListener.onIvRightClick(view, position);
                     }
                     break;
                 default:
                     if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(view, this.getPosition());
+                        for (int i = 0; i < getItemCount(); i++) {
+                            if (i == position) {
+                                mList.set(position, true);
+                            } else {
+                                mList.set(i, false);
+                            }
+                        }
+                        notifyDataSetChanged();
+                        mOnItemClickListener.onItemClick(view, position);
                     }
                     break;
             }
