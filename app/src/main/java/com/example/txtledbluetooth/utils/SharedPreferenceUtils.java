@@ -24,6 +24,18 @@ public class SharedPreferenceUtils {
     public static final String SEND_SERVICE_KEY = "send_service_key";
     public static final String SEND_CHARACTER_NAME = "send_character_name";
     public static final String SEND_CHARACTER_KEY = "send_character_key";
+    public static final String CLICK_ITEM_POSITION_NAME = "click_item_position_name";
+    public static final String CLICK_ITEM_POSITION_KEY = "click_item_position_key";
+
+    public static void saveClickPosition(Context context, int position) {
+        SharedPreferenceUtils.saveSharedPreference(context, CLICK_ITEM_POSITION_NAME,
+                CLICK_ITEM_POSITION_KEY, position);
+    }
+
+    public static int getClickPosition(Context context) {
+        return SharedPreferenceUtils.getSharedPreferenceInt(context, CLICK_ITEM_POSITION_NAME,
+                CLICK_ITEM_POSITION_KEY, 0);
+    }
 
     public static void saveMacAddress(Context context, String macAddress) {
         SharedPreferenceUtils.saveSharedPreference(context, MAC_ADDRESS_NAME,
@@ -34,6 +46,7 @@ public class SharedPreferenceUtils {
         return SharedPreferenceUtils.getSharedPreferenceString(context, MAC_ADDRESS_NAME,
                 MAC_ADDRESS_KEY);
     }
+
     public static void saveSendService(Context context, String serviceUUID) {
         SharedPreferenceUtils.saveSharedPreference(context, SEND_SERVICE_NAME,
                 SEND_SERVICE_KEY, serviceUUID);

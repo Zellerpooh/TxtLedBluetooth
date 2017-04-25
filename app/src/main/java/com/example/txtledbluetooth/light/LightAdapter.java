@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.example.txtledbluetooth.R;
 import com.example.txtledbluetooth.bean.Lighting;
+import com.example.txtledbluetooth.utils.SharedPreferenceUtils;
+import com.example.txtledbluetooth.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +49,12 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         this.mOnItemClickListener = mOnItemClickListener;
         this.mOnIvRightClickListener = mOnIvRightClickListener;
         mList = new ArrayList<>();
-        for (Lighting lighting : mLightingList) {
-            mList.add(false);
+        for (int i = 0; i < mLightingList.size(); i++) {
+            if (SharedPreferenceUtils.getClickPosition(mContext) == i) {
+                mList.add(true);
+            } else {
+                mList.add(false);
+            }
         }
     }
 

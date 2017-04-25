@@ -2,27 +2,19 @@ package com.example.txtledbluetooth.main;
 
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothManager;
-import android.bluetooth.BluetoothProfile;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.txtledbluetooth.R;
-import com.example.txtledbluetooth.application.MyApplication;
 import com.example.txtledbluetooth.base.BaseActivity;
 import com.example.txtledbluetooth.dashboard.DashboardFragment;
 import com.example.txtledbluetooth.light.LightFragment;
@@ -34,14 +26,6 @@ import com.example.txtledbluetooth.about.AboutFragment;
 import com.example.txtledbluetooth.setting.SettingFragment;
 import com.example.txtledbluetooth.sources.SourcesFragment;
 import com.example.txtledbluetooth.utils.AlertUtils;
-import com.example.txtledbluetooth.utils.SharedPreferenceUtils;
-import com.example.txtledbluetooth.utils.Utils;
-import com.inuker.bluetooth.library.connect.response.BleConnectResponse;
-import com.inuker.bluetooth.library.model.BleGattProfile;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,6 +47,7 @@ public class MainActivity extends BaseActivity implements MainView {
     private LightFragment mLightFragment;
     private SettingFragment mSettingFragment;
     private AboutFragment mAboutFragment;
+    private long mExitTime;
 
     @Override
     public void init() {
@@ -212,10 +197,25 @@ public class MainActivity extends BaseActivity implements MainView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == REQUEST_CODE_ALLOW && resultCode == RESULT_OK)||
-                requestCode==REQUEST_CODE_SETTING) {
+        if ((requestCode == REQUEST_CODE_ALLOW && resultCode == RESULT_OK) ||
+                requestCode == REQUEST_CODE_SETTING) {
             mPresenter.initBle(this);
         }
+    }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                Toast.makeText(this, R.string.exit_program_hint, Toast.LENGTH_SHORT).show();
+                mExitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

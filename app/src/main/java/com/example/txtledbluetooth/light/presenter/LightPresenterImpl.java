@@ -71,10 +71,11 @@ public class LightPresenterImpl implements LightPresenter {
                 command = BleCommandUtils.MONOCHROME;
                 break;
         }
-        if (!TextUtils.isEmpty(command)) {
+        if (!TextUtils.isEmpty(command) && !TextUtils.isEmpty(mMacAddress)) {
             mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress
                     , mServiceUUID, mCharacterUUID, command);
         }
+        SharedPreferenceUtils.saveClickPosition(mContext, id);
     }
 
     @Override
@@ -85,7 +86,7 @@ public class LightPresenterImpl implements LightPresenter {
     @Override
     public void operateSwitchBluetooth(boolean isChecked) {
         String command = isChecked ? BleCommandUtils.OPEN : BleCommandUtils.CLOSE;
-        if (!TextUtils.isEmpty(command)) {
+        if (!TextUtils.isEmpty(command) && !TextUtils.isEmpty(mMacAddress)) {
             mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext),
                     SharedPreferenceUtils.getMacAddress(mContext), mServiceUUID,
                     mCharacterUUID, command);
