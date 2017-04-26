@@ -67,4 +67,8 @@
     <string name="wave">Wave</string>
     <string name="solo">Solo</string>
     <string name="auroa">Auroa</string>
+    <string name="well">#</string>
+    <string name="g">G:</string>
+    <string name="r">R:</string>
+    <string name="b">B:</string>
 </resources>

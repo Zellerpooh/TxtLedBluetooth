@@ -47,7 +47,7 @@ public class ColorPicker extends ImageView implements View.OnTouchListener {
         setOnTouchListener(this);
 
         paint = new Paint();
-        paint.setStrokeWidth(10);
+        paint.setStrokeWidth(20);
         paint.setColor(Color.BLACK);
         paint.setAntiAlias(true);
 
@@ -131,8 +131,8 @@ public class ColorPicker extends ImageView implements View.OnTouchListener {
         return d <= radio;
     }
 
-    public static interface OnColorSelectListener {
-        public void onColorSelect(int color);
+    public  interface OnColorSelectListener {
+         void onColorSelect(int color);
     }
 
     public OnColorSelectListener getOnColorSelectListener() {

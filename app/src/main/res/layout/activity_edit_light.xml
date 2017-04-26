@@ -26,8 +26,238 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/tv_chose_color_type">
 
-        <com.example.txtledbluetooth.widget.color.ColorPalette
+        <com.example.txtledbluetooth.widget.color.ColorPicker
+            android:id="@+id/color_picker"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_vertical_margin" />
+
+        <LinearLayout
+            android:id="@+id/layout_color_board"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="@dimen/board_height"
+            android:layout_below="@+id/color_picker"
+            android:layout_marginTop="@dimen/item_padding_left"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/view_board1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorAccent" />
+
+
+            <View
+                android:id="@+id/view_board2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white" />
+
+            <View
+                android:id="@+id/view_board3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/item_selected_bg" />
+
+
+            <View
+                android:id="@+id/view_board4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorAccent" />
+
+            <View
+                android:id="@+id/view_board5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white" />
+
+            <View
+                android:id="@+id/view_board6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/item_selected_bg" />
+
+            <View
+                android:id="@+id/view_board7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_color_rgb"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/board_height"
+            android:layout_below="@+id/layout_color_board"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/main_tv"
+                    android:text="@string/g" />
+
+                <TextView
+                    style="@style/main_tv"
+                    android:layout_height="match_parent"
+                    android:background="@color/item_selected_bg"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/min_margin"
+                    android:paddingRight="@dimen/item_padding_left"
+                    android:text="40" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/main_tv"
+                    android:text="@string/r" />
+
+                <TextView
+                    style="@style/main_tv"
+                    android:layout_height="match_parent"
+                    android:background="@color/item_selected_bg"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/min_margin"
+                    android:paddingRight="@dimen/item_padding_left"
+                    android:text="40" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/main_tv"
+                    android:text="@string/b" />
+
+                <TextView
+                    style="@style/main_tv"
+                    android:layout_height="match_parent"
+                    android:background="@color/item_selected_bg"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/min_margin"
+                    android:paddingRight="@dimen/item_padding_left"
+                    android:text="40" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/main_tv"
+                    android:text="@string/well" />
+
+                <TextView
+                    style="@style/main_tv"
+                    android:layout_height="match_parent"
+                    android:background="@color/item_selected_bg"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/min_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:text="F89150" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_brightness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_color_rgb"
+            android:layout_marginLeft="@dimen/board_height"
+            android:layout_marginRight="@dimen/board_height"
+            android:layout_marginTop="@dimen/divide_padding_right"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_decrease_brightness" />
+
+            <SeekBar
+                android:id="@+id/sb_brightness"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/min_margin"
+                android:layout_marginRight="@dimen/min_margin"
+                android:layout_weight="1"
+                android:max="100"
+                android:maxHeight="4.0dip"
+                android:minHeight="4.0dip"
+                android:progressDrawable="@drawable/seek_bar" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_increase_brightness" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_speed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_brightness"
+            android:layout_marginLeft="@dimen/board_height"
+            android:layout_marginRight="@dimen/board_height"
+            android:layout_marginTop="@dimen/item_padding_left"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_decrease_brightness" />
+
+            <SeekBar
+                android:id="@+id/sb_speed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/min_margin"
+                android:layout_marginRight="@dimen/min_margin"
+                android:layout_weight="1"
+                android:max="100"
+                android:maxHeight="4.0dip"
+                android:minHeight="4.0dip"
+                android:progressDrawable="@drawable/seek_bar" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_increase_brightness" />
+        </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
