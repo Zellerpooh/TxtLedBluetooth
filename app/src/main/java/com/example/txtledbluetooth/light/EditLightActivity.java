@@ -2,36 +2,37 @@ package com.example.txtledbluetooth.light;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.txtledbluetooth.R;
 import com.example.txtledbluetooth.base.BaseActivity;
+import com.example.txtledbluetooth.light.presenter.EditLightPresenter;
+import com.example.txtledbluetooth.light.presenter.EditLightPresenterImpl;
+import com.example.txtledbluetooth.light.view.EditLightView;
 import com.example.txtledbluetooth.utils.Utils;
-import com.example.txtledbluetooth.widget.color.ColorPicker;
+import com.example.txtledbluetooth.widget.ColorPicker;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class EditLightActivity extends BaseActivity implements View.OnClickListener,
-        PopupWindowAdapter.OnPopupItemClickListener {
+        PopupWindowAdapter.OnPopupItemClickListener, EditLightView, RadioGroup.OnCheckedChangeListener {
     @BindView(R.id.tv_toolbar_right)
     TextView tvRevert;
     @BindView(R.id.tv_chose_color_type)
     TextView tvChoseType;
-    private PopupWindow mPopWindow;
-    private String[] mPopupItems;
-    @BindView(R.id.color_picker)
-    ColorPicker mColorPicker;
     @BindView(R.id.view_board1)
     View viewBoard1;
     @BindView(R.id.view_board2)
@@ -46,6 +47,26 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     View viewBoard6;
     @BindView(R.id.view_board7)
     View viewBoard7;
+    private PopupWindow mPopWindow;
+    private String[] mPopupItems;
+    @BindView(R.id.color_picker)
+    ColorPicker mColorPicker;
+    @BindView(R.id.rg_color_board)
+    RadioGroup radioGroup;
+    @BindView(R.id.rb_board1)
+    RadioButton rBBoard1;
+    @BindView(R.id.rb_board2)
+    RadioButton rBBoard2;
+    @BindView(R.id.rb_board3)
+    RadioButton rBBoard3;
+    @BindView(R.id.rb_board4)
+    RadioButton rBBoard4;
+    @BindView(R.id.rb_board5)
+    RadioButton rBBoard5;
+    @BindView(R.id.rb_board6)
+    RadioButton rBBoard6;
+    @BindView(R.id.rb_board7)
+    RadioButton rBBoard7;
     @BindView(R.id.layout_color_rgb)
     LinearLayout layoutColorRgb;
     @BindView(R.id.tv_r)
@@ -56,6 +77,7 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     EditText tvColorB;
     @BindView(R.id.tv_well)
     EditText tvColorWell;
+    private EditLightPresenter mEditLightPresenter;
 
     @Override
     public void init() {
@@ -65,26 +87,21 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         tvTitle.setText(getIntent().getStringExtra(Utils.LIGHT_MODEL_NAME));
         tvRevert.setVisibility(View.VISIBLE);
         tvRevert.setText(getString(R.string.revert));
-        tvRevert.setOnClickListener(this);
         initPopupWindow(getIntent().getIntExtra(Utils.LIGHT_MODEL_ID, 0));
-        mColorPicker.setOnColorSelectListener(new ColorPicker.OnColorSelectListener() {
-            @Override
-            public void onColorSelect(int color) {
-                Log.e("color", color + "");
-            }
-        });
+        radioGroup.setOnCheckedChangeListener(this);
+        mEditLightPresenter = new EditLightPresenterImpl(this, this, mColorPicker);
     }
 
-    @OnClick({R.id.view_board1, R.id.view_board2, R.id.view_board3, R.id.view_board4,
-            R.id.view_board5, R.id.view_board6, R.id.view_board7, R.id.tv_toolbar_right,
-            R.id.tv_chose_color_type})
+    @OnClick({R.id.tv_toolbar_right, R.id.tv_chose_color_type})
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_chose_color_type:
-                showPopWindow();
-                break;
-        }
+        mEditLightPresenter.viewOnclick(view);
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        RadioButton radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+        mEditLightPresenter.viewOnclick(radioButton);
     }
 
     public void initPopupWindow(int position) {
@@ -101,14 +118,32 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         popupRecyclerView.setAdapter(windowAdapter);
     }
 
-    private void showPopWindow() {
+    @Override
+    public void showPopWindow() {
         mPopWindow.showAsDropDown(tvChoseType, 0, 0, Gravity.LEFT | Gravity.TOP);
+    }
+
+    @Override
+    public void setViewColor(int color) {
+
+    }
+
+    @Override
+    public void getColorPickerRgb(int color) {
+
     }
 
     @Override
     public void onPopupWindowItemClick(int position, String type) {
         tvChoseType.setText(type);
         if (type.equals(getString(R.string.random))) {
+            rBBoard1.setVisibility(View.GONE);
+            rBBoard2.setVisibility(View.GONE);
+            rBBoard3.setVisibility(View.GONE);
+            rBBoard4.setVisibility(View.GONE);
+            rBBoard5.setVisibility(View.GONE);
+            rBBoard6.setVisibility(View.GONE);
+            rBBoard7.setVisibility(View.GONE);
             viewBoard1.setVisibility(View.GONE);
             viewBoard2.setVisibility(View.GONE);
             viewBoard3.setVisibility(View.GONE);
@@ -117,6 +152,13 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
             viewBoard6.setVisibility(View.GONE);
             viewBoard7.setVisibility(View.GONE);
         } else if (type.contains("1")) {
+            rBBoard1.setVisibility(View.VISIBLE);
+            rBBoard2.setVisibility(View.GONE);
+            rBBoard3.setVisibility(View.GONE);
+            rBBoard4.setVisibility(View.GONE);
+            rBBoard5.setVisibility(View.GONE);
+            rBBoard6.setVisibility(View.GONE);
+            rBBoard7.setVisibility(View.GONE);
             viewBoard1.setVisibility(View.VISIBLE);
             viewBoard2.setVisibility(View.GONE);
             viewBoard3.setVisibility(View.GONE);
@@ -125,6 +167,13 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
             viewBoard6.setVisibility(View.GONE);
             viewBoard7.setVisibility(View.GONE);
         } else if (type.contains("3")) {
+            rBBoard1.setVisibility(View.VISIBLE);
+            rBBoard2.setVisibility(View.VISIBLE);
+            rBBoard3.setVisibility(View.VISIBLE);
+            rBBoard4.setVisibility(View.GONE);
+            rBBoard5.setVisibility(View.GONE);
+            rBBoard6.setVisibility(View.GONE);
+            rBBoard7.setVisibility(View.GONE);
             viewBoard1.setVisibility(View.VISIBLE);
             viewBoard2.setVisibility(View.VISIBLE);
             viewBoard3.setVisibility(View.VISIBLE);
@@ -133,6 +182,13 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
             viewBoard6.setVisibility(View.GONE);
             viewBoard7.setVisibility(View.GONE);
         } else if (type.contains("7")) {
+            rBBoard1.setVisibility(View.VISIBLE);
+            rBBoard2.setVisibility(View.VISIBLE);
+            rBBoard3.setVisibility(View.VISIBLE);
+            rBBoard4.setVisibility(View.VISIBLE);
+            rBBoard5.setVisibility(View.VISIBLE);
+            rBBoard6.setVisibility(View.VISIBLE);
+            rBBoard7.setVisibility(View.VISIBLE);
             viewBoard1.setVisibility(View.VISIBLE);
             viewBoard2.setVisibility(View.VISIBLE);
             viewBoard3.setVisibility(View.VISIBLE);
@@ -143,4 +199,13 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         }
         mPopWindow.dismiss();
     }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
 }

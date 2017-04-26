@@ -1,4 +1,4 @@
-package com.example.txtledbluetooth.widget.color;
+package com.example.txtledbluetooth.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,18 +13,19 @@ import android.widget.ImageView;
 
 import com.example.txtledbluetooth.R;
 
-
 /**
- * Created by zzhoujay on 2015/2/20 0020.
- * 色轮调色板
+ * Created by KomoriWu
+ * on 2017-04-26.
  */
+
+
 public class ColorPicker extends ImageView implements View.OnTouchListener {
 
-    private Bitmap bp;//色轮图片
-    private int bw, bh;//色轮图片的尺寸
+    private Bitmap mBitmap;//色轮图片
+    private int mWidth, mHeight;//色轮图片的尺寸
     private float x, y, radio;
-    private OnColorSelectListener onColorSelectListener;
-    private Paint paint;
+    private OnColorSelectListener mOnColorSelectListener;
+    private Paint mPaint;
 
     public ColorPicker(Context context) {
         this(context, null);
@@ -36,20 +37,16 @@ public class ColorPicker extends ImageView implements View.OnTouchListener {
 
     public ColorPicker(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
-        bp = BitmapFactory.decodeResource(context.getResources(), R.mipmap.circle);
-
-        bw = bp.getWidth();
-        bh = bp.getHeight();
-
-        setImageBitmap(bp);
-
+        mBitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.img_rgb);
+        mWidth = mBitmap.getWidth();
+        mHeight = mBitmap.getHeight();
+        setImageBitmap(mBitmap);
         setOnTouchListener(this);
 
-        paint = new Paint();
-        paint.setStrokeWidth(20);
-        paint.setColor(Color.BLACK);
-        paint.setAntiAlias(true);
+        mPaint = new Paint();
+        mPaint.setStrokeWidth(20);
+        mPaint.setColor(Color.BLACK);
+        mPaint.setAntiAlias(true);
 
         setClickable(true);
     }
@@ -79,8 +76,8 @@ public class ColorPicker extends ImageView implements View.OnTouchListener {
         x = xx;
         y = yy;
         invalidate();
-        if (onColorSelectListener != null) {
-            onColorSelectListener.onColorSelect(getColor(xx, yy));
+        if (mOnColorSelectListener != null) {
+            mOnColorSelectListener.onColorSelect(getColor(xx, yy));
         }
         return true;
     }
@@ -98,29 +95,24 @@ public class ColorPicker extends ImageView implements View.OnTouchListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        canvas.drawPoint(x, y, paint);
+        canvas.drawPoint(x, y, mPaint);
     }
 
     private int getColor(float x, float y) {
-
         this.x = x;
         this.y = y;
 
         int w = getWidth();
         int h = getHeight();
 
-        int dx = (int) ((x / w) * bw);
-        int dy = (int) ((y / h) * bh);
-
+        int dx = (int) ((x / w) * mWidth);
+        int dy = (int) ((y / h) * mHeight);
         int color = Color.BLACK;
-
         try {
-            color = bp.getPixel(dx, dy);
+            color = mBitmap.getPixel(dx, dy);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return color;
     }
 
@@ -136,27 +128,27 @@ public class ColorPicker extends ImageView implements View.OnTouchListener {
     }
 
     public OnColorSelectListener getOnColorSelectListener() {
-        return onColorSelectListener;
+        return mOnColorSelectListener;
     }
 
-    public void setOnColorSelectListener(OnColorSelectListener onColorSelectListener) {
-        this.onColorSelectListener = onColorSelectListener;
+    public void setOnColorSelectListener(OnColorSelectListener mOnColorSelectListener) {
+        this.mOnColorSelectListener = mOnColorSelectListener;
     }
 
     /**
      * 回收Bitmap内存
      */
     public void recycle() {
-        if (bp != null) {
-            if (!bp.isRecycled()) {
-                bp.recycle();
+        if (mBitmap != null) {
+            if (!mBitmap.isRecycled()) {
+                mBitmap.recycle();
             }
-            bp = null;
+            mBitmap = null;
         }
     }
 
     public boolean isRecycled(){
-        return bp == null || bp.isRecycled();
+        return mBitmap == null || mBitmap.isRecycled();
     }
 
 }

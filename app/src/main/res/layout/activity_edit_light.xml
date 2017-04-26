@@ -26,78 +26,102 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/tv_chose_color_type">
 
-        <com.example.txtledbluetooth.widget.color.ColorPicker
+        <com.example.txtledbluetooth.widget.ColorPicker
             android:id="@+id/color_picker"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/activity_vertical_margin" />
 
-        <LinearLayout
-            android:id="@+id/layout_color_board"
+        <FrameLayout
+            android:id="@+id/fl_color_board"
             android:layout_width="match_parent"
             android:layout_height="@dimen/board_height"
             android:layout_below="@+id/color_picker"
-            android:layout_marginTop="@dimen/item_padding_left"
-            android:orientation="horizontal">
-
-            <View
-                android:id="@+id/view_board1"
-                android:layout_width="0dp"
+            android:layout_marginTop="@dimen/item_padding_left">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/colorAccent" />
+                android:orientation="horizontal">
 
+                <View
+                    style="@style/view_color_board"
+                    android:id="@+id/view_board1"
+                    android:background="@color/white" />
 
-            <View
-                android:id="@+id/view_board2"
-                android:layout_width="0dp"
+                <View
+                    style="@style/view_color_board"
+                    android:id="@+id/view_board2"
+                    android:background="@color/black" />
+
+                <View
+                    style="@style/view_color_board"
+                    android:id="@+id/view_board3"
+                    android:background="@color/white" />
+
+                <View
+                    style="@style/view_color_board"
+                    android:id="@+id/view_board4"
+                    android:background="@color/colorAccent" />
+
+                <View
+                    style="@style/view_color_board"
+                    android:id="@+id/view_board5"
+                    android:background="@color/black" />
+
+                <View
+                    style="@style/view_color_board"
+                    android:id="@+id/view_board6"
+                    android:background="@color/item_selected_bg" />
+
+                <View
+                    style="@style/view_color_board"
+                    android:id="@+id/view_board7"
+                    android:background="@color/black" />
+            </LinearLayout>
+            <RadioGroup
+                android:id="@+id/rg_color_board"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/white" />
+                android:orientation="horizontal">
 
-            <View
-                android:id="@+id/view_board3"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/item_selected_bg" />
+                <RadioButton
+                    android:id="@+id/rb_board1"
+                    style="@style/rb_color_board" />
+
+                <RadioButton
+                    android:id="@+id/rb_board2"
+                    style="@style/rb_color_board" />
+
+                <RadioButton
+                    android:id="@+id/rb_board3"
+                    style="@style/rb_color_board" />
+
+                <RadioButton
+                    android:id="@+id/rb_board4"
+                    style="@style/rb_color_board" />
+
+                <RadioButton
+                    android:id="@+id/rb_board5"
+                    style="@style/rb_color_board" />
+
+                <RadioButton
+                    android:id="@+id/rb_board6"
+                    style="@style/rb_color_board" />
+
+                <RadioButton
+                    android:id="@+id/rb_board7"
+                    style="@style/rb_color_board" />
+            </RadioGroup>
 
 
-            <View
-                android:id="@+id/view_board4"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/colorAccent" />
-
-            <View
-                android:id="@+id/view_board5"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/white" />
-
-            <View
-                android:id="@+id/view_board6"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/item_selected_bg" />
-
-            <View
-                android:id="@+id/view_board7"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/white" />
-        </LinearLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/layout_color_rgb"
             android:layout_width="match_parent"
             android:layout_height="@dimen/board_height"
-            android:layout_below="@+id/layout_color_board"
+            android:layout_below="@+id/fl_color_board"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:focusable="true"
             android:focusableInTouchMode="true"
