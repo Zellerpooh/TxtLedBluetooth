@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -29,6 +31,32 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     private String[] mPopupItems;
     @BindView(R.id.color_picker)
     ColorPicker mColorPicker;
+    @BindView(R.id.layout_color_board)
+    LinearLayout layoutColorBoard;
+    @BindView(R.id.view_board1)
+    View viewBoard1;
+    @BindView(R.id.view_board2)
+    View viewBoard2;
+    @BindView(R.id.view_board3)
+    View viewBoard3;
+    @BindView(R.id.view_board4)
+    View viewBoard4;
+    @BindView(R.id.view_board5)
+    View viewBoard5;
+    @BindView(R.id.view_board6)
+    View viewBoard6;
+    @BindView(R.id.view_board7)
+    View viewBoard7;
+    @BindView(R.id.layout_color_rgb)
+    LinearLayout layoutColorRgb;
+    @BindView(R.id.tv_g)
+    EditText tvColorG;
+    @BindView(R.id.tv_b)
+    EditText tvColorB;
+    @BindView(R.id.tv_r)
+    EditText tvColorR;
+    @BindView(R.id.tv_well)
+    EditText tvColorWell;
 
     @Override
     public void init() {

@@ -96,6 +96,8 @@
         <LinearLayout
             android:id="@+id/layout_color_rgb"
             android:layout_width="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_height="@dimen/board_height"
             android:layout_below="@+id/layout_color_board"
             android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -112,8 +114,12 @@
                     style="@style/main_tv"
                     android:text="@string/g" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/tv_g"
                     style="@style/main_tv"
+                    android:maxLines="1"
+                    android:maxLength="3"
+                    android:inputType="number"
                     android:layout_height="match_parent"
                     android:background="@color/item_selected_bg"
                     android:gravity="center"
@@ -134,8 +140,12 @@
                     style="@style/main_tv"
                     android:text="@string/r" />
 
-                <TextView
+                <EditText
                     style="@style/main_tv"
+                    android:id="@+id/tv_r"
+                    android:maxLength="3"
+                    android:maxLines="1"
+                    android:inputType="number"
                     android:layout_height="match_parent"
                     android:background="@color/item_selected_bg"
                     android:gravity="center"
@@ -156,8 +166,12 @@
                     style="@style/main_tv"
                     android:text="@string/b" />
 
-                <TextView
+                <EditText
                     style="@style/main_tv"
+                    android:id="@+id/tv_b"
+                    android:maxLines="1"
+                    android:maxLength="3"
+                    android:inputType="number"
                     android:layout_height="match_parent"
                     android:background="@color/item_selected_bg"
                     android:gravity="center"
@@ -179,8 +193,12 @@
                     style="@style/main_tv"
                     android:text="@string/well" />
 
-                <TextView
+                <EditText
                     style="@style/main_tv"
+                    android:id="@+id/tv_well"
+                    android:maxLines="1"
+                    android:maxLength="6"
+                    android:digits="@string/et_digits"
                     android:layout_height="match_parent"
                     android:background="@color/item_selected_bg"
                     android:gravity="center"
@@ -216,8 +234,8 @@
                 android:layout_marginRight="@dimen/min_margin"
                 android:layout_weight="1"
                 android:max="100"
-                android:maxHeight="4.0dip"
-                android:minHeight="4.0dip"
+                android:maxHeight="@dimen/seek_bar_height"
+                android:minHeight="@dimen/seek_bar_height"
                 android:progressDrawable="@drawable/seek_bar" />
 
             <ImageView
