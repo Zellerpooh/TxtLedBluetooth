@@ -95,13 +95,37 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     @OnClick({R.id.tv_toolbar_right, R.id.tv_chose_color_type})
     @Override
     public void onClick(View view) {
-        mEditLightPresenter.viewOnclick(view);
+        mEditLightPresenter.viewOnclick(view, null);
     }
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         RadioButton radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
-        mEditLightPresenter.viewOnclick(radioButton);
+        View bgView = viewBoard1;
+        switch (i) {
+            case R.id.view_board1:
+                bgView = viewBoard1;
+                break;
+            case R.id.view_board2:
+                bgView = viewBoard2;
+                break;
+            case R.id.view_board3:
+                bgView = viewBoard3;
+                break;
+            case R.id.view_board4:
+                bgView = viewBoard4;
+                break;
+            case R.id.view_board5:
+                bgView = viewBoard5;
+                break;
+            case R.id.view_board6:
+                bgView = viewBoard6;
+                break;
+            case R.id.view_board7:
+                bgView = viewBoard7;
+                break;
+        }
+        mEditLightPresenter.viewOnclick(radioButton, bgView);
     }
 
     public void initPopupWindow(int position) {

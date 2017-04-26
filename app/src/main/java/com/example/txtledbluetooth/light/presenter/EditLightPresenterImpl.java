@@ -27,12 +27,13 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
     }
 
     @Override
-    public void viewOnclick(View view) {
-        switch (view.getId()) {
+    public void viewOnclick(View clickView, View bgView) {
+        switch (clickView.getId()) {
             case R.id.tv_chose_color_type:
                 mEditLightView.showPopWindow();
                 break;
             case R.id.rb_board1:
+                bgView.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
                 break;
             case R.id.rb_board2:
                 break;
@@ -57,4 +58,6 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
     public void onColorSelect(int color) {
 
     }
+
+
 }

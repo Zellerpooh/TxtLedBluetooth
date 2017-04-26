@@ -8,5 +8,5 @@ import android.view.View;
  */
 
 public interface EditLightPresenter {
-    void viewOnclick(View view);
+    void viewOnclick(View clickView, View bgView);
 }
