@@ -203,6 +203,7 @@
                     android:id="@+id/et_well"
                     style="@style/et_color_board"
                     android:layout_width="@dimen/et_well_color_board"
+                    android:paddingRight="@dimen/min_margin"
                     android:layout_marginLeft="2dp"
                     android:digits="@string/et_digits"
                     android:imeOptions="actionGo"
@@ -261,7 +262,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/icon_decrease_brightness" />
+                android:src="@mipmap/icon_decrease_speed" />
 
             <SeekBar
                 android:id="@+id/sb_speed"
@@ -278,7 +279,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/icon_increase_brightness" />
+                android:src="@mipmap/icon_increase_speed" />
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
