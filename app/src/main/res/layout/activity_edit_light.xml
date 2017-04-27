@@ -48,7 +48,7 @@
                 <View
                     android:id="@+id/view_board1"
                     style="@style/view_color_board"
-                    android:background="@color/white" />
+                    android:background="@color/red" />
 
                 <View
                     android:id="@+id/view_board2"
@@ -140,9 +140,9 @@
 
                 <EditText
                     android:id="@+id/et_r"
+                    android:text="255"
                     style="@style/et_color_board"
-                    android:enabled="false"
-                    android:text="400" />
+                    android:enabled="false" />
 
 
             </LinearLayout>
@@ -161,8 +161,8 @@
                 <EditText
                     android:id="@+id/et_g"
                     style="@style/et_color_board"
-                    android:enabled="false"
-                    android:text="40" />
+                    android:text="0"
+                    android:enabled="false" />
 
             </LinearLayout>
 
@@ -180,8 +180,8 @@
                 <EditText
                     android:id="@+id/et_b"
                     style="@style/et_color_board"
-                    android:enabled="false"
-                    android:text="40" />
+                    android:text="0"
+                    android:enabled="false" />
 
             </LinearLayout>
 
@@ -203,12 +203,12 @@
                     android:id="@+id/et_well"
                     style="@style/et_color_board"
                     android:layout_width="@dimen/et_well_color_board"
-                    android:paddingRight="@dimen/min_margin"
                     android:layout_marginLeft="2dp"
                     android:digits="@string/et_digits"
                     android:imeOptions="actionGo"
+                    android:text="ff0000"
                     android:maxLength="6"
-                    android:text="F89150" />
+                    android:paddingRight="@dimen/min_margin" />
 
             </LinearLayout>
 
@@ -237,7 +237,7 @@
                 android:layout_marginLeft="@dimen/min_margin"
                 android:layout_marginRight="@dimen/min_margin"
                 android:layout_weight="1"
-                android:max="100"
+                android:max="255"
                 android:maxHeight="@dimen/seek_bar_height"
                 android:minHeight="@dimen/seek_bar_height"
                 android:progressDrawable="@drawable/seek_bar" />
@@ -271,7 +271,7 @@
                 android:layout_marginLeft="@dimen/min_margin"
                 android:layout_marginRight="@dimen/min_margin"
                 android:layout_weight="1"
-                android:max="100"
+                android:max="255"
                 android:maxHeight="@dimen/seek_bar_height"
                 android:minHeight="@dimen/seek_bar_height"
                 android:progressDrawable="@drawable/seek_bar" />

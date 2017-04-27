@@ -1,11 +1,20 @@
 package com.example.txtledbluetooth.light.presenter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.example.txtledbluetooth.R;
+import com.example.txtledbluetooth.application.MyApplication;
+import com.example.txtledbluetooth.light.model.EditLightModel;
+import com.example.txtledbluetooth.light.model.EditLightModelImpl;
 import com.example.txtledbluetooth.light.view.EditLightView;
+import com.example.txtledbluetooth.utils.BleCommandUtils;
+import com.example.txtledbluetooth.utils.SharedPreferenceUtils;
 import com.example.txtledbluetooth.widget.ColorPicker;
+
+import java.util.UUID;
 
 /**
  * Created by KomoriWu
@@ -19,7 +28,10 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
     private Context mContext;
     private View mBgView;
     private boolean mIsSetOnColorSelectListener;
-
+    private EditLightModel mEditLightModel;
+    private String mMacAddress;
+    private UUID mServiceUUID;
+    private UUID mCharacterUUID;
 
     public EditLightPresenterImpl(Context mContext, EditLightView mEditLightView,
                                   ColorPicker mColorPicker) {
@@ -27,6 +39,17 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
         this.mEditLightView = mEditLightView;
         this.mColorPicker = mColorPicker;
         mColorPicker.setOnColorSelectListener(this);
+
+        mEditLightModel = new EditLightModelImpl();
+        String serviceUUID = SharedPreferenceUtils.getSendService(mContext);
+        String characterUUID = SharedPreferenceUtils.getSendCharacter(mContext);
+        if (!TextUtils.isEmpty(serviceUUID)) {
+            mServiceUUID = UUID.fromString(serviceUUID);
+        }
+        if (!TextUtils.isEmpty(characterUUID)) {
+            mCharacterUUID = UUID.fromString(characterUUID);
+        }
+        mMacAddress = SharedPreferenceUtils.getMacAddress(mContext);
     }
 
     @Override
@@ -36,27 +59,22 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
             case R.id.tv_chose_color_type:
                 mEditLightView.showPopWindow();
                 break;
-            case R.id.rb_board1:
+            case R.id.tv_toolbar_right:
+                mEditLightView.revertColor(Color.RED);
                 break;
-            case R.id.rb_board2:
-                break;
-            case R.id.rb_board3:
-                break;
-            case R.id.rb_board4:
-                break;
-            case R.id.rb_board5:
-                break;
-            case R.id.rb_board6:
-                break;
-            case R.id.rb_board7:
-                break;
-
         }
     }
 
     @Override
     public void setIsSetOnColorSelectListener(boolean isSetOnColorSelectListener) {
         mIsSetOnColorSelectListener = isSetOnColorSelectListener;
+    }
+
+    @Override
+    public void setLightSpeed(String lightNo, int speed) {
+        String command = BleCommandUtils.getLightSpeedCommand(lightNo, Integer.toHexString(speed));
+        mEditLightModel.setLightSpeed(MyApplication.getBluetoothClient(mContext), mMacAddress
+                , mServiceUUID, mCharacterUUID, command);
     }
 
     @Override

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.example.txtledbluetooth.base.BaseActivity;
 import com.example.txtledbluetooth.light.presenter.EditLightPresenter;
 import com.example.txtledbluetooth.light.presenter.EditLightPresenterImpl;
 import com.example.txtledbluetooth.light.view.EditLightView;
+import com.example.txtledbluetooth.utils.BleCommandUtils;
 import com.example.txtledbluetooth.utils.Utils;
 import com.example.txtledbluetooth.widget.ColorPicker;
 
@@ -31,7 +33,7 @@ import butterknife.OnClick;
 
 public class EditLightActivity extends BaseActivity implements View.OnClickListener,
         PopupWindowAdapter.OnPopupItemClickListener, EditLightView, RadioGroup.
-                OnCheckedChangeListener, TextView.OnEditorActionListener {
+                OnCheckedChangeListener, TextView.OnEditorActionListener, SeekBar.OnSeekBarChangeListener {
     @BindView(R.id.tv_toolbar_right)
     TextView tvRevert;
     @BindView(R.id.tv_chose_color_type)
@@ -72,6 +74,8 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     RadioButton rbBoard7;
     @BindView(R.id.layout_color_rgb)
     LinearLayout layoutColorRgb;
+    @BindView(R.id.layout_speed)
+    LinearLayout layoutSpeed;
     @BindView(R.id.et_r)
     EditText etColorR;
     @BindView(R.id.et_g)
@@ -80,8 +84,12 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     EditText etColorB;
     @BindView(R.id.et_well)
     EditText etColorWell;
-    private   View mBgView;
+    @BindView(R.id.sb_speed)
+    SeekBar seekBarSpeed;
+    private View mBgView;
     private EditLightPresenter mEditLightPresenter;
+    private int mPosition;
+    private int mSpeed;
 
     @Override
     public void init() {
@@ -91,12 +99,14 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         tvTitle.setText(getIntent().getStringExtra(Utils.LIGHT_MODEL_NAME));
         tvRevert.setVisibility(View.VISIBLE);
         tvRevert.setText(getString(R.string.revert));
-        initPopupWindow(getIntent().getIntExtra(Utils.LIGHT_MODEL_ID, 0));
+        mPosition = getIntent().getIntExtra(Utils.LIGHT_MODEL_ID, 0);
+        initPopupWindow();
         radioGroup.setOnCheckedChangeListener(this);
         mEditLightPresenter = new EditLightPresenterImpl(this, this, mColorPicker);
 
         onPopupWindowItemClick(0, tvChoseType.getText().toString());
         etColorWell.setOnEditorActionListener(this);
+        seekBarSpeed.setOnSeekBarChangeListener(this);
     }
 
     @OnClick({R.id.tv_toolbar_right, R.id.tv_chose_color_type})
@@ -108,7 +118,7 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         RadioButton radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
-        mBgView= viewBoard1;
+        mBgView = viewBoard1;
         switch (i) {
             case R.id.rb_board1:
                 mBgView = viewBoard1;
@@ -135,8 +145,8 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         mEditLightPresenter.viewOnclick(radioButton, mBgView);
     }
 
-    public void initPopupWindow(int position) {
-        mPopupItems = Utils.getPopWindowItems(this, position);
+    public void initPopupWindow() {
+        mPopupItems = Utils.getPopWindowItems(this, mPosition);
         tvChoseType.setText(mPopupItems[0]);
         View popWindowView = getLayoutInflater().inflate(R.layout.popup_window, null);
         RecyclerView popupRecyclerView = (RecyclerView) popWindowView.findViewById(R.id.recycler_view);
@@ -170,15 +180,21 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
-    public void setColorPickerRgb(int color) {
-
+    public void revertColor(int color) {
+        radioGroup.check(R.id.rb_board1);
+        viewBoard1.setBackgroundColor(color);
+        etColorR.setText("255");
+        etColorG.setText("0");
+        etColorB.setText("0");
+        etColorWell.setText("ff0000");
     }
+
 
     @Override
     public void onPopupWindowItemClick(int position, String type) {
         tvChoseType.setText(type);
         radioGroup.check(R.id.rb_board1);
-        if (type.equals(getString(R.string.random))) {
+        if (type.equals(getString(R.string.random)) || type.contains(getString(R.string.white))) {
             mEditLightPresenter.setIsSetOnColorSelectListener(false);
             rbBoard1.setVisibility(View.GONE);
             rbBoard2.setVisibility(View.GONE);
@@ -194,7 +210,8 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
             viewBoard5.setVisibility(View.GONE);
             viewBoard6.setVisibility(View.GONE);
             viewBoard7.setVisibility(View.GONE);
-        } else if (type.contains("1")) {
+            setEtNoData();
+        } else if (type.contains("1") || type.contains(getString(R.string.colored))) {
             mEditLightPresenter.setIsSetOnColorSelectListener(true);
             rbBoard1.setVisibility(View.VISIBLE);
             rbBoard2.setVisibility(View.GONE);
@@ -242,6 +259,7 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
             viewBoard5.setVisibility(View.VISIBLE);
             viewBoard6.setVisibility(View.VISIBLE);
             viewBoard7.setVisibility(View.VISIBLE);
+
         }
         mPopWindow.dismiss();
     }
@@ -273,7 +291,7 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
             etColorR.setText(strR);
             etColorG.setText(strG);
             etColorB.setText(strB);
-            mBgView.setBackgroundColor(Color.rgb(Integer.parseInt(strR),Integer.parseInt(strG),
+            mBgView.setBackgroundColor(Color.rgb(Integer.parseInt(strR), Integer.parseInt(strG),
                     Integer.parseInt(strB)));
         } else {
             Toast.makeText(this, R.string.color_value_hint, Toast.LENGTH_SHORT).show();
@@ -281,5 +299,27 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         etColorWell.setCursorVisible(false);
         Utils.hideKeyboard(this);
         return false;
+    }
+
+    public void setEtNoData() {
+        etColorR.setText("");
+        etColorG.setText("");
+        etColorB.setText("");
+        etColorWell.setText("");
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        mSpeed = i;
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        mEditLightPresenter.setLightSpeed(BleCommandUtils.getLightNo(mPosition), mSpeed);
     }
 }

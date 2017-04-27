@@ -76,7 +76,7 @@ public class Utils {
         for (int i = 0; i < lightIcons.length; i++) {
             if (i == 8 || i == 11) {
                 isEdit = false;
-            }else {
+            } else {
                 isEdit = true;
             }
             lightingList.add(i, new Lighting(lightNames[i], lightIcons[i], isEdit));
@@ -129,6 +129,7 @@ public class Utils {
         }
         return items;
     }
+
     public static void hideKeyboard(Activity activity) {
         if (activity.getCurrentFocus() != null) {
             InputMethodManager inputManager = (InputMethodManager)
@@ -137,5 +138,6 @@ public class Utils {
                     activity.getCurrentFocus().getWindowToken(), 0);
         }
     }
+
 
 }

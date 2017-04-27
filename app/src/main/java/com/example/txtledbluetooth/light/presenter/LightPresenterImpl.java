@@ -2,16 +2,13 @@ package com.example.txtledbluetooth.light.presenter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.widget.Toast;
 
-import com.example.txtledbluetooth.R;
 import com.example.txtledbluetooth.application.MyApplication;
 import com.example.txtledbluetooth.light.model.LightModel;
 import com.example.txtledbluetooth.light.model.LightModelImpl;
 import com.example.txtledbluetooth.light.view.LightView;
 import com.example.txtledbluetooth.utils.BleCommandUtils;
 import com.example.txtledbluetooth.utils.SharedPreferenceUtils;
-import com.inuker.bluetooth.library.connect.response.BleWriteResponse;
 
 import java.util.UUID;
 
@@ -50,25 +47,25 @@ public class LightPresenterImpl implements LightPresenter {
         String command = "";
         switch (id) {
             case 0:
-                command = BleCommandUtils.MOON_LIGHT;
+                command = BleCommandUtils.MOON_LIGHT_COMMAND;
                 break;
             case 1:
-                command = BleCommandUtils.FIREWORK;
+                command = BleCommandUtils.FIREWORK_COMMAND;
                 break;
             case 2:
-                command = BleCommandUtils.BLUE_SKIES;
+                command = BleCommandUtils.BLUE_SKIES_COMMAND;
                 break;
             case 3:
-                command = BleCommandUtils.RAINBOW;
+                command = BleCommandUtils.RAINBOW_COMMAND;
                 break;
             case 4:
-                command = BleCommandUtils.PULSATE;
+                command = BleCommandUtils.PULSATE_COMMAND;
                 break;
             case 5:
-                command = BleCommandUtils.GLOW;
+                command = BleCommandUtils.GLOW_COMMAND;
                 break;
             case 6:
-                command = BleCommandUtils.MONOCHROME;
+                command = BleCommandUtils.MONOCHROME_COMMAND;
                 break;
         }
         if (!TextUtils.isEmpty(command) && !TextUtils.isEmpty(mMacAddress)) {
