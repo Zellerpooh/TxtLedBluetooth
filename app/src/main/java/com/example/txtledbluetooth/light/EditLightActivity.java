@@ -249,4 +249,11 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         ButterKnife.bind(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (!mColorPicker.isRecycled()) {
+            mColorPicker.recycle();
+        }
+    }
 }

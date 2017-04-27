@@ -45,8 +45,9 @@ public class ColorPicker extends ImageView implements View.OnTouchListener {
         setOnTouchListener(this);
 
         mPaint = new Paint();
-        mPaint.setStrokeWidth(20);
+        mPaint.setStrokeWidth(5);
         mPaint.setColor(Color.BLACK);
+        mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setAntiAlias(true);
 
         setClickable(true);
@@ -93,11 +94,18 @@ public class ColorPicker extends ImageView implements View.OnTouchListener {
         invalidate();
     }
 
+    public void setPaintPixel(int x, int y) {
+        this.x = x;
+        this.y = y;
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawPoint(x, y, mPaint);
+        canvas.drawCircle(x, y, 20, mPaint);
     }
+
 
     private int getColor(float x, float y) {
         this.x = x;
@@ -124,8 +132,8 @@ public class ColorPicker extends ImageView implements View.OnTouchListener {
         return d <= radio;
     }
 
-    public  interface OnColorSelectListener {
-         void onColorSelect(int color);
+    public interface OnColorSelectListener {
+        void onColorSelect(int color);
     }
 
     public OnColorSelectListener getOnColorSelectListener() {
@@ -148,7 +156,7 @@ public class ColorPicker extends ImageView implements View.OnTouchListener {
         }
     }
 
-    public boolean isRecycled(){
+    public boolean isRecycled() {
         return mBitmap == null || mBitmap.isRecycled();
     }
 
