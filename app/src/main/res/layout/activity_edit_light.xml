@@ -139,17 +139,9 @@
                     android:text="@string/g" />
 
                 <EditText
-                    android:id="@+id/tv_r"
-                    style="@style/main_tv"
-                    android:layout_height="match_parent"
-                    android:background="@color/item_selected_bg"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:maxLength="3"
-                    android:maxLines="1"
-                    android:paddingLeft="@dimen/min_margin"
-                    android:paddingRight="@dimen/item_padding_left"
-                    android:text="40" />
+                    android:id="@+id/et_r"
+                    style="@style/et_color_board"
+                    android:text="400" />
 
 
             </LinearLayout>
@@ -166,16 +158,8 @@
                     android:text="@string/r" />
 
                 <EditText
-                    android:id="@+id/tv_g"
-                    style="@style/main_tv"
-                    android:layout_height="match_parent"
-                    android:background="@color/item_selected_bg"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:maxLength="3"
-                    android:maxLines="1"
-                    android:paddingLeft="@dimen/min_margin"
-                    android:paddingRight="@dimen/item_padding_left"
+                    android:id="@+id/et_g"
+                    style="@style/et_color_board"
                     android:text="40" />
 
             </LinearLayout>
@@ -192,16 +176,8 @@
                     android:text="@string/b" />
 
                 <EditText
-                    android:id="@+id/tv_b"
-                    style="@style/main_tv"
-                    android:layout_height="match_parent"
-                    android:background="@color/item_selected_bg"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:maxLength="3"
-                    android:maxLines="1"
-                    android:paddingLeft="@dimen/min_margin"
-                    android:paddingRight="@dimen/item_padding_left"
+                    android:id="@+id/et_b"
+                    style="@style/et_color_board"
                     android:text="40" />
 
             </LinearLayout>
@@ -219,16 +195,12 @@
                     android:text="@string/well" />
 
                 <EditText
-                    android:id="@+id/tv_well"
-                    style="@style/main_tv"
-                    android:layout_height="match_parent"
-                    android:background="@color/item_selected_bg"
+                    android:id="@+id/et_well"
+                    style="@style/et_color_board"
+                    android:layout_width="@dimen/et_well_color_board"
                     android:digits="@string/et_digits"
-                    android:gravity="center"
                     android:maxLength="6"
-                    android:maxLines="1"
-                    android:paddingLeft="@dimen/min_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginLeft="2dp"
                     android:text="F89150" />
 
             </LinearLayout>

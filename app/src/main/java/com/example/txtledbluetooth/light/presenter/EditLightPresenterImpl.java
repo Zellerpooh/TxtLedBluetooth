@@ -17,10 +17,13 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
     private EditLightView mEditLightView;
     private ColorPicker mColorPicker;
     private Context mContext;
+    private View mBgView;
+    private boolean mIsSetOnColorSelectListener;
 
-    public EditLightPresenterImpl(Context mContext,EditLightView mEditLightView,
+
+    public EditLightPresenterImpl(Context mContext, EditLightView mEditLightView,
                                   ColorPicker mColorPicker) {
-        this.mContext=mContext;
+        this.mContext = mContext;
         this.mEditLightView = mEditLightView;
         this.mColorPicker = mColorPicker;
         mColorPicker.setOnColorSelectListener(this);
@@ -28,12 +31,12 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
 
     @Override
     public void viewOnclick(View clickView, View bgView) {
+        mBgView = bgView;
         switch (clickView.getId()) {
             case R.id.tv_chose_color_type:
                 mEditLightView.showPopWindow();
                 break;
             case R.id.rb_board1:
-                bgView.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
                 break;
             case R.id.rb_board2:
                 break;
@@ -50,13 +53,17 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
         }
     }
 
-    public void getColorPickerRgb(int id) {
-
+    @Override
+    public void setIsSetOnColorSelectListener(boolean isSetOnColorSelectListener) {
+        mIsSetOnColorSelectListener = isSetOnColorSelectListener;
     }
 
     @Override
     public void onColorSelect(int color) {
-
+        if (mIsSetOnColorSelectListener) {
+            mBgView.setBackgroundColor(color);
+            mEditLightView.setTvColor(color);
+        }
     }
 
 

@@ -24,6 +24,7 @@ public class ColorPicker extends ImageView implements View.OnTouchListener {
     private Bitmap mBitmap;//色轮图片
     private int mWidth, mHeight;//色轮图片的尺寸
     private float x, y, radio;
+
     private OnColorSelectListener mOnColorSelectListener;
     private Paint mPaint;
 

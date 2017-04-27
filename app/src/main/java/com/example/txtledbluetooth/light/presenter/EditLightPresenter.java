@@ -9,4 +9,5 @@ import android.view.View;
 
 public interface EditLightPresenter {
     void viewOnclick(View clickView, View bgView);
+    void setIsSetOnColorSelectListener(boolean isSetOnColorSelectListener);
 }
