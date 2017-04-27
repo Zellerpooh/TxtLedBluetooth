@@ -72,4 +72,5 @@
     <string name="r">R:</string>
     <string name="b">B:</string>
     <string name="et_digits">0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ</string>
+    <string name="color_value_hint">Color value of 6!</string>
 </resources>

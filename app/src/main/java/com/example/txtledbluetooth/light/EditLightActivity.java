@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.txtledbluetooth.R;
 import com.example.txtledbluetooth.base.BaseActivity;
@@ -28,7 +30,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class EditLightActivity extends BaseActivity implements View.OnClickListener,
-        PopupWindowAdapter.OnPopupItemClickListener, EditLightView, RadioGroup.OnCheckedChangeListener {
+        PopupWindowAdapter.OnPopupItemClickListener, EditLightView, RadioGroup.
+                OnCheckedChangeListener, TextView.OnEditorActionListener {
     @BindView(R.id.tv_toolbar_right)
     TextView tvRevert;
     @BindView(R.id.tv_chose_color_type)
@@ -77,6 +80,7 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     EditText etColorB;
     @BindView(R.id.et_well)
     EditText etColorWell;
+    private   View mBgView;
     private EditLightPresenter mEditLightPresenter;
 
     @Override
@@ -92,6 +96,7 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         mEditLightPresenter = new EditLightPresenterImpl(this, this, mColorPicker);
 
         onPopupWindowItemClick(0, tvChoseType.getText().toString());
+        etColorWell.setOnEditorActionListener(this);
     }
 
     @OnClick({R.id.tv_toolbar_right, R.id.tv_chose_color_type})
@@ -103,31 +108,31 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         RadioButton radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
-        View bgView = viewBoard1;
+        mBgView= viewBoard1;
         switch (i) {
             case R.id.rb_board1:
-                bgView = viewBoard1;
+                mBgView = viewBoard1;
                 break;
             case R.id.rb_board2:
-                bgView = viewBoard2;
+                mBgView = viewBoard2;
                 break;
             case R.id.rb_board3:
-                bgView = viewBoard3;
+                mBgView = viewBoard3;
                 break;
             case R.id.rb_board4:
-                bgView = viewBoard4;
+                mBgView = viewBoard4;
                 break;
             case R.id.rb_board5:
-                bgView = viewBoard5;
+                mBgView = viewBoard5;
                 break;
             case R.id.rb_board6:
-                bgView = viewBoard6;
+                mBgView = viewBoard6;
                 break;
             case R.id.rb_board7:
-                bgView = viewBoard7;
+                mBgView = viewBoard7;
                 break;
         }
-        mEditLightPresenter.viewOnclick(radioButton, bgView);
+        mEditLightPresenter.viewOnclick(radioButton, mBgView);
     }
 
     public void initPopupWindow(int position) {
@@ -255,5 +260,26 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         if (!mColorPicker.isRecycled()) {
             mColorPicker.recycle();
         }
+    }
+
+
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        String[] temp = etColorWell.getText().toString().split("");
+        if (temp.length == 7) {
+            String strR = Integer.valueOf(temp[1] + temp[2], 16).toString();
+            String strG = Integer.valueOf(temp[3] + temp[4], 16).toString();
+            String strB = Integer.valueOf(temp[5] + temp[6], 16).toString();
+            etColorR.setText(strR);
+            etColorG.setText(strG);
+            etColorB.setText(strB);
+            mBgView.setBackgroundColor(Color.rgb(Integer.parseInt(strR),Integer.parseInt(strG),
+                    Integer.parseInt(strB)));
+        } else {
+            Toast.makeText(this, R.string.color_value_hint, Toast.LENGTH_SHORT).show();
+        }
+        etColorWell.setCursorVisible(false);
+        Utils.hideKeyboard(this);
+        return false;
     }
 }

@@ -94,7 +94,7 @@ public class ColorPicker extends ImageView implements View.OnTouchListener {
         invalidate();
     }
 
-    public void setPaintPixel(int x, int y) {
+    public void setPaintPixel(float x, float y) {
         this.x = x;
         this.y = y;
         invalidate();
@@ -111,8 +111,8 @@ public class ColorPicker extends ImageView implements View.OnTouchListener {
         this.x = x;
         this.y = y;
 
-        int w = getWidth();
-        int h = getHeight();
+        int  w = getWidth();
+        int  h = getHeight();
 
         int dx = (int) ((x / w) * mWidth);
         int dy = (int) ((y / h) * mHeight);

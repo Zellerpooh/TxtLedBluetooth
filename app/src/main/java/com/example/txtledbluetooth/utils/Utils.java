@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.txtledbluetooth.R;
 import com.example.txtledbluetooth.bean.Lighting;
@@ -127,6 +128,14 @@ public class Utils {
 
         }
         return items;
+    }
+    public static void hideKeyboard(Activity activity) {
+        if (activity.getCurrentFocus() != null) {
+            InputMethodManager inputManager = (InputMethodManager)
+                    activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(), 0);
+        }
     }
 
 }

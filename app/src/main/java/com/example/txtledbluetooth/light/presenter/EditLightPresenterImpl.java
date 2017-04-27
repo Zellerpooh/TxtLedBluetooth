@@ -50,6 +50,7 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
                 break;
             case R.id.rb_board7:
                 break;
+
         }
     }
 

@@ -39,46 +39,48 @@
             android:layout_height="@dimen/board_height"
             android:layout_below="@+id/color_picker"
             android:layout_marginTop="@dimen/item_padding_left">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <View
-                    style="@style/view_color_board"
                     android:id="@+id/view_board1"
+                    style="@style/view_color_board"
                     android:background="@color/white" />
 
                 <View
-                    style="@style/view_color_board"
                     android:id="@+id/view_board2"
+                    style="@style/view_color_board"
                     android:background="@color/black" />
 
                 <View
-                    style="@style/view_color_board"
                     android:id="@+id/view_board3"
+                    style="@style/view_color_board"
                     android:background="@color/white" />
 
                 <View
-                    style="@style/view_color_board"
                     android:id="@+id/view_board4"
+                    style="@style/view_color_board"
                     android:background="@color/colorAccent" />
 
                 <View
-                    style="@style/view_color_board"
                     android:id="@+id/view_board5"
+                    style="@style/view_color_board"
                     android:background="@color/black" />
 
                 <View
-                    style="@style/view_color_board"
                     android:id="@+id/view_board6"
+                    style="@style/view_color_board"
                     android:background="@color/item_selected_bg" />
 
                 <View
-                    style="@style/view_color_board"
                     android:id="@+id/view_board7"
+                    style="@style/view_color_board"
                     android:background="@color/black" />
             </LinearLayout>
+
             <RadioGroup
                 android:id="@+id/rg_color_board"
                 android:layout_width="match_parent"
@@ -123,8 +125,6 @@
             android:layout_height="@dimen/board_height"
             android:layout_below="@+id/fl_color_board"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -141,6 +141,7 @@
                 <EditText
                     android:id="@+id/et_r"
                     style="@style/et_color_board"
+                    android:enabled="false"
                     android:text="400" />
 
 
@@ -160,6 +161,7 @@
                 <EditText
                     android:id="@+id/et_g"
                     style="@style/et_color_board"
+                    android:enabled="false"
                     android:text="40" />
 
             </LinearLayout>
@@ -178,6 +180,7 @@
                 <EditText
                     android:id="@+id/et_b"
                     style="@style/et_color_board"
+                    android:enabled="false"
                     android:text="40" />
 
             </LinearLayout>
@@ -187,6 +190,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:layout_weight="1"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -198,9 +203,10 @@
                     android:id="@+id/et_well"
                     style="@style/et_color_board"
                     android:layout_width="@dimen/et_well_color_board"
-                    android:digits="@string/et_digits"
-                    android:maxLength="6"
                     android:layout_marginLeft="2dp"
+                    android:digits="@string/et_digits"
+                    android:imeOptions="actionGo"
+                    android:maxLength="6"
                     android:text="F89150" />
 
             </LinearLayout>
