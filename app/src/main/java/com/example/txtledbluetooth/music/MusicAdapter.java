@@ -1,6 +1,8 @@
 package com.example.txtledbluetooth.music;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,17 +26,20 @@ import butterknife.ButterKnife;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHolder> {
     private Context mContext;
-    private ArrayList<MusicInfo> mLightingList;
+    private ArrayList<MusicInfo> mMusicInfoList;
     private OnItemClickListener mOnItemClickListener;
     private OnIvRightClickListener mOnIvRightClickListener;
 
-    public MusicAdapter(Context mContext, ArrayList<MusicInfo> mLightingList,
-                        OnItemClickListener mOnItemClickListener, OnIvRightClickListener
-                                mOnIvRightClickListener) {
+    public MusicAdapter(Context mContext, OnItemClickListener mOnItemClickListener,
+                        OnIvRightClickListener mOnIvRightClickListener) {
         this.mContext = mContext;
-        this.mLightingList = mLightingList;
         this.mOnItemClickListener = mOnItemClickListener;
         this.mOnIvRightClickListener = mOnIvRightClickListener;
+    }
+
+    public void setMusicList(ArrayList<MusicInfo> musicInfoList) {
+        this.mMusicInfoList = musicInfoList;
+        notifyDataSetChanged();
     }
 
     public interface OnItemClickListener {
@@ -54,12 +59,20 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
     @Override
     public void onBindViewHolder(MusicViewHolder holder, int position) {
-
+        MusicInfo musicInfo = mMusicInfoList.get(position);
+        holder.tvMusicName.setText(musicInfo.getTitle());
+        holder.tvSinger.setText(musicInfo.getArtist());
+        Bitmap bitmap = musicInfo.getAlbumImg();
+        if (bitmap == null) {
+            holder.icMusicHead.setImageResource(R.mipmap.icon_blue_skies);
+        } else {
+            holder.icMusicHead.setImageBitmap(bitmap);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return mMusicInfoList == null ? 0 : mMusicInfoList.size();
     }
 
     public class MusicViewHolder extends RecyclerView.ViewHolder implements View.
@@ -86,16 +99,15 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
         @Override
         public void onClick(View view) {
-            int position = (int) view.getTag();
             switch (view.getId()) {
                 case R.id.iv_music_control:
                     if (mOnIvRightClickListener != null) {
-                        mOnIvRightClickListener.onIvRightClick(view, position);
+                        mOnIvRightClickListener.onIvRightClick(view, getPosition());
                     }
                     break;
                 default:
                     if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(view, position);
+                        mOnItemClickListener.onItemClick(view, getPosition());
                     }
                     break;
             }

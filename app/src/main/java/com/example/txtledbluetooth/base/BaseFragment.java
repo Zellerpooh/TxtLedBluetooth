@@ -1,6 +1,7 @@
 package com.example.txtledbluetooth.base;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,7 @@ import com.example.txtledbluetooth.R;
  */
 
 public abstract class BaseFragment extends Fragment {
-
+    public ProgressDialog progressDialog;
     public abstract View initView(LayoutInflater inflater, ViewGroup container,
                                   Bundle savedInstanceState);
 
@@ -28,5 +29,18 @@ public abstract class BaseFragment extends Fragment {
         View view = initView(inflater, container, savedInstanceState);
         return view;
     }
+    public void showProgressDialog(int id) {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(getActivity());
+        }
+        progressDialog.setMessage(getString(id));
+        progressDialog.show();
 
+    }
+
+    public void hideProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.hide();
+        }
+    }
 }
