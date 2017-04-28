@@ -223,6 +223,8 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         radioGroup.check(R.id.rb_board1);
         setViewBoardDefaultColor();
         setEtDefaultData();
+        mEditLightPresenter.updateLightColor(BleCommandUtils.getLightNo(mPosition),
+                (int) radioGroup.getTag(), "ff0000");
     }
 
     private void setViewBoardDefaultColor() {
