@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -56,6 +57,7 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
     TextView tvSinger;
     private MusicAdapter mMusicAdapter;
     private MusicPresenter mMusicPresenter;
+    private ArrayList<MusicInfo> mMusicInfoArrayList;
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,12 +79,21 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
 
     @Override
     public void onItemClick(View view, int position) {
-
+        MusicInfo musicInfo = mMusicInfoArrayList.get(position);
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(musicInfo.getUrl());
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
     @Override
     public void showMusics(ArrayList<MusicInfo> musicInfoList) {
+        mMusicInfoArrayList = musicInfoList;
         mMusicAdapter.setMusicList(musicInfoList);
     }
 

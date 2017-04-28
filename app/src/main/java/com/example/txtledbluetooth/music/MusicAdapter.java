@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.txtledbluetooth.R;
@@ -77,6 +78,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
     public class MusicViewHolder extends RecyclerView.ViewHolder implements View.
             OnClickListener {
+        @BindView(R.id.layout_music_item)
+        RelativeLayout layoutMusicItem;
         @BindView(R.id.progress_bar)
         ProgressBar progressBar;
         @BindView(R.id.ic_music_head)
@@ -91,9 +94,11 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
         public MusicViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+//            layoutMusicItem.setBackground(mContext.getResources().getDrawable(
+//                    R.drawable.ripple_list_item_effect));
             progressBar.setVisibility(View.GONE);
             ivRight.setImageResource(R.mipmap.icon_music_three_points);
-            itemView.setOnClickListener(this);
+            layoutMusicItem.setOnClickListener(this);
             ivRight.setOnClickListener(this);
         }
 

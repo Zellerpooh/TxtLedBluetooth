@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/gray">
+    android:layout_height="wrap_content">
 
     <ProgressBar
         android:id="@+id/progress_bar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/seek_bar_height"
         android:maxHeight="@dimen/seek_bar_height"
+        android:minHeight="@dimen/seek_bar_height"
         android:progress="70" />
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:id="@+id/layout_music_item"
         android:layout_height="@dimen/music_control_height"
         android:layout_below="@+id/progress_bar"
-        android:background="@color/gray">
+        android:background="@drawable/ripple_list_item_effect">
 
         <ImageView
             android:id="@+id/ic_music_head"
