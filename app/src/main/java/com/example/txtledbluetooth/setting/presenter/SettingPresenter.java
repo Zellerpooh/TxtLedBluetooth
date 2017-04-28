@@ -7,4 +7,6 @@ package com.example.txtledbluetooth.setting.presenter;
 
 public interface SettingPresenter {
     void settings(int id);
+
+    void resetToDefault();
 }

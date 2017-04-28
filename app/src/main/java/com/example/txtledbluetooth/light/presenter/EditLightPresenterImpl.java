@@ -72,31 +72,26 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
     @Override
     public void setLightSpeed(String lightNo, int speed) {
         String command = BleCommandUtils.getLightSpeedCommand(lightNo, Integer.toHexString(speed));
-        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress,
-                mServiceUUID, mCharacterUUID, command);
+        writeCommand(command);
     }
 
     @Override
     public void setLightBrightness(String lightNo, int brightness) {
         String command = BleCommandUtils.getLightBrightCommand(lightNo, Integer.
                 toHexString(brightness));
-        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress,
-                mServiceUUID, mCharacterUUID, command);
+        writeCommand(command);
     }
 
     @Override
     public void initBleLightColor(String lightNo, int position) {
         String command = BleCommandUtils.getInitCommandByType(lightNo, position);
-        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress,
-                mServiceUUID, mCharacterUUID, command);
+        writeCommand(command);
     }
 
     @Override
-    public void updateLightColor(String lightNo, int position,String color) {
-        String command = BleCommandUtils.updateLightColor(lightNo, position,color);
-        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress,
-                mServiceUUID, mCharacterUUID, command);
-
+    public void updateLightColor(String lightNo, int position, String color) {
+        String command = BleCommandUtils.updateLightColor(lightNo, position, color);
+        writeCommand(command);
     }
 
     @Override
@@ -107,5 +102,11 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
         }
     }
 
+    private void writeCommand(String command) {
+        if (!TextUtils.isEmpty(command) && !TextUtils.isEmpty(mMacAddress)) {
+            mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress,
+                    mServiceUUID, mCharacterUUID, command);
+        }
+    }
 
 }

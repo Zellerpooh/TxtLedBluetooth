@@ -73,4 +73,6 @@
     <string name="b">B:</string>
     <string name="et_digits">0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ</string>
     <string name="color_value_hint">Color value of 6!</string>
+    <string name="red_color">ff0000</string>
+    <string name="restart_hint">Reset to factory default?</string>
 </resources>

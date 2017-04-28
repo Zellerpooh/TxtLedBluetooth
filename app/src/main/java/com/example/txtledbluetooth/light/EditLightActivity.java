@@ -38,7 +38,7 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
                 OnCheckedChangeListener, TextView.OnEditorActionListener,
         SeekBar.OnSeekBarChangeListener {
     private static final int START_SORT = 1;
-    private static final int SORT_DELAY_MILLISECONDS = 100;
+    private static final int SORT_DELAY_MILLISECONDS = 300;
     @BindView(R.id.tv_toolbar_right)
     TextView tvRevert;
     @BindView(R.id.tv_chose_color_type)
@@ -224,7 +224,7 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         setViewBoardDefaultColor();
         setEtDefaultData();
         mEditLightPresenter.updateLightColor(BleCommandUtils.getLightNo(mPosition),
-                (int) radioGroup.getTag(), "ff0000");
+                (int) radioGroup.getTag(), getString(R.string.red_color));
     }
 
     private void setViewBoardDefaultColor() {

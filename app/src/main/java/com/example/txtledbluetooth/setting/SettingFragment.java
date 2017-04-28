@@ -1,5 +1,6 @@
 package com.example.txtledbluetooth.setting;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import com.example.txtledbluetooth.base.BaseFragment;
 import com.example.txtledbluetooth.setting.presenter.SettingPresenter;
 import com.example.txtledbluetooth.setting.presenter.SettingPresenterImp;
 import com.example.txtledbluetooth.setting.view.SettingView;
+import com.example.txtledbluetooth.utils.AlertUtils;
 import com.example.txtledbluetooth.utils.SharedPreferenceUtils;
 import com.example.txtledbluetooth.utils.Utils;
 import com.example.txtledbluetooth.widget.ItemLayout;
@@ -40,7 +42,7 @@ public class SettingFragment extends BaseFragment implements SettingView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSettingPresenter = new SettingPresenterImp(this);
+        mSettingPresenter = new SettingPresenterImp(this,getActivity());
     }
 
     @Override
@@ -84,8 +86,14 @@ public class SettingFragment extends BaseFragment implements SettingView {
     }
 
     @Override
-    public void setReset() {
-        Toast.makeText(getActivity(), "Reset", Toast.LENGTH_SHORT).show();
+    public void showResetDialog() {
+        AlertUtils.showAlertDialog(getActivity(), R.string.restart_hint, new
+                DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mSettingPresenter.resetToDefault();
+                    }
+                });
     }
 
     @Override

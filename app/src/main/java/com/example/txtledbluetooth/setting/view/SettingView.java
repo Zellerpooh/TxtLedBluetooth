@@ -10,5 +10,5 @@ public interface SettingView {
 
     void setAutoStandby();
 
-    void setReset();
+    void showResetDialog();
 }

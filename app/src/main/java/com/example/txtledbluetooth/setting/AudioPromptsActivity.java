@@ -31,7 +31,7 @@ public class AudioPromptsActivity extends BaseActivity implements AudioPromptsVi
         initToolbar();
         tvTitle.setText(getString(R.string.audio_prompts));
         initItemBgColor();
-        mPromptsPresenter = new AudioPromptsPresenterImp(this);
+        mPromptsPresenter = new AudioPromptsPresenterImp(this,this);
         itemOff.setOnItemListener(new ItemLayout.OnItemListener() {
             @Override
             public void onClickItemListener(View v) {
