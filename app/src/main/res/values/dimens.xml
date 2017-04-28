@@ -20,4 +20,6 @@
     <dimen name="color_board">1dp</dimen>
     <dimen name="et_color_board">60dp</dimen>
     <dimen name="et_well_color_board">85dp</dimen>
+    <dimen name="seek_bar_margin_left">35dp</dimen>
+    <dimen name="seek_bar_margin_right">43dp</dimen>
 </resources>

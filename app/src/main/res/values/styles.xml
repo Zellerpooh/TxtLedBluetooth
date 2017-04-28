@@ -36,6 +36,19 @@
         <item name="android:background">@drawable/view_board</item>
     </style>
 
+    <style name="seek_bar">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/min_margin</item>
+        <item name="android:layout_marginRight">@dimen/min_margin</item>
+        <item name="android:max">255</item>
+        <item name="android:maxHeight">@dimen/seek_bar_height</item>
+        <item name="android:minHeight">@dimen/seek_bar_height</item>
+        <item name="android:progress">150</item>
+        <item name="android:progressDrawable">@drawable/seek_bar</item>
+    </style>
+
     <style name="et_color_board">
         <item name="android:layout_width">@dimen/et_color_board</item>
         <item name="android:layout_height">match_parent</item>

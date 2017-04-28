@@ -13,6 +13,13 @@
     <color name="item_selected_bg">#212121</color>
     <color name="text_hint_color">#4d4d4d</color>
     <color name="medium_gray">#969696</color>
+
     <color name="red">#ff0000</color>
+    <color name="orange">#e65b2b</color>
+    <color name="yellow">#f9ef5a</color>
+    <color name="green">#70be44</color>
+    <color name="blue">#3e53a6</color>
+    <color name="indigo">#5254a5</color>
+    <color name="purple">#925ca5</color>
 
 </resources>

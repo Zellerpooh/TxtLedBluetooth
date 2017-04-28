@@ -9,5 +9,5 @@ public interface EditLightView {
     void showPopWindow();
 
     void setTvColor(int color);
-    void revertColor(int color);
+    void revertColor();
 }

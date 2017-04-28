@@ -29,7 +29,7 @@ public class BleCommandUtils {
 
     //其他设置
     public static final String LIGHT_SPEED = "espd,";
-    public static final String LIGHT_BRIGHT = HEAD + "elux,hwl:" + END;
+    public static final String LIGHT_BRIGHT = "elux,";
     public static final String OPEN = HEAD + "etof,all:1" + END;
     public static final String CLOSE = HEAD + "etof,all:0" + END;
     public static final String RESET = HEAD + "erst" + END;
@@ -38,7 +38,11 @@ public class BleCommandUtils {
 
     //灯光速度
     public static String getLightSpeedCommand(String lightNo, String speedHex) {
-        return LIGHT_SPEED + lightNo + ":" + speedHex;
+        return  HEAD+LIGHT_SPEED + lightNo + ":" + speedHex+END;
+    }
+    //灯光亮度
+    public static String getLightBrightCommand(String lightNo, String brightHex) {
+        return  HEAD+LIGHT_BRIGHT + lightNo + ":" + brightHex+END;
     }
 
     public static String getLightNo(int position) {

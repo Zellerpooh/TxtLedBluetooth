@@ -11,4 +11,5 @@ public interface EditLightPresenter {
     void viewOnclick(View clickView, View bgView);
     void setIsSetOnColorSelectListener(boolean isSetOnColorSelectListener);
     void setLightSpeed(String lightNo,int speed);
+    void setLightBrightness(String lightNo,int brightness);
 }

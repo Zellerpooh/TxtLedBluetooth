@@ -2,6 +2,7 @@ package com.example.txtledbluetooth.light;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -86,10 +87,13 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     EditText etColorWell;
     @BindView(R.id.sb_speed)
     SeekBar seekBarSpeed;
+    @BindView(R.id.sb_brightness)
+    SeekBar seekBarBright;
     private View mBgView;
     private EditLightPresenter mEditLightPresenter;
     private int mPosition;
     private int mSpeed;
+    private int mBrightness;
 
     @Override
     public void init() {
@@ -107,6 +111,8 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         onPopupWindowItemClick(0, tvChoseType.getText().toString());
         etColorWell.setOnEditorActionListener(this);
         seekBarSpeed.setOnSeekBarChangeListener(this);
+        seekBarBright.setOnSeekBarChangeListener(this);
+        setViewBoardDefaultColor();
     }
 
     @OnClick({R.id.tv_toolbar_right, R.id.tv_chose_color_type})
@@ -180,39 +186,78 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
-    public void revertColor(int color) {
+    public void revertColor() {
         radioGroup.check(R.id.rb_board1);
-        viewBoard1.setBackgroundColor(color);
-        etColorR.setText("255");
-        etColorG.setText("0");
-        etColorB.setText("0");
-        etColorWell.setText("ff0000");
+        setViewBoardDefaultColor();
+        setEtDefaultData();
     }
 
+    private void setViewBoardDefaultColor() {
+        viewBoard1.setBackgroundColor(getResources().getColor(R.color.red));
+        viewBoard2.setBackgroundColor(getResources().getColor(R.color.orange));
+        viewBoard3.setBackgroundColor(getResources().getColor(R.color.yellow));
+        viewBoard4.setBackgroundColor(getResources().getColor(R.color.green));
+        viewBoard5.setBackgroundColor(getResources().getColor(R.color.blue));
+        viewBoard6.setBackgroundColor(getResources().getColor(R.color.indigo));
+        viewBoard7.setBackgroundColor(getResources().getColor(R.color.purple));
+    }
 
     @Override
     public void onPopupWindowItemClick(int position, String type) {
         tvChoseType.setText(type);
         radioGroup.check(R.id.rb_board1);
-        if (type.equals(getString(R.string.random)) || type.contains(getString(R.string.white))) {
+        if (type.equals(getString(R.string.random)) || type.contains(getString(R.string.white)) || type.contains(getString(R.string.default_)) ||
+                type.contains(getString(R.string.moon_light)) || type.contains(getString(R.string.full))) {
             mEditLightPresenter.setIsSetOnColorSelectListener(false);
-            rbBoard1.setVisibility(View.GONE);
-            rbBoard2.setVisibility(View.GONE);
-            rbBoard3.setVisibility(View.GONE);
-            rbBoard4.setVisibility(View.GONE);
-            rbBoard5.setVisibility(View.GONE);
-            rbBoard6.setVisibility(View.GONE);
-            rbBoard7.setVisibility(View.GONE);
-            viewBoard1.setVisibility(View.GONE);
-            viewBoard2.setVisibility(View.GONE);
-            viewBoard3.setVisibility(View.GONE);
-            viewBoard4.setVisibility(View.GONE);
-            viewBoard5.setVisibility(View.GONE);
-            viewBoard6.setVisibility(View.GONE);
-            viewBoard7.setVisibility(View.GONE);
-            setEtNoData();
+            //fireworks
+            if (mPosition == 1 || mPosition == 2 || mPosition == 3 || mPosition == 4) {
+                layoutSpeed.setVisibility(View.VISIBLE);
+            } else {
+                layoutSpeed.setVisibility(View.GONE);
+            }
+            if (mPosition == 6) {
+                rbBoard1.setVisibility(View.VISIBLE);
+                rbBoard2.setVisibility(View.VISIBLE);
+                rbBoard3.setVisibility(View.VISIBLE);
+                rbBoard4.setVisibility(View.VISIBLE);
+                rbBoard5.setVisibility(View.VISIBLE);
+                rbBoard6.setVisibility(View.GONE);
+                rbBoard7.setVisibility(View.GONE);
+                viewBoard1.setVisibility(View.VISIBLE);
+                viewBoard2.setVisibility(View.VISIBLE);
+                viewBoard3.setVisibility(View.VISIBLE);
+                viewBoard4.setVisibility(View.VISIBLE);
+                viewBoard5.setVisibility(View.VISIBLE);
+                viewBoard6.setVisibility(View.GONE);
+                viewBoard7.setVisibility(View.GONE);
+            } else {
+                rbBoard1.setVisibility(View.GONE);
+                rbBoard2.setVisibility(View.GONE);
+                rbBoard3.setVisibility(View.GONE);
+                rbBoard4.setVisibility(View.GONE);
+                rbBoard5.setVisibility(View.GONE);
+                rbBoard6.setVisibility(View.GONE);
+                rbBoard7.setVisibility(View.GONE);
+                viewBoard1.setVisibility(View.GONE);
+                viewBoard2.setVisibility(View.GONE);
+                viewBoard3.setVisibility(View.GONE);
+                viewBoard4.setVisibility(View.GONE);
+                viewBoard5.setVisibility(View.GONE);
+                viewBoard6.setVisibility(View.GONE);
+                viewBoard7.setVisibility(View.GONE);
+            }
+            if (mPosition == 0 || mPosition == 1 || mPosition == 2 || mPosition == 3) {
+//                tvRevert.setClickable(false);
+                setEtNoData();
+            }
         } else if (type.contains("1") || type.contains(getString(R.string.colored))) {
             mEditLightPresenter.setIsSetOnColorSelectListener(true);
+            //moonlight
+            if (mPosition == 0) {
+                layoutSpeed.setVisibility(View.GONE);
+            } else {
+                layoutSpeed.setVisibility(View.VISIBLE);
+            }
             rbBoard1.setVisibility(View.VISIBLE);
             rbBoard2.setVisibility(View.GONE);
             rbBoard3.setVisibility(View.GONE);
@@ -227,8 +272,26 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
             viewBoard5.setVisibility(View.GONE);
             viewBoard6.setVisibility(View.GONE);
             viewBoard7.setVisibility(View.GONE);
+        } else if (type.contains("2")) {
+            mEditLightPresenter.setIsSetOnColorSelectListener(true);
+            layoutSpeed.setVisibility(View.VISIBLE);
+            rbBoard1.setVisibility(View.VISIBLE);
+            rbBoard2.setVisibility(View.VISIBLE);
+            rbBoard3.setVisibility(View.GONE);
+            rbBoard4.setVisibility(View.GONE);
+            rbBoard5.setVisibility(View.GONE);
+            rbBoard6.setVisibility(View.GONE);
+            rbBoard7.setVisibility(View.GONE);
+            viewBoard1.setVisibility(View.VISIBLE);
+            viewBoard2.setVisibility(View.VISIBLE);
+            viewBoard3.setVisibility(View.GONE);
+            viewBoard4.setVisibility(View.GONE);
+            viewBoard5.setVisibility(View.GONE);
+            viewBoard6.setVisibility(View.GONE);
+            viewBoard7.setVisibility(View.GONE);
         } else if (type.contains("3")) {
             mEditLightPresenter.setIsSetOnColorSelectListener(true);
+            layoutSpeed.setVisibility(View.VISIBLE);
             rbBoard1.setVisibility(View.VISIBLE);
             rbBoard2.setVisibility(View.VISIBLE);
             rbBoard3.setVisibility(View.VISIBLE);
@@ -245,6 +308,7 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
             viewBoard7.setVisibility(View.GONE);
         } else if (type.contains("7")) {
             mEditLightPresenter.setIsSetOnColorSelectListener(true);
+            layoutSpeed.setVisibility(View.VISIBLE);
             rbBoard1.setVisibility(View.VISIBLE);
             rbBoard2.setVisibility(View.VISIBLE);
             rbBoard3.setVisibility(View.VISIBLE);
@@ -308,9 +372,21 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         etColorWell.setText("");
     }
 
+    private void setEtDefaultData() {
+        etColorR.setText("255");
+        etColorG.setText("0");
+        etColorB.setText("0");
+        etColorWell.setText("ff0000");
+    }
+
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        mSpeed = i;
+        if (seekBar.getId() == R.id.sb_speed) {
+            mSpeed = i;
+        }else if (seekBar.getId() == R.id.sb_brightness){
+            mBrightness = i;
+        }
+
     }
 
     @Override
@@ -320,6 +396,11 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        mEditLightPresenter.setLightSpeed(BleCommandUtils.getLightNo(mPosition), mSpeed);
+        if (seekBar.getId() == R.id.sb_speed) {
+            mEditLightPresenter.setLightSpeed(BleCommandUtils.getLightNo(mPosition), mSpeed);
+        }else if (seekBar.getId() == R.id.sb_brightness){
+            mEditLightPresenter.setLightBrightness(BleCommandUtils.getLightNo(mPosition),
+                    mBrightness);
+        }
     }
 }

@@ -12,4 +12,6 @@ import java.util.UUID;
 public interface EditLightModel {
     void setLightSpeed(BluetoothClient client, String macAddress, UUID serviceUUID,
                        UUID characterUUID, String command);
+    void setLightBrightness(BluetoothClient client, String macAddress, UUID serviceUUID,
+                       UUID characterUUID, String command);
 }

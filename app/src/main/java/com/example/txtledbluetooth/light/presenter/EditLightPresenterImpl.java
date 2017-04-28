@@ -1,7 +1,6 @@
 package com.example.txtledbluetooth.light.presenter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -60,7 +59,7 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
                 mEditLightView.showPopWindow();
                 break;
             case R.id.tv_toolbar_right:
-                mEditLightView.revertColor(Color.RED);
+                mEditLightView.revertColor();
                 break;
         }
     }
@@ -74,6 +73,14 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
     public void setLightSpeed(String lightNo, int speed) {
         String command = BleCommandUtils.getLightSpeedCommand(lightNo, Integer.toHexString(speed));
         mEditLightModel.setLightSpeed(MyApplication.getBluetoothClient(mContext), mMacAddress
+                , mServiceUUID, mCharacterUUID, command);
+    }
+
+    @Override
+    public void setLightBrightness(String lightNo, int brightness) {
+        String command = BleCommandUtils.getLightBrightCommand(lightNo, Integer.
+                toHexString(brightness));
+        mEditLightModel.setLightBrightness(MyApplication.getBluetoothClient(mContext), mMacAddress
                 , mServiceUUID, mCharacterUUID, command);
     }
 

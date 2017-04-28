@@ -48,37 +48,37 @@
                 <View
                     android:id="@+id/view_board1"
                     style="@style/view_color_board"
-                    android:background="@color/red" />
+                    />
 
                 <View
                     android:id="@+id/view_board2"
                     style="@style/view_color_board"
-                    android:background="@color/black" />
+                    />
 
                 <View
                     android:id="@+id/view_board3"
                     style="@style/view_color_board"
-                    android:background="@color/white" />
+                     />
 
                 <View
                     android:id="@+id/view_board4"
                     style="@style/view_color_board"
-                    android:background="@color/colorAccent" />
+                   />
 
                 <View
                     android:id="@+id/view_board5"
                     style="@style/view_color_board"
-                    android:background="@color/black" />
+                />
 
                 <View
                     android:id="@+id/view_board6"
                     style="@style/view_color_board"
-                    android:background="@color/item_selected_bg" />
+                  />
 
                 <View
                     android:id="@+id/view_board7"
                     style="@style/view_color_board"
-                    android:background="@color/black" />
+                    />
             </LinearLayout>
 
             <RadioGroup
@@ -140,9 +140,9 @@
 
                 <EditText
                     android:id="@+id/et_r"
-                    android:text="255"
                     style="@style/et_color_board"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    android:text="255" />
 
 
             </LinearLayout>
@@ -161,8 +161,8 @@
                 <EditText
                     android:id="@+id/et_g"
                     style="@style/et_color_board"
-                    android:text="0"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    android:text="0" />
 
             </LinearLayout>
 
@@ -180,8 +180,8 @@
                 <EditText
                     android:id="@+id/et_b"
                     style="@style/et_color_board"
-                    android:text="0"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    android:text="0" />
 
             </LinearLayout>
 
@@ -206,9 +206,9 @@
                     android:layout_marginLeft="2dp"
                     android:digits="@string/et_digits"
                     android:imeOptions="actionGo"
-                    android:text="ff0000"
                     android:maxLength="6"
-                    android:paddingRight="@dimen/min_margin" />
+                    android:paddingRight="@dimen/min_margin"
+                    android:text="ff0000" />
 
             </LinearLayout>
 
@@ -232,15 +232,8 @@
 
             <SeekBar
                 android:id="@+id/sb_brightness"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/min_margin"
-                android:layout_marginRight="@dimen/min_margin"
-                android:layout_weight="1"
-                android:max="255"
-                android:maxHeight="@dimen/seek_bar_height"
-                android:minHeight="@dimen/seek_bar_height"
-                android:progressDrawable="@drawable/seek_bar" />
+                style="@style/seek_bar"
+                android:progress="100" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -253,8 +246,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_brightness"
-            android:layout_marginLeft="@dimen/board_height"
-            android:layout_marginRight="@dimen/board_height"
+            android:layout_marginLeft="@dimen/seek_bar_margin_left"
+            android:layout_marginRight="@dimen/seek_bar_margin_right"
             android:layout_marginTop="@dimen/item_padding_left"
             android:gravity="center"
             android:orientation="horizontal">
@@ -266,15 +259,7 @@
 
             <SeekBar
                 android:id="@+id/sb_speed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/min_margin"
-                android:layout_marginRight="@dimen/min_margin"
-                android:layout_weight="1"
-                android:max="255"
-                android:maxHeight="@dimen/seek_bar_height"
-                android:minHeight="@dimen/seek_bar_height"
-                android:progressDrawable="@drawable/seek_bar" />
+                style="@style/seek_bar" />
 
             <ImageView
                 android:layout_width="wrap_content"
