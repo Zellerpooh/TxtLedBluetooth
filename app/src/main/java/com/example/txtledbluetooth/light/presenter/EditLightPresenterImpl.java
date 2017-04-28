@@ -72,23 +72,31 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
     @Override
     public void setLightSpeed(String lightNo, int speed) {
         String command = BleCommandUtils.getLightSpeedCommand(lightNo, Integer.toHexString(speed));
-        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress
-                , mServiceUUID, mCharacterUUID, command);
+        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress,
+                mServiceUUID, mCharacterUUID, command);
     }
 
     @Override
     public void setLightBrightness(String lightNo, int brightness) {
         String command = BleCommandUtils.getLightBrightCommand(lightNo, Integer.
                 toHexString(brightness));
-        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress
-                , mServiceUUID, mCharacterUUID, command);
+        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress,
+                mServiceUUID, mCharacterUUID, command);
     }
 
     @Override
-    public void initBleCommand(String lightNo, int position) {
+    public void initBleLightColor(String lightNo, int position) {
         String command = BleCommandUtils.getInitCommandByType(lightNo, position);
-        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress
-                , mServiceUUID, mCharacterUUID, command);
+        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress,
+                mServiceUUID, mCharacterUUID, command);
+    }
+
+    @Override
+    public void updateLightColor(String lightNo, int position,String color) {
+        String command = BleCommandUtils.updateLightColor(lightNo, position,color);
+        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress,
+                mServiceUUID, mCharacterUUID, command);
+
     }
 
     @Override

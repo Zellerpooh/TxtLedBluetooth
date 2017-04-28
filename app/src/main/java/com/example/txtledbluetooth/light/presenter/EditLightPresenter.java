@@ -12,5 +12,6 @@ public interface EditLightPresenter {
     void setIsSetOnColorSelectListener(boolean isSetOnColorSelectListener);
     void setLightSpeed(String lightNo,int speed);
     void setLightBrightness(String lightNo,int brightness);
-    void initBleCommand(String lightNo,int position);
+    void initBleLightColor(String lightNo, int position);
+    void updateLightColor(String lightNo,int position,String color);
 }

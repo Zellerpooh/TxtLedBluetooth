@@ -2,8 +2,9 @@ package com.example.txtledbluetooth.light;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -34,7 +35,10 @@ import butterknife.OnClick;
 
 public class EditLightActivity extends BaseActivity implements View.OnClickListener,
         PopupWindowAdapter.OnPopupItemClickListener, EditLightView, RadioGroup.
-                OnCheckedChangeListener, TextView.OnEditorActionListener, SeekBar.OnSeekBarChangeListener {
+                OnCheckedChangeListener, TextView.OnEditorActionListener,
+        SeekBar.OnSeekBarChangeListener {
+    private static final int START_SORT = 1;
+    private static final int SORT_DELAY_MILLISECONDS = 100;
     @BindView(R.id.tv_toolbar_right)
     TextView tvRevert;
     @BindView(R.id.tv_chose_color_type)
@@ -94,6 +98,20 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     private int mPosition;
     private int mSpeed;
     private int mBrightness;
+    private long mFirstDrag;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void dispatchMessage(Message msg) {
+            super.dispatchMessage(msg);
+            if (msg.what == START_SORT) {
+                if ((System.currentTimeMillis() - mFirstDrag) >= SORT_DELAY_MILLISECONDS) {
+                    mEditLightPresenter.updateLightColor(BleCommandUtils.getLightNo(mPosition),
+                            (int) radioGroup.getTag(), msg.obj.toString());
+                }
+            }
+
+        }
+    };
 
     @Override
     public void init() {
@@ -127,24 +145,31 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         mBgView = viewBoard1;
         switch (i) {
             case R.id.rb_board1:
+                radioGroup.setTag(0);
                 mBgView = viewBoard1;
                 break;
             case R.id.rb_board2:
+                radioGroup.setTag(1);
                 mBgView = viewBoard2;
                 break;
             case R.id.rb_board3:
+                radioGroup.setTag(2);
                 mBgView = viewBoard3;
                 break;
             case R.id.rb_board4:
+                radioGroup.setTag(3);
                 mBgView = viewBoard4;
                 break;
             case R.id.rb_board5:
+                radioGroup.setTag(4);
                 mBgView = viewBoard5;
                 break;
             case R.id.rb_board6:
+                radioGroup.setTag(5);
                 mBgView = viewBoard6;
                 break;
             case R.id.rb_board7:
+                radioGroup.setTag(6);
                 mBgView = viewBoard7;
                 break;
         }
@@ -183,6 +208,14 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         etColorG.setText(g + "");
         etColorB.setText(b + "");
         etColorWell.setText(colorStr);
+
+        mFirstDrag = System.currentTimeMillis();
+        Message message = mHandler.obtainMessage();
+        message.what = START_SORT;
+//        message.obj = "(" + r + "," + g + "," + b + ")";
+        message.obj = colorStr;
+        mHandler.sendMessageDelayed(message, SORT_DELAY_MILLISECONDS);
+
     }
 
     @Override
@@ -207,13 +240,12 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
         tvChoseType.setText(type);
         radioGroup.check(R.id.rb_board1);
         initEditLightUi(type);
-        initBleCommand(position);
+        initBleLightColor(position);
         mPopWindow.dismiss();
     }
 
-    private void initBleCommand(int position) {
-        String lightNo = BleCommandUtils.getLightNo(mPosition);
-        mEditLightPresenter.initBleCommand(lightNo,position);
+    private void initBleLightColor(int position) {
+        mEditLightPresenter.initBleLightColor(BleCommandUtils.getLightNo(mPosition), position);
     }
 
     private void initEditLightUi(String type) {

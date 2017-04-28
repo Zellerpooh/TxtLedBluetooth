@@ -99,7 +99,7 @@ public class BleCommandUtils {
         return HEAD + "l" + lightNo + command + END;
     }
 
-    public static String updateHotWheelsColor(int position, String color) {
+    public static String updateLightColor(String lightNo,int position, String color) {
         String command = LIGHT_UPDATE_COLOR0;
         switch (position) {
             case 0:
@@ -112,6 +112,6 @@ public class BleCommandUtils {
                 command = LIGHT_UPDATE_COLOR2;
                 break;
         }
-        return HEAD + "l" + BLUE_SKIES + command + "#" + color + END;
+        return HEAD + "l" + lightNo + command + "#" + color + END;
     }
 }
