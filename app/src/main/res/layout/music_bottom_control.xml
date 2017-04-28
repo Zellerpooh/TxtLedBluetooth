@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gray">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/seek_bar_height"
+        android:maxHeight="@dimen/seek_bar_height"
+        android:progress="70" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/music_control_height"
+        android:layout_below="@+id/progress_bar"
+        android:background="@color/gray">
+
+        <ImageView
+            android:id="@+id/ic_music_head"
+            android:layout_width="@dimen/music_control_img_height"
+            android:layout_height="@dimen/music_control_img_height"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:src="@mipmap/icon_blue_skies" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@+id/ic_music_head"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_music_name"
+                style="@style/main_tv"
+                android:text="Bad Romance"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_singer"
+                style="@style/main_tv"
+                android:layout_below="@+id/tv_music_name"
+                android:text="Lady Gaga"
+                android:textSize="@dimen/text_size" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_music_control"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/divide_padding_right"
+            android:src="@mipmap/icon_play" />
+    </RelativeLayout>
+</RelativeLayout>
