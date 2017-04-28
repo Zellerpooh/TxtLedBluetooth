@@ -206,6 +206,17 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     public void onPopupWindowItemClick(int position, String type) {
         tvChoseType.setText(type);
         radioGroup.check(R.id.rb_board1);
+        initEditLightUi(type);
+        initBleCommand(position);
+        mPopWindow.dismiss();
+    }
+
+    private void initBleCommand(int position) {
+        String lightNo = BleCommandUtils.getLightNo(mPosition);
+        mEditLightPresenter.initBleCommand(lightNo,position);
+    }
+
+    private void initEditLightUi(String type) {
         if (type.equals(getString(R.string.random)) || type.contains(getString(R.string.white)) || type.contains(getString(R.string.default_)) ||
                 type.contains(getString(R.string.moon_light)) || type.contains(getString(R.string.full))) {
             mEditLightPresenter.setIsSetOnColorSelectListener(false);
@@ -325,7 +336,6 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
             viewBoard7.setVisibility(View.VISIBLE);
 
         }
-        mPopWindow.dismiss();
     }
 
 
@@ -383,7 +393,7 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
         if (seekBar.getId() == R.id.sb_speed) {
             mSpeed = i;
-        }else if (seekBar.getId() == R.id.sb_brightness){
+        } else if (seekBar.getId() == R.id.sb_brightness) {
             mBrightness = i;
         }
 
@@ -398,7 +408,7 @@ public class EditLightActivity extends BaseActivity implements View.OnClickListe
     public void onStopTrackingTouch(SeekBar seekBar) {
         if (seekBar.getId() == R.id.sb_speed) {
             mEditLightPresenter.setLightSpeed(BleCommandUtils.getLightNo(mPosition), mSpeed);
-        }else if (seekBar.getId() == R.id.sb_brightness){
+        } else if (seekBar.getId() == R.id.sb_brightness) {
             mEditLightPresenter.setLightBrightness(BleCommandUtils.getLightNo(mPosition),
                     mBrightness);
         }

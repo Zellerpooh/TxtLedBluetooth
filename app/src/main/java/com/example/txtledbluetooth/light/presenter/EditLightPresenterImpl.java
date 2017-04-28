@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.example.txtledbluetooth.R;
 import com.example.txtledbluetooth.application.MyApplication;
-import com.example.txtledbluetooth.light.model.EditLightModel;
-import com.example.txtledbluetooth.light.model.EditLightModelImpl;
+import com.example.txtledbluetooth.light.model.LightModel;
+import com.example.txtledbluetooth.light.model.LightModelImpl;
 import com.example.txtledbluetooth.light.view.EditLightView;
 import com.example.txtledbluetooth.utils.BleCommandUtils;
 import com.example.txtledbluetooth.utils.SharedPreferenceUtils;
@@ -27,7 +27,7 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
     private Context mContext;
     private View mBgView;
     private boolean mIsSetOnColorSelectListener;
-    private EditLightModel mEditLightModel;
+    private LightModel mLightModel;
     private String mMacAddress;
     private UUID mServiceUUID;
     private UUID mCharacterUUID;
@@ -39,7 +39,7 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
         this.mColorPicker = mColorPicker;
         mColorPicker.setOnColorSelectListener(this);
 
-        mEditLightModel = new EditLightModelImpl();
+        mLightModel = new LightModelImpl();
         String serviceUUID = SharedPreferenceUtils.getSendService(mContext);
         String characterUUID = SharedPreferenceUtils.getSendCharacter(mContext);
         if (!TextUtils.isEmpty(serviceUUID)) {
@@ -72,7 +72,7 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
     @Override
     public void setLightSpeed(String lightNo, int speed) {
         String command = BleCommandUtils.getLightSpeedCommand(lightNo, Integer.toHexString(speed));
-        mEditLightModel.setLightSpeed(MyApplication.getBluetoothClient(mContext), mMacAddress
+        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress
                 , mServiceUUID, mCharacterUUID, command);
     }
 
@@ -80,7 +80,14 @@ public class EditLightPresenterImpl implements EditLightPresenter, ColorPicker.
     public void setLightBrightness(String lightNo, int brightness) {
         String command = BleCommandUtils.getLightBrightCommand(lightNo, Integer.
                 toHexString(brightness));
-        mEditLightModel.setLightBrightness(MyApplication.getBluetoothClient(mContext), mMacAddress
+        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress
+                , mServiceUUID, mCharacterUUID, command);
+    }
+
+    @Override
+    public void initBleCommand(String lightNo, int position) {
+        String command = BleCommandUtils.getInitCommandByType(lightNo, position);
+        mLightModel.WriteCommand(MyApplication.getBluetoothClient(mContext), mMacAddress
                 , mServiceUUID, mCharacterUUID, command);
     }
 

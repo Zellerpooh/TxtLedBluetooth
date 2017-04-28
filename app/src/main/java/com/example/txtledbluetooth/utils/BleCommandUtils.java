@@ -18,14 +18,20 @@ public class BleCommandUtils {
     public static final String GLOW = "clg";
     public static final String MONOCHROME = "cbn";
     //灯光部分
-    public static final String LIGHT_MODEL = ",a,0:*";
-    public static final String MOON_LIGHT_COMMAND = HEAD + "l" + MOON_LIGHT + LIGHT_MODEL + END;
-    public static final String FIREWORK_COMMAND = HEAD + "l" + FIREWORK + LIGHT_MODEL + END;
-    public static final String BLUE_SKIES_COMMAND = HEAD + "l" + BLUE_SKIES + LIGHT_MODEL + END;
-    public static final String RAINBOW_COMMAND = HEAD + "l" + RAINBOW + LIGHT_MODEL + END;
-    public static final String PULSATE_COMMAND = HEAD + "l" + PULSATE + LIGHT_MODEL + END;
-    public static final String GLOW_COMMAND = HEAD + "l" + GLOW + LIGHT_MODEL + END;
-    public static final String MONOCHROME_COMMAND = HEAD + "l" + MONOCHROME + LIGHT_MODEL + END;
+    public static final String LIGHT_MODEL0 = ",a,0:*";
+    public static final String LIGHT_MODEL1 = ",a,1:*";
+    public static final String LIGHT_MODEL2 = ",a,2:*";
+    public static final String LIGHT_MODEL3 = ",a,3:*";
+    public static final String LIGHT_UPDATE_COLOR0 = ",s,0:";
+    public static final String LIGHT_UPDATE_COLOR1 = ",s,1:";
+    public static final String LIGHT_UPDATE_COLOR2 = ",s,2:";
+    public static final String MOON_LIGHT_COMMAND = HEAD + "l" + MOON_LIGHT + LIGHT_MODEL0 + END;
+    public static final String FIREWORK_COMMAND = HEAD + "l" + FIREWORK + LIGHT_MODEL0 + END;
+    public static final String BLUE_SKIES_COMMAND = HEAD + "l" + BLUE_SKIES + LIGHT_MODEL0 + END;
+    public static final String RAINBOW_COMMAND = HEAD + "l" + RAINBOW + LIGHT_MODEL0 + END;
+    public static final String PULSATE_COMMAND = HEAD + "l" + PULSATE + LIGHT_MODEL0 + END;
+    public static final String GLOW_COMMAND = HEAD + "l" + GLOW + LIGHT_MODEL0 + END;
+    public static final String MONOCHROME_COMMAND = HEAD + "l" + MONOCHROME + LIGHT_MODEL0 + END;
 
     //其他设置
     public static final String LIGHT_SPEED = "espd,";
@@ -38,11 +44,12 @@ public class BleCommandUtils {
 
     //灯光速度
     public static String getLightSpeedCommand(String lightNo, String speedHex) {
-        return  HEAD+LIGHT_SPEED + lightNo + ":" + speedHex+END;
+        return HEAD + LIGHT_SPEED + lightNo + ":" + speedHex + END;
     }
+
     //灯光亮度
     public static String getLightBrightCommand(String lightNo, String brightHex) {
-        return  HEAD+LIGHT_BRIGHT + lightNo + ":" + brightHex+END;
+        return HEAD + LIGHT_BRIGHT + lightNo + ":" + brightHex + END;
     }
 
     public static String getLightNo(int position) {
@@ -71,5 +78,40 @@ public class BleCommandUtils {
                 break;
         }
         return lightNo;
+    }
+
+    public static String getInitCommandByType(String lightNo, int position) {
+        String command = LIGHT_MODEL0;
+        switch (position) {
+            case 0:
+                command = LIGHT_MODEL0;
+                break;
+            case 1:
+                command = LIGHT_MODEL1;
+                break;
+            case 2:
+                command = LIGHT_MODEL2;
+                break;
+            case 3:
+                command = LIGHT_MODEL3;
+                break;
+        }
+        return HEAD + "l" + lightNo + command + END;
+    }
+
+    public static String updateHotWheelsColor(int position, String color) {
+        String command = LIGHT_UPDATE_COLOR0;
+        switch (position) {
+            case 0:
+                command = LIGHT_UPDATE_COLOR0;
+                break;
+            case 1:
+                command = LIGHT_UPDATE_COLOR1;
+                break;
+            case 2:
+                command = LIGHT_UPDATE_COLOR2;
+                break;
+        }
+        return HEAD + "l" + BLUE_SKIES + command + "#" + color + END;
     }
 }
