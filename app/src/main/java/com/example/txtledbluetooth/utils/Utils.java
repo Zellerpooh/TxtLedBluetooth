@@ -1,5 +1,6 @@
 package com.example.txtledbluetooth.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -96,7 +97,7 @@ public class Utils {
     }
 
     public static String[] getPopWindowItems(Context context, int position) {
-        String[] items ;
+        String[] items;
         switch (position) {
             case 0:
                 items = context.getResources().getStringArray(R.array.moonlight_color_type);
@@ -142,5 +143,12 @@ public class Utils {
         }
     }
 
-
+    public static String getPermission(int position) {
+        String[] permissions = new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_EXTERNAL_STORAGE};
+        return permissions[position];
+    }
 }

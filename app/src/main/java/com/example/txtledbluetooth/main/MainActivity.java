@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -26,11 +27,18 @@ import com.example.txtledbluetooth.about.AboutFragment;
 import com.example.txtledbluetooth.setting.SettingFragment;
 import com.example.txtledbluetooth.sources.SourcesFragment;
 import com.example.txtledbluetooth.utils.AlertUtils;
+import com.example.txtledbluetooth.utils.Utils;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionNo;
+import com.yanzhenjie.permission.PermissionYes;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity implements MainView {
+    public static final int PERMISSION_REQUEST_CODE = 100;
     public static final int REQUEST_CODE_SETTING = 1;
     public static final int REQUEST_CODE_ALLOW = 2;
     @BindView(R.id.frame_content)
@@ -67,9 +75,20 @@ public class MainActivity extends BaseActivity implements MainView {
                 getColorStateList(R.drawable.menu_icon_dashboard));
         navigationView.setItemBackground(getResources().getDrawable(R.drawable.menu_item));
         setupDrawerContent(navigationView);
-//        switchDashboard();
-//        mPresenter.initBle(this);
-        switchMusic();
+        switchDashboard();
+
+        // 先判断是否有权限。
+        if (AndPermission.hasPermission(this, Utils.getPermission(0),
+                Utils.getPermission(1))) {
+            mPresenter.initBle(this);
+        } else {
+            AndPermission.with(this)
+                    .requestCode(PERMISSION_REQUEST_CODE)
+                    .permission(Utils.getPermission(0), Utils.getPermission(1))
+                    .send();
+        }
+
+//        switchMusic();
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -217,5 +236,24 @@ public class MainActivity extends BaseActivity implements MainView {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @PermissionYes(PERMISSION_REQUEST_CODE)
+    private void getLocationYes(List<String> grantedPermissions) {
+        // TODO 申请权限成功。
+        mPresenter.initBle(this);
+    }
+
+    @PermissionNo(PERMISSION_REQUEST_CODE)
+    private void getLocationNo(List<String> deniedPermissions) {
+        if (AndPermission.hasAlwaysDeniedPermission(this, deniedPermissions)) {
+            AndPermission.defaultSettingDialog(this, REQUEST_CODE_SETTING).show();
+        }
     }
 }

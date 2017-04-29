@@ -33,4 +33,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     /*蓝牙框架*/
     compile 'com.inuker.bluetooth:library:1.4.0'
+    /*权限申请*/
+    compile 'com.yanzhenjie:permission:1.0.5'
 }
