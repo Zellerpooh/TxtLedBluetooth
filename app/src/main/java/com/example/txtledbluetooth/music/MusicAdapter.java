@@ -94,8 +94,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
         public MusicViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-//            layoutMusicItem.setBackground(mContext.getResources().getDrawable(
-//                    R.drawable.ripple_list_item_effect));
             progressBar.setVisibility(View.GONE);
             ivRight.setImageResource(R.mipmap.icon_music_three_points);
             layoutMusicItem.setOnClickListener(this);

@@ -75,20 +75,20 @@ public class MainActivity extends BaseActivity implements MainView {
                 getColorStateList(R.drawable.menu_icon_dashboard));
         navigationView.setItemBackground(getResources().getDrawable(R.drawable.menu_item));
         setupDrawerContent(navigationView);
-        switchDashboard();
+//        switchDashboard();
 
-        // 先判断是否有权限。
-        if (AndPermission.hasPermission(this, Utils.getPermission(0),
-                Utils.getPermission(1))) {
-            mPresenter.initBle(this);
-        } else {
-            AndPermission.with(this)
-                    .requestCode(PERMISSION_REQUEST_CODE)
-                    .permission(Utils.getPermission(0), Utils.getPermission(1))
-                    .send();
-        }
+//        // 先判断是否有权限。
+//        if (AndPermission.hasPermission(this, Utils.getPermission(0),
+//                Utils.getPermission(1))) {
+//            mPresenter.initBle(this);
+//        } else {
+//            AndPermission.with(this)
+//                    .requestCode(PERMISSION_REQUEST_CODE)
+//                    .permission(Utils.getPermission(0), Utils.getPermission(1))
+//                    .send();
+//        }
 
-//        switchMusic();
+        switchMusic();
     }
 
     private void setupDrawerContent(NavigationView navigationView) {

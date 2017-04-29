@@ -1,6 +1,5 @@
 package com.example.txtledbluetooth.music;
 
-import android.Manifest;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
