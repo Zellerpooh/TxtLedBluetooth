@@ -2,7 +2,6 @@ package com.example.txtledbluetooth.music;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +81,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
         RelativeLayout layoutMusicItem;
         @BindView(R.id.progress_bar)
         ProgressBar progressBar;
-        @BindView(R.id.ic_music_head)
+        @BindView(R.id.iv_music_head)
         ImageView icMusicHead;
         @BindView(R.id.iv_music_control)
         ImageView ivRight;

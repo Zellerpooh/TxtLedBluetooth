@@ -1,6 +1,7 @@
 package com.example.txtledbluetooth.music;
 
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,10 +45,10 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
     RecyclerView recyclerView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    @BindView(R.id.ic_music_head)
-    ImageView icMusicHead;
+    @BindView(R.id.iv_music_head)
+    ImageView ivMusicHead;
     @BindView(R.id.iv_music_control)
-    ImageView icMusicControl;
+    ImageView ivMusicControl;
     @BindView(R.id.tv_music_name)
     TextView tvMusicName;
     @BindView(R.id.tv_singer)
@@ -84,15 +85,44 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
     }
 
     @Override
-    public void onItemClick(View view, int position) {
+    public void onItemClick(View view, final int position) {
         MusicInfo musicInfo = mMusicInfoArrayList.get(position);
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        try {
-            mediaPlayer.setDataSource(musicInfo.getUrl());
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
+        new MusicAsyncTask(musicInfo).execute();
+
+    }
+
+    private class MusicAsyncTask extends AsyncTask<Void, Integer, Void> {
+        MusicInfo musicInfo;
+        int current = 0;
+
+        public MusicAsyncTask(MusicInfo musicInfo) {
+            this.musicInfo = musicInfo;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            progressBar.setProgress(values[0]);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                MediaPlayer mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(musicInfo.getUrl());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            ivMusicHead.setImageBitmap(musicInfo.getAlbumImg());
+            tvMusicName.setText(musicInfo.getTitle());
+            tvSinger.setText(musicInfo.getArtist());
         }
     }
 
