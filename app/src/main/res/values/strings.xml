@@ -59,14 +59,15 @@
     <string name="orange">Orange</string>
     <string name="mood">Mood</string>
     <string name="hot_wheels">Hot Wheels</string>
-    <string name="spectrum">spectrum</string>
+    <string name="spectrum">Spectrum</string>
+    <string name="full_spectrum">Full Spectrum</string>
     <string name="morph">Morph</string>
     <string name="beat_meter">Beat Meter</string>
     <string name="cycle_all">Cycle All</string>
     <string name="cycle">Cycle</string>
     <string name="wave">Wave</string>
     <string name="solo">Solo</string>
-    <string name="auroa">Auroa</string>
+    <string name="aurora">Aurora</string>
     <string name="well">#</string>
     <string name="g">G:</string>
     <string name="r">R:</string>

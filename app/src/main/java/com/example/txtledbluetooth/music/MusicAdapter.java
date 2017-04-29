@@ -65,7 +65,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
         holder.tvSinger.setText(musicInfo.getArtist());
         Bitmap bitmap = musicInfo.getAlbumImg();
         if (bitmap == null) {
-            holder.icMusicHead.setImageResource(R.mipmap.icon_blue_skies);
+            holder.icMusicHead.setImageResource(R.mipmap.icon_morph);
         } else {
             holder.icMusicHead.setImageBitmap(bitmap);
         }

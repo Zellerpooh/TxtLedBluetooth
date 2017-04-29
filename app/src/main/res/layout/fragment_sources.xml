@@ -28,6 +28,6 @@
         android:id="@+id/item_aux_in"
         style="@style/main_tv"
         android:layout_below="@+id/item_bluetooth"
-        custom:iv_left="@mipmap/icon_aux_in"
+        custom:iv_left="@mipmap/icon_aux_in_1"
         custom:text_left_top="@string/aux_in" />
 </RelativeLayout>

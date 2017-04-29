@@ -67,14 +67,14 @@ public class Utils {
     public static ArrayList<Lighting> getLightList(Context context) {
         String[] lightNames = context.getResources().getStringArray(R.array.lighting_name);
         int[] lightIcons = {R.mipmap.icon_moon_light, R.mipmap.icon_fireworks,
-                R.mipmap.icon_blue_skies, R.mipmap.icon_rainbow, R.mipmap.icon_pulsate,
-                R.mipmap.icon_glow, R.mipmap.icon_monochrome, R.mipmap.icon_monochrome,
-                R.mipmap.icon_monochrome, R.mipmap.icon_monochrome, R.mipmap.icon_monochrome,
-                R.mipmap.icon_monochrome};
+                R.mipmap.icon_hot_wheels, R.mipmap.icon_spectrum, R.mipmap.icon_full_spectrum,
+                R.mipmap.icon_pulsate, R.mipmap.icon_morph, R.mipmap.icon_beat_meter,
+                R.mipmap.icon_cycle_all, R.mipmap.icon_cycle, R.mipmap.icon_wave,
+                R.mipmap.icon_solo, R.mipmap.icon_mood, R.mipmap.icon_aurora};
         ArrayList<Lighting> lightingList = new ArrayList<>();
         boolean isEdit;
         for (int i = 0; i < lightIcons.length; i++) {
-            if (i == 8 || i == 11) {
+            if (i == 8 || i > 10) {
                 isEdit = false;
             } else {
                 isEdit = true;
@@ -96,7 +96,7 @@ public class Utils {
     }
 
     public static String[] getPopWindowItems(Context context, int position) {
-        String[] items = new String[]{};
+        String[] items ;
         switch (position) {
             case 0:
                 items = context.getResources().getStringArray(R.array.moonlight_color_type);
@@ -122,6 +122,9 @@ public class Utils {
                 items = context.getResources().getStringArray(R.array.wave_color_type);
                 break;
             case 9:
+                items = context.getResources().getStringArray(R.array.solo_color_type);
+                break;
+            default:
                 items = context.getResources().getStringArray(R.array.solo_color_type);
                 break;
 
