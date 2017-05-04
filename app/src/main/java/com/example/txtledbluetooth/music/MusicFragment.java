@@ -221,6 +221,9 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
                 mMusicInterface.continuePlay();
             }
         } else {
+            if (!(mCurrentPosition < mMusicInfoArrayList.size() && mCurrentPosition > -1)) {
+                mCurrentPosition = 0;
+            }
             mMusicPresenter.playMusic(mHandler, mMusicInterface, mMusicInfoArrayList.
                     get(mCurrentPosition).getUrl());
             ivMusicControl.setImageResource(R.mipmap.icon_play);

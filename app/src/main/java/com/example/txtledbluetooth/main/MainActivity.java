@@ -8,6 +8,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
@@ -56,6 +57,7 @@ public class MainActivity extends BaseActivity implements MainView {
     private SettingFragment mSettingFragment;
     private AboutFragment mAboutFragment;
     private long mExitTime;
+    private Fragment mCurrentFragment;
 
     @Override
     public void init() {
@@ -75,20 +77,20 @@ public class MainActivity extends BaseActivity implements MainView {
                 getColorStateList(R.drawable.menu_icon_dashboard));
         navigationView.setItemBackground(getResources().getDrawable(R.drawable.menu_item));
         setupDrawerContent(navigationView);
-//        switchDashboard();
 
-//        // 先判断是否有权限。
-//        if (AndPermission.hasPermission(this, Utils.getPermission(0),
-//                Utils.getPermission(1))) {
-//            mPresenter.initBle(this);
-//        } else {
-//            AndPermission.with(this)
-//                    .requestCode(PERMISSION_REQUEST_CODE)
-//                    .permission(Utils.getPermission(0), Utils.getPermission(1))
-//                    .send();
-//        }
+        mCurrentFragment=new DashboardFragment();
+        switchDashboard();
+        // 先判断是否有权限。
+        if (AndPermission.hasPermission(this, Utils.getPermission(0),
+                Utils.getPermission(1))) {
+            mPresenter.initBle(this);
+        } else {
+            AndPermission.with(this)
+                    .requestCode(PERMISSION_REQUEST_CODE)
+                    .permission(Utils.getPermission(0), Utils.getPermission(1))
+                    .send();
+        }
 
-        switchMusic();
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -115,7 +117,8 @@ public class MainActivity extends BaseActivity implements MainView {
         if (mDashboardFragment == null) {
             mDashboardFragment = new DashboardFragment();
         }
-        showFragment(mDashboardFragment);
+//        showFragment(mDashboardFragment);
+        switchContent(mCurrentFragment,mDashboardFragment);
     }
 
     @Override
@@ -124,7 +127,8 @@ public class MainActivity extends BaseActivity implements MainView {
         if (mSourcesFragment == null) {
             mSourcesFragment = new SourcesFragment();
         }
-        showFragment(mSourcesFragment);
+//        showFragment(mSourcesFragment);
+        switchContent(mCurrentFragment,mSourcesFragment);
     }
 
     @Override
@@ -133,7 +137,8 @@ public class MainActivity extends BaseActivity implements MainView {
         if (mMusicFragment == null) {
             mMusicFragment = new MusicFragment();
         }
-        showFragment(mMusicFragment);
+//        showFragment(mMusicFragment);
+        switchContent(mCurrentFragment,mMusicFragment);
     }
 
     @Override
@@ -142,7 +147,8 @@ public class MainActivity extends BaseActivity implements MainView {
         if (mLightFragment == null) {
             mLightFragment = new LightFragment();
         }
-        showFragment(mLightFragment);
+//        showFragment(mLightFragment);
+        switchContent(mCurrentFragment,mLightFragment);
     }
 
     @Override
@@ -151,7 +157,8 @@ public class MainActivity extends BaseActivity implements MainView {
         if (mSettingFragment == null) {
             mSettingFragment = new SettingFragment();
         }
-        showFragment(mSettingFragment);
+//        showFragment(mSettingFragment);
+        switchContent(mCurrentFragment,mSettingFragment);
     }
 
     @Override
@@ -160,7 +167,8 @@ public class MainActivity extends BaseActivity implements MainView {
         if (mAboutFragment == null) {
             mAboutFragment = new AboutFragment();
         }
-        showFragment(mAboutFragment);
+//        showFragment(mAboutFragment);
+        switchContent(mCurrentFragment,mAboutFragment);
     }
 
     @Override
@@ -211,6 +219,24 @@ public class MainActivity extends BaseActivity implements MainView {
                 .beginTransaction()
                 .replace(R.id.frame_content, fragment)
                 .commit();
+
+
+    }
+
+    public void switchContent(Fragment from, Fragment to) {
+        if (mCurrentFragment != to) {
+            mCurrentFragment = to;
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.screen_left_out, R.anim.screen_right_in,
+                    R.anim.screen_left_in, R.anim.screen_right_out);
+            if (!to.isAdded()) {
+                // 隐藏当前的fragment，add下一个到Activity中
+                transaction.hide(from).add(R.id.frame_content, to).commit();
+            } else {
+                // 隐藏当前的fragment，显示下一个
+                transaction.hide(from).show(to).commit();
+            }
+        }
     }
 
     @Override
