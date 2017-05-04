@@ -2,6 +2,9 @@ package com.example.txtledbluetooth.music.presenter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Handler;
+
+import com.example.txtledbluetooth.music.service.MusicInterface;
 
 /**
  * Created by KomoriWu
@@ -10,4 +13,5 @@ import android.database.Cursor;
 
 public interface MusicPresenter {
     void scanMusic(Context context);
+    void playMusic(Handler handler, MusicInterface musicInterface,String songUrl);
 }

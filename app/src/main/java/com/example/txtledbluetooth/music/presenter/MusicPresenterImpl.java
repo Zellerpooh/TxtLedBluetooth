@@ -11,6 +11,7 @@ import android.support.annotation.UiThread;
 import com.example.txtledbluetooth.bean.MusicInfo;
 import com.example.txtledbluetooth.music.model.MusicModel;
 import com.example.txtledbluetooth.music.model.MusicModelImpl;
+import com.example.txtledbluetooth.music.service.MusicInterface;
 import com.example.txtledbluetooth.music.view.MusicView;
 
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ import java.util.ArrayList;
  */
 
 public class MusicPresenterImpl implements MusicPresenter {
-    public static final int UPDATE_UI = 1;
     private MusicModel mMusicModel;
     private MusicView mMusicView;
 
@@ -54,5 +54,22 @@ public class MusicPresenterImpl implements MusicPresenter {
             }
         }.execute();
 
+    }
+
+    @Override
+    public void playMusic(final Handler handler, final MusicInterface musicInterface,
+                          final String songUrl) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                musicInterface.play(songUrl, handler);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                mMusicView.updateTextView(songUrl);
+            }
+        }.execute();
     }
 }

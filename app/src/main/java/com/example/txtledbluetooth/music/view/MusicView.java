@@ -12,6 +12,9 @@ import java.util.ArrayList;
 public interface MusicView {
     void showMusics(ArrayList<MusicInfo> musicInfoList);
 
+
+    void updateTextView(String songUrl);
+
     void showProgress();
 
     void hideProgress();

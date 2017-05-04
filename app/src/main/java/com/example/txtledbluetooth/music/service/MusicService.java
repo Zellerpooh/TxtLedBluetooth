@@ -43,7 +43,7 @@ public class MusicService extends Service {
     class MusicControl extends Binder implements MusicInterface {
 
         @Override
-        public void play(String songUrl,Handler handler) {
+        public void play(String songUrl, Handler handler) {
             try {
                 if (mMediaPlayer == null) {
                     mMediaPlayer = new MediaPlayer();
@@ -78,6 +78,13 @@ public class MusicService extends Service {
                 mMediaPlayer.seekTo(progress);
             }
         }
+
+        @Override
+        public boolean isPlaying() {
+            return mMediaPlayer.isPlaying();
+        }
+
+
     }
 
     private void addTimer(final Handler handler) {

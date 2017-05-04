@@ -13,5 +13,5 @@ import java.util.ArrayList;
  */
 
 public interface MusicModel {
-    ArrayList<MusicInfo> scanMusic(Context context,Cursor cursor);
+    ArrayList<MusicInfo> scanMusic(Context context, Cursor cursor);
 }

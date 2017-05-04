@@ -26,6 +26,19 @@ public class SharedPreferenceUtils {
     public static final String SEND_CHARACTER_KEY = "send_character_key";
     public static final String CLICK_ITEM_POSITION_NAME = "click_item_position_name";
     public static final String CLICK_ITEM_POSITION_KEY = "click_item_position_key";
+    public static final String LAST_PLAY_POSITION_NAME = "last_play_position_name";
+    public static final String LAST_PLAY_POSITION_KEY = "last_play_position_key";
+
+
+    public static void saveLastPlayPosition(Context context, int position) {
+        SharedPreferenceUtils.saveSharedPreference(context, LAST_PLAY_POSITION_NAME,
+                LAST_PLAY_POSITION_KEY, position);
+    }
+
+    public static int getLastPlayPosition(Context context) {
+        return SharedPreferenceUtils.getSharedPreferenceInt(context, LAST_PLAY_POSITION_NAME,
+                LAST_PLAY_POSITION_KEY, -1);
+    }
 
     public static void saveClickPosition(Context context, int position) {
         SharedPreferenceUtils.saveSharedPreference(context, CLICK_ITEM_POSITION_NAME,

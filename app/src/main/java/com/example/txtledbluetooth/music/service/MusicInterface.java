@@ -16,4 +16,6 @@ public interface MusicInterface {
     void continuePlay();
 
     void seekTo(int progress);
+
+    boolean isPlaying();
 }

@@ -3,7 +3,6 @@ package com.example.txtledbluetooth.music;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -26,6 +25,7 @@ import com.example.txtledbluetooth.music.presenter.MusicPresenterImpl;
 import com.example.txtledbluetooth.music.service.MusicInterface;
 import com.example.txtledbluetooth.music.service.MusicService;
 import com.example.txtledbluetooth.music.view.MusicView;
+import com.example.txtledbluetooth.utils.SharedPreferenceUtils;
 import com.example.txtledbluetooth.utils.Utils;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionNo;
@@ -36,6 +36,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 import static com.example.txtledbluetooth.main.MainActivity.REQUEST_CODE_SETTING;
@@ -65,7 +66,11 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
     private MusicPresenter mMusicPresenter;
     private ArrayList<MusicInfo> mMusicInfoArrayList;
     private MusicInterface mMusicInterface;
-    private int mCurrentPosition;
+    private Intent mIntent;
+    private MyServiceConn mServiceConn;
+    private int mCurrentPosition = -1;
+    private boolean mIsCurrentPlay;
+    private boolean mIsExistPlayData;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -75,7 +80,9 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
             progressBar.setMax(duration);
             progressBar.setProgress(currentProgress);
             if (progressBar.getProgress() == duration) {
-                new MusicAsyncTask(mMusicInfoArrayList.get(getNextSongPosition())).execute();
+                mMusicPresenter.playMusic(mHandler, mMusicInterface, mMusicInfoArrayList.
+                        get(getNextSongPosition()).getUrl());
+                ivMusicControl.setImageResource(R.mipmap.icon_play);
             }
 
         }
@@ -96,18 +103,23 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
                     .permission(Utils.getPermission(2), Utils.getPermission(3))
                     .send();
         }
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mMusicAdapter = new MusicAdapter(getActivity(), this, this);
-        recyclerView.setAdapter(mMusicAdapter);
+        initRecycleView();
         initService();
         return view;
     }
 
+    private void initRecycleView() {
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mMusicAdapter = new MusicAdapter(getActivity(), this, this);
+        recyclerView.setAdapter(mMusicAdapter);
+    }
+
     private void initService() {
-        Intent intent = new Intent(getActivity(), MusicService.class);
-        getActivity().startService(intent);
-        getActivity().bindService(intent, new MyServiceConn(), BIND_AUTO_CREATE);
+        mServiceConn = new MyServiceConn();
+        mIntent = new Intent(getActivity(), MusicService.class);
+        getActivity().startService(mIntent);
+        getActivity().bindService(mIntent, mServiceConn, BIND_AUTO_CREATE);
     }
 
     @Override
@@ -117,30 +129,27 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
 
     @Override
     public void onItemClick(View view, final int position) {
-        mCurrentPosition = position;
+        if (mCurrentPosition != position) {
+            mIsCurrentPlay = false;
+            mCurrentPosition = position;
+        } else {
+            mIsCurrentPlay = true;
+        }
         MusicInfo musicInfo = mMusicInfoArrayList.get(position);
-        new MusicAsyncTask(musicInfo).execute();
-    }
-
-    private class MusicAsyncTask extends AsyncTask<Void, Integer, Void> {
-        MusicInfo musicInfo;
-
-        public MusicAsyncTask(MusicInfo musicInfo) {
-            this.musicInfo = musicInfo;
+        if (mIsCurrentPlay) {
+            if (mMusicInterface.isPlaying()) {
+                mMusicInterface.pausePlay();
+                ivMusicControl.setImageResource(R.mipmap.icon_pause);
+            } else {
+                mMusicInterface.continuePlay();
+                ivMusicControl.setImageResource(R.mipmap.icon_play);
+            }
+        } else {
+            mMusicPresenter.playMusic(mHandler, mMusicInterface, musicInfo.getUrl());
+            ivMusicControl.setImageResource(R.mipmap.icon_play);
+            mIsExistPlayData = true;
         }
 
-        @Override
-        protected Void doInBackground(Void... voids) {
-            mMusicInterface.play(musicInfo.getUrl(), mHandler);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            ivMusicHead.setImageBitmap(musicInfo.getAlbumImg());
-            tvMusicName.setText(musicInfo.getTitle());
-            tvSinger.setText(musicInfo.getArtist());
-        }
     }
 
 
@@ -148,6 +157,28 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
     public void showMusics(ArrayList<MusicInfo> musicInfoList) {
         mMusicInfoArrayList = musicInfoList;
         mMusicAdapter.setMusicList(musicInfoList);
+        //获取上次播放的position
+        mCurrentPosition = SharedPreferenceUtils.getLastPlayPosition(getActivity());
+        if (mCurrentPosition < mMusicInfoArrayList.size() && mCurrentPosition > -1) {
+            updateTextView(mMusicInfoArrayList.get(mCurrentPosition).getUrl());
+            if (mMusicInterface.isPlaying()) {
+                ivMusicControl.setImageResource(R.mipmap.icon_play);
+            } else {
+                ivMusicControl.setImageResource(R.mipmap.icon_pause);
+            }
+        }
+    }
+
+    @Override
+    public void updateTextView(String songUrl) {
+        //定位到正在播放的MusicInfo
+        for (MusicInfo musicInfo : mMusicInfoArrayList) {
+            if (musicInfo.getUrl().equals(songUrl)) {
+                ivMusicHead.setImageBitmap(musicInfo.getAlbumImg());
+                tvMusicName.setText(musicInfo.getTitle());
+                tvSinger.setText(musicInfo.getArtist());
+            }
+        }
     }
 
     @Override
@@ -179,6 +210,25 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
         }
     }
 
+    @OnClick(R.id.iv_music_control)
+    public void onViewClicked() {
+        if (mIsExistPlayData) {
+            if (mMusicInterface.isPlaying()) {
+                ivMusicControl.setImageResource(R.mipmap.icon_pause);
+                mMusicInterface.pausePlay();
+            } else {
+                ivMusicControl.setImageResource(R.mipmap.icon_play);
+                mMusicInterface.continuePlay();
+            }
+        } else {
+            mMusicPresenter.playMusic(mHandler, mMusicInterface, mMusicInfoArrayList.
+                    get(mCurrentPosition).getUrl());
+            ivMusicControl.setImageResource(R.mipmap.icon_play);
+            mIsExistPlayData = true;
+        }
+
+    }
+
     class MyServiceConn implements ServiceConnection {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -196,7 +246,15 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
         int nexSongPosition = mCurrentPosition;
         if (nexSongPosition >= mMusicInfoArrayList.size()) {
             nexSongPosition = 0;
+            mCurrentPosition = 0;
         }
         return nexSongPosition;
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferenceUtils.saveLastPlayPosition(getActivity(), mCurrentPosition);
     }
 }
