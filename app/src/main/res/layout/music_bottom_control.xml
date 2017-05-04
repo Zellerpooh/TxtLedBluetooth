@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:maxHeight="@dimen/seek_bar_height"
         android:minHeight="@dimen/seek_bar_height"
-        android:progress="70" />
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,6 +24,7 @@
             android:layout_width="@dimen/music_control_img_height"
             android:layout_height="@dimen/music_control_img_height"
             android:layout_centerVertical="true"
+            android:src="@mipmap/icon_morph"
             android:layout_marginLeft="@dimen/activity_horizontal_margin" />
 
         <RelativeLayout
@@ -36,14 +37,14 @@
             <TextView
                 android:id="@+id/tv_music_name"
                 style="@style/main_tv"
-                android:text="Bad Romance"
+                android:text="@string/song_name"
                 android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tv_singer"
                 style="@style/main_tv"
                 android:layout_below="@+id/tv_music_name"
-                android:text="Lady Gaga"
+                android:text="@string/singer"
                 android:textSize="@dimen/text_size" />
         </RelativeLayout>
 
@@ -54,6 +55,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/divide_padding_right"
-            android:src="@mipmap/icon_play" />
+            android:src="@mipmap/icon_pause" />
     </RelativeLayout>
 </RelativeLayout>

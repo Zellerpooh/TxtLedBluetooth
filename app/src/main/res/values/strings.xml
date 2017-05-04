@@ -77,4 +77,6 @@
     <string name="red_color">ff0000</string>
     <string name="restart_hint">Reset to factory default?</string>
     <string name="scan_music_hint">Scan the local music&#8230;</string>
+    <string name="song_name">Song name</string>
+    <string name="singer">Singer</string>
 </resources>

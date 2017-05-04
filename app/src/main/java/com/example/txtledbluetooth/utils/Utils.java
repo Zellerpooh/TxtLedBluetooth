@@ -32,7 +32,10 @@ public class Utils {
     public static final String RECEIVE_SERVICE = "6677";
     public static final String SEND_SERVICE = "7777";
     public static final String LIGHT_MODEL_NAME = "light_model_name";
-    public static final String LIGHT_MODEL_ID = "LIGHT_MODEL_ID";
+    public static final String LIGHT_MODEL_ID = "light_model_id";
+    public static final String DURATION  = "duration";
+    public static final String CURRENT_PROGRESS = "current_progress";
+    public static final String SONG_URL = "song_url";
 
     public static DisplayImageOptions getImageOptions(int defaultIconId) {
         return getImageOptions(defaultIconId, 0);

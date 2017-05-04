@@ -133,7 +133,7 @@ public class ItemLayout extends RelativeLayout {
             ivRight.setImageDrawable(drawableRight);
         }
         if (itemBgColor == 0) {
-            layoutItem.setBackground(getResources().getDrawable(R.drawable.ripple_list_item_effect));
+            layoutItem.setBackground(getResources().getDrawable(R.drawable.ripple_item_layout_effect));
         } else {
             layoutItem.setBackgroundColor(itemBgColor);
         }

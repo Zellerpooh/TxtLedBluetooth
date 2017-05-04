@@ -32,7 +32,8 @@
 
         <service android:name="com.inuker.bluetooth.library.BluetoothService" />
 
-        <activity android:name=".light.EditLightActivity"></activity>
+        <activity android:name=".light.EditLightActivity"/>
+        <service android:name=".music.service.MusicService"/>
     </application>
 
 </manifest>
