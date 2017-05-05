@@ -1,6 +1,9 @@
 package com.example.txtledbluetooth.light;
 
+import android.content.ContentUris;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,12 +18,16 @@ import android.widget.TextView;
 import com.example.txtledbluetooth.R;
 import com.example.txtledbluetooth.base.BaseFragment;
 import com.example.txtledbluetooth.bean.Lighting;
+import com.example.txtledbluetooth.bean.MusicInfo;
 import com.example.txtledbluetooth.light.presenter.LightPresenter;
 import com.example.txtledbluetooth.light.presenter.LightPresenterImpl;
 import com.example.txtledbluetooth.light.view.LightView;
+import com.example.txtledbluetooth.utils.MusicUtils;
+import com.example.txtledbluetooth.utils.SharedPreferenceUtils;
 import com.example.txtledbluetooth.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,10 +69,35 @@ public class LightFragment extends BaseFragment implements LightView, LightAdapt
     public void showLightData() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mLightAdapter = new LightAdapter(getActivity(), Utils.getLightList(getActivity()),
-                this, this);
+        mLightAdapter = new LightAdapter(getActivity(), this, this);
         recyclerView.setAdapter(mLightAdapter);
+        new initDataAsyncTask().execute();
     }
+
+    private class initDataAsyncTask extends AsyncTask<Void, Void, ArrayList<Lighting>> {
+        ArrayList<Lighting> lightingList;
+        List<Boolean> list;
+
+        @Override
+        protected ArrayList<Lighting> doInBackground(Void... voids) {
+            lightingList = Utils.getLightList(getActivity());
+            list = new ArrayList<>();
+            for (int i = 0; i < lightingList.size(); i++) {
+                if (SharedPreferenceUtils.getClickPosition(getActivity()) == i) {
+                    list.add(true);
+                } else {
+                    list.add(false);
+                }
+            }
+            return lightingList;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Lighting> lightingArrayList) {
+            mLightAdapter.setLightingList(lightingArrayList, list);
+        }
+    }
+
 
     @Override
     public void editLight(int id) {

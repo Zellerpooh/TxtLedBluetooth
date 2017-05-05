@@ -1,8 +1,11 @@
 package com.example.txtledbluetooth.music;
 
 import android.content.ComponentName;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -26,6 +29,7 @@ import com.example.txtledbluetooth.music.presenter.MusicPresenterImpl;
 import com.example.txtledbluetooth.music.service.MusicInterface;
 import com.example.txtledbluetooth.music.service.MusicService;
 import com.example.txtledbluetooth.music.view.MusicView;
+import com.example.txtledbluetooth.utils.MusicUtils;
 import com.example.txtledbluetooth.utils.SharedPreferenceUtils;
 import com.example.txtledbluetooth.utils.Utils;
 import com.yanzhenjie.permission.AndPermission;
@@ -97,6 +101,7 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_music, null);
         ButterKnife.bind(this, view);
+        initRecycleView();
         mMusicPresenter = new MusicPresenterImpl(this);
         // 先判断是否有权限。
         if (AndPermission.hasPermission(getActivity(), Utils.getPermission(2),
@@ -108,7 +113,6 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
                     .permission(Utils.getPermission(2), Utils.getPermission(3))
                     .send();
         }
-        initRecycleView();
         initService();
         return view;
     }
@@ -118,6 +122,28 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mMusicAdapter = new MusicAdapter(getActivity(), this, this);
         recyclerView.setAdapter(mMusicAdapter);
+        mMusicInfoArrayList = new ArrayList<>();
+        new loadSqlAsyncTask().execute();
+    }
+
+    private class loadSqlAsyncTask extends AsyncTask<Void, Void, ArrayList<MusicInfo>> {
+
+        @Override
+        protected ArrayList<MusicInfo> doInBackground(Void... voids) {
+            List<MusicInfo> musicInfoList = MusicInfo.listAll(MusicInfo.class);
+            for (MusicInfo musicInfo : musicInfoList) {
+                Uri albumUri = ContentUris.withAppendedId(Uri.parse(MusicUtils.MUSIC_ALBUM_URI),
+                        musicInfo.getAlbumId());
+                musicInfo.setAlbumImg(MusicUtils.createThumbFromUir(getActivity(), albumUri));
+                mMusicInfoArrayList.add(musicInfo);
+            }
+            return mMusicInfoArrayList;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<MusicInfo> musicInfo) {
+            mMusicAdapter.setMusicList(musicInfo);
+        }
     }
 
     private void initService() {

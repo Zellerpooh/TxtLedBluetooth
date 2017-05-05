@@ -48,8 +48,8 @@ public class MusicPresenterImpl implements MusicPresenter {
             }
 
             @Override
-            protected void onPostExecute(ArrayList<MusicInfo> musicInfos) {
-                mMusicView.showMusics(musicInfos);
+            protected void onPostExecute(ArrayList<MusicInfo> musicInfo) {
+                mMusicView.showMusics(musicInfo);
                 mMusicView.hideProgress();
             }
         }.execute();

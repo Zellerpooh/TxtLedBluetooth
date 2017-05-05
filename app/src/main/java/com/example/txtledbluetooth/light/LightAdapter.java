@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.txtledbluetooth.R;
 import com.example.txtledbluetooth.bean.Lighting;
+import com.example.txtledbluetooth.bean.MusicInfo;
 import com.example.txtledbluetooth.utils.SharedPreferenceUtils;
 import com.example.txtledbluetooth.utils.Utils;
 
@@ -42,21 +43,20 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         void onIvRightClick(View view, int position);
     }
 
-    public LightAdapter(Context mContext, ArrayList<Lighting> mLightingList, OnItemClickListener
+    public LightAdapter(Context mContext, OnItemClickListener
             mOnItemClickListener, OnIvRightClickListener mOnIvRightClickListener) {
         this.mContext = mContext;
-        this.mLightingList = mLightingList;
         this.mOnItemClickListener = mOnItemClickListener;
         this.mOnIvRightClickListener = mOnIvRightClickListener;
-        mList = new ArrayList<>();
-        for (int i = 0; i < mLightingList.size(); i++) {
-            if (SharedPreferenceUtils.getClickPosition(mContext) == i) {
-                mList.add(true);
-            } else {
-                mList.add(false);
-            }
-        }
+
     }
+
+    public void setLightingList(ArrayList<Lighting> lightingList,List<Boolean> list) {
+        this.mLightingList = lightingList;
+        this.mList=list;
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public LightViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
