@@ -6,13 +6,14 @@ import android.content.Context;
 import com.inuker.bluetooth.library.BluetoothClient;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.orm.SugarApp;
 
 /**
  * Created by KomoriWu
  * on 2017-04-18.
  */
 
-public class MyApplication extends Application {
+public class MyApplication extends SugarApp {
     private static ImageLoader mImageLoader;
     private static BluetoothClient mBluetoothClient;
 

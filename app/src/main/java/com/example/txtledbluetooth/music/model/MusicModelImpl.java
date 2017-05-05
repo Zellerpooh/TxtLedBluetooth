@@ -23,6 +23,7 @@ public class MusicModelImpl implements MusicModel {
     public ArrayList<MusicInfo> scanMusic(final Context context, final Cursor cursor) {
         mMusicInfoList = new ArrayList<MusicInfo>();
         if (cursor != null) {
+            MusicInfo.deleteAll(MusicInfo.class);
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(MusicUtils.
                         musicMedias[0]));
@@ -43,6 +44,9 @@ public class MusicModelImpl implements MusicModel {
 
                 mMusicInfoList.add(new MusicInfo(id, title, album, artist, url, duration,
                         MusicUtils.createThumbFromUir(context, albumUri)));
+                MusicInfo musicInfo = new MusicInfo(id, title, album, artist, url, duration,
+                        albumId);
+                musicInfo.save();
             }
         }
         cursor.close();

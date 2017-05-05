@@ -2,23 +2,51 @@ package com.example.txtledbluetooth.bean;
 
 import android.graphics.Bitmap;
 
+import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
+import com.orm.dsl.Table;
+
+import java.io.Serializable;
+
 /**
  * Created by KomoriWu
  * on 2017-04-28.
  */
-
-public class MusicInfo {
-    private int id;
+@Table(name = "music_info")
+public class MusicInfo extends SugarRecord implements Serializable {
+    @SerializedName("songId")
+    private int songId;
+    @SerializedName("title")
     private String title;
+    @SerializedName("album")
     private String album;
+    @SerializedName("artist")
     private String artist;
+    @SerializedName("url")
     private String url;
+    @SerializedName("duration")
     private int duration;
+    @SerializedName("albumId")
+    private int albumId;
     private Bitmap albumImg;
 
-    public MusicInfo(int id, String title, String album, String artist, String url, int duration,
+    public MusicInfo() {
+    }
+
+    public MusicInfo(int songId, String title, String album, String artist, String url,
+                     int duration, int albumId) {
+        this.songId = songId;
+        this.title = title;
+        this.album = album;
+        this.artist = artist;
+        this.url = url;
+        this.duration = duration;
+        this.albumId = albumId;
+    }
+
+    public MusicInfo(int songId, String title, String album, String artist, String url, int duration,
                      Bitmap albumImg) {
-        this.id = id;
+        this.songId = songId;
         this.title = title;
         this.album = album;
         this.artist = artist;
@@ -27,12 +55,21 @@ public class MusicInfo {
         this.albumImg = albumImg;
     }
 
-    public int getId() {
-        return id;
+    public int getAlbumId() {
+        return albumId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAlbumId(int albumId) {
+        this.albumId = albumId;
+    }
+
+
+    public int getSongId() {
+        return songId;
+    }
+
+    public void setSongId(int songId) {
+        this.songId = songId;
     }
 
     public String getTitle() {

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.txtledbluetooth.R;
@@ -37,6 +38,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 import static com.example.txtledbluetooth.main.MainActivity.REQUEST_CODE_SETTING;
@@ -62,6 +64,9 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
     TextView tvMusicName;
     @BindView(R.id.tv_singer)
     TextView tvSinger;
+    @BindView(R.id.layout_music_control)
+    RelativeLayout layoutMusicControl;
+    Unbinder unbinder;
     private MusicAdapter mMusicAdapter;
     private MusicPresenter mMusicPresenter;
     private ArrayList<MusicInfo> mMusicInfoArrayList;
@@ -210,29 +215,52 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
         }
     }
 
-    @OnClick(R.id.iv_music_control)
-    public void onViewClicked() {
-        if (mIsExistPlayData) {
-            if (mMusicInterface.isPlaying()) {
-                ivMusicControl.setImageResource(R.mipmap.icon_pause);
-                mMusicInterface.pausePlay();
-            } else {
-                ivMusicControl.setImageResource(R.mipmap.icon_play);
-                mMusicInterface.continuePlay();
-            }
-        } else {
-            if (mMusicInfoArrayList.size() > 0) {
-                if (!(mCurrentPosition < mMusicInfoArrayList.size() && mCurrentPosition > -1)) {
-                    mCurrentPosition = 0;
-                }
-                mMusicPresenter.playMusic(mHandler, mMusicInterface, mMusicInfoArrayList.
-                        get(mCurrentPosition).getUrl());
-                ivMusicControl.setImageResource(R.mipmap.icon_play);
-                mIsExistPlayData = true;
-            }
-        }
-
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick({R.id.iv_music_control, R.id.layout_music_control})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_music_control:
+                if (mIsExistPlayData) {
+                    if (mMusicInterface.isPlaying()) {
+                        ivMusicControl.setImageResource(R.mipmap.icon_pause);
+                        mMusicInterface.pausePlay();
+                    } else {
+                        ivMusicControl.setImageResource(R.mipmap.icon_play);
+                        mMusicInterface.continuePlay();
+                    }
+                } else {
+                    if (mMusicInfoArrayList.size() > 0) {
+                        if (!(mCurrentPosition < mMusicInfoArrayList.size() &&
+                                mCurrentPosition > -1)) {
+                            mCurrentPosition = 0;
+                        }
+                        mMusicPresenter.playMusic(mHandler, mMusicInterface,
+                                mMusicInfoArrayList.get(mCurrentPosition).getUrl());
+                        ivMusicControl.setImageResource(R.mipmap.icon_play);
+                        mIsExistPlayData = true;
+                    }
+                }
+                break;
+            case R.id.layout_music_control:
+                Intent intent = new Intent(getActivity(), PlayingActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
 
     class MyServiceConn implements ServiceConnection {
         @Override

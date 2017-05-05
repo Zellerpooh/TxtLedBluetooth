@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
@@ -21,6 +20,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="DATABASE"
+            android:value="txt_led.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="false" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.example.txtledbluetooth.bean" />
         <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,8 +43,11 @@
 
         <service android:name="com.inuker.bluetooth.library.BluetoothService" />
 
-        <activity android:name=".light.EditLightActivity"/>
-        <service android:name=".music.service.MusicService"/>
+        <activity android:name=".light.EditLightActivity" />
+
+        <service android:name=".music.service.MusicService" />
+
+        <activity android:name=".music.PlayingActivity"/>
     </application>
 
 </manifest>
