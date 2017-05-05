@@ -2,17 +2,17 @@ package com.example.txtledbluetooth.music;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.ContentUris;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.txtledbluetooth.R;
 import com.example.txtledbluetooth.application.MyApplication;
@@ -42,6 +42,10 @@ public class PlayingActivity extends BaseActivity {
     ImageView ivPlay;
     @BindView(R.id.iv_album_cover)
     ImageView ivAlbumCover;
+    @BindView(R.id.tv_music_name)
+    TextView tvMusicName;
+    @BindView(R.id.tv_singer)
+    TextView tvSinger;
     private ObjectAnimator mNeedleAnim;
     private ObjectAnimator mRotateAnim;
     private AnimatorSet mAnimatorSet;
@@ -57,12 +61,17 @@ public class PlayingActivity extends BaseActivity {
         toolbar.setBackground(null);
         tvTitle.setText(getString(R.string.now_playing));
         mPosition = getIntent().getIntExtra(Utils.POSITION, 0);
+
         mMusicInfoList = MusicInfo.listAll(MusicInfo.class);
-        mAlbumUri = mMusicInfoList.get(mPosition).getAlbumUri();
+        MusicInfo musicInfo = mMusicInfoList.get(mPosition);
+        tvMusicName.setText(musicInfo.getTitle());
+        tvSinger.setText(musicInfo.getArtist());
+        mAlbumUri = musicInfo.getAlbumUri();
         MyApplication.getImageLoader(PlayingActivity.this).displayImage(mAlbumUri,
                 ivAlbumCover, Utils.getImageOptions(R.mipmap.logo, 360));
         new AlbumCoverAsyncTask().execute();
     }
+
 
     private class AlbumCoverAsyncTask extends AsyncTask<Void, Void, Drawable> {
 

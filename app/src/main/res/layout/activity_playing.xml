@@ -15,13 +15,14 @@
         android:id="@+id/layout_play"
         android:layout_width="match_parent"
         android:layout_height="@dimen/play_height"
+        android:layout_marginBottom="@dimen/divide_padding_right"
         android:layout_below="@+id/layout_appbar"
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/layout_album_cover"
             android:layout_width="@dimen/play_iv_size"
             android:layout_height="@dimen/play_iv_size"
-            android:id="@+id/layout_album_cover"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/et_color_board"
             android:background="@mipmap/fm_play_disc"
@@ -30,8 +31,7 @@
             <ImageView
                 android:id="@+id/iv_album_cover"
                 android:layout_width="170dp"
-                android:layout_height="170dp"
-               />
+                android:layout_height="170dp" />
         </RelativeLayout>
 
 
@@ -63,6 +63,20 @@
             android:transformPivotX="15.1dp"
             android:transformPivotY="15.1dp" />
 
+        <TextView
+            android:id="@+id/tv_music_name"
+            style="@style/main_tv"
+            android:layout_below="@+id/view_pager"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/item_padding_left" />
+
+        <TextView
+            android:id="@+id/tv_singer"
+            style="@style/main_tv"
+            android:layout_below="@+id/tv_music_name"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/mini_tv_size" />
+
         <ImageView
             android:id="@+id/iv_led"
             android:layout_width="wrap_content"
@@ -80,7 +94,6 @@
         android:layout_below="@+id/layout_play"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/divide_padding_right"
         android:orientation="horizontal">
 
         <TextView
