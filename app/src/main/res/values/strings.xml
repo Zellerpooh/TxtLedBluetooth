@@ -80,4 +80,6 @@
     <string name="song_name">Song name</string>
     <string name="singer">Singer</string>
     <string name="now_playing">Now Playing</string>
+    <string name="search_stop">The search timeout !</string>
+    <string name="search_cancelled">The search was cancelled !</string>
 </resources>

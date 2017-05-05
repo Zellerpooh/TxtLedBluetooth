@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_playing"
+    android:id="@+id/layout_activity_play"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/content_bg"
@@ -18,13 +18,22 @@
         android:layout_below="@+id/layout_appbar"
         android:orientation="horizontal">
 
-        <ImageView
+        <RelativeLayout
             android:layout_width="@dimen/play_iv_size"
             android:layout_height="@dimen/play_iv_size"
+            android:id="@+id/layout_album_cover"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/et_color_board"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/play_disc_halo" />
+            android:background="@mipmap/fm_play_disc"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_album_cover"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:src="@mipmap/ic_launcher" />
+        </RelativeLayout>
+
 
         <com.example.txtledbluetooth.widget.AlbumViewPager
             android:id="@+id/view_pager"
@@ -42,7 +51,7 @@
             android:background="@color/item_selected_bg" />
 
         <ImageView
-            android:id="@+id/needle"
+            android:id="@+id/iv_needle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -55,6 +64,7 @@
             android:transformPivotY="15.1dp" />
 
         <ImageView
+            android:id="@+id/iv_led"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -79,11 +89,10 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="00:00"
-            android:textSize="@dimen/mini_tv_size"
-           />
+            android:textSize="@dimen/mini_tv_size" />
 
         <SeekBar
-            android:id="@+id/play_seek"
+            android:id="@+id/seek_bar_play"
             style="@style/seek_bar"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
@@ -96,8 +105,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="00:00"
-            android:textSize="@dimen/mini_tv_size"
-            />
+            android:textSize="@dimen/mini_tv_size" />
     </LinearLayout>
 
     <LinearLayout
@@ -123,6 +131,7 @@
             android:src="@mipmap/icon_music_previous" />
 
         <ImageView
+            android:id="@+id/iv_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
