@@ -43,9 +43,9 @@ public class MusicModelImpl implements MusicModel {
                         MusicUtils.MUSIC_ALBUM_URI), albumId);
 
                 mMusicInfoList.add(new MusicInfo(id, title, album, artist, url, duration,
-                        MusicUtils.createThumbFromUir(context, albumUri)));
+                        MusicUtils.createThumbFromUir(context, albumUri),albumUri + ""));
                 MusicInfo musicInfo = new MusicInfo(id, title, album, artist, url, duration,
-                        albumId);
+                        albumId, albumUri + "");
                 musicInfo.save();
             }
         }

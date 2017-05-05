@@ -132,9 +132,8 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
         protected ArrayList<MusicInfo> doInBackground(Void... voids) {
             List<MusicInfo> musicInfoList = MusicInfo.listAll(MusicInfo.class);
             for (MusicInfo musicInfo : musicInfoList) {
-                Uri albumUri = ContentUris.withAppendedId(Uri.parse(MusicUtils.MUSIC_ALBUM_URI),
-                        musicInfo.getAlbumId());
-                musicInfo.setAlbumImg(MusicUtils.createThumbFromUir(getActivity(), albumUri));
+                musicInfo.setAlbumImg(MusicUtils.createThumbFromUir(getActivity(),
+                        Uri.parse(musicInfo.getAlbumUri())));
                 mMusicInfoArrayList.add(musicInfo);
             }
             return mMusicInfoArrayList;
@@ -282,6 +281,11 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
                 break;
             case R.id.layout_music_control:
                 Intent intent = new Intent(getActivity(), PlayingActivity.class);
+                if (!(mCurrentPosition < mMusicInfoArrayList.size() &&
+                        mCurrentPosition > -1)) {
+                    mCurrentPosition = 0;
+                }
+                intent.putExtra(Utils.POSITION, mCurrentPosition);
                 startActivity(intent);
                 break;
         }

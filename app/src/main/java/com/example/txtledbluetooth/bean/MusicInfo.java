@@ -28,13 +28,15 @@ public class MusicInfo extends SugarRecord implements Serializable {
     private int duration;
     @SerializedName("albumId")
     private int albumId;
+    @SerializedName("albumUri")
+    private String albumUri;
     private Bitmap albumImg;
 
     public MusicInfo() {
     }
 
     public MusicInfo(int songId, String title, String album, String artist, String url,
-                     int duration, int albumId) {
+                     int duration, int albumId,String albumUri) {
         this.songId = songId;
         this.title = title;
         this.album = album;
@@ -42,10 +44,11 @@ public class MusicInfo extends SugarRecord implements Serializable {
         this.url = url;
         this.duration = duration;
         this.albumId = albumId;
+        this.albumUri = albumUri;
     }
 
-    public MusicInfo(int songId, String title, String album, String artist, String url, int duration,
-                     Bitmap albumImg) {
+    public MusicInfo(int songId, String title, String album, String artist, String url,
+                     int duration, Bitmap albumImg,String albumUri) {
         this.songId = songId;
         this.title = title;
         this.album = album;
@@ -53,6 +56,7 @@ public class MusicInfo extends SugarRecord implements Serializable {
         this.url = url;
         this.duration = duration;
         this.albumImg = albumImg;
+        this.albumUri = albumUri;
     }
 
     public int getAlbumId() {
@@ -118,5 +122,12 @@ public class MusicInfo extends SugarRecord implements Serializable {
 
     public void setAlbumImg(Bitmap albumImg) {
         this.albumImg = albumImg;
+    }
+    public String getAlbumUri() {
+        return albumUri;
+    }
+
+    public void setAlbumUri(String albumUri) {
+        this.albumUri = albumUri;
     }
 }

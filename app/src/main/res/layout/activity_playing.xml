@@ -31,7 +31,7 @@
                 android:id="@+id/iv_album_cover"
                 android:layout_width="170dp"
                 android:layout_height="170dp"
-                android:src="@mipmap/ic_launcher" />
+               />
         </RelativeLayout>
 
 
@@ -46,9 +46,9 @@
         <View
             android:id="@+id/view_line"
             android:layout_width="match_parent"
-            android:layout_height="1.0dip"
+            android:layout_height="0.5dip"
             android:layout_alignParentTop="true"
-            android:background="@color/item_selected_bg" />
+            android:background="@color/text_color" />
 
         <ImageView
             android:id="@+id/iv_needle"

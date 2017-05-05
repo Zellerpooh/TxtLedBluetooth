@@ -3,7 +3,10 @@ package com.example.txtledbluetooth.music;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.ContentUris;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -15,6 +18,7 @@ import com.example.txtledbluetooth.R;
 import com.example.txtledbluetooth.application.MyApplication;
 import com.example.txtledbluetooth.base.BaseActivity;
 import com.example.txtledbluetooth.bean.MusicInfo;
+import com.example.txtledbluetooth.utils.GaussianBlurUtil;
 import com.example.txtledbluetooth.utils.MusicUtils;
 import com.example.txtledbluetooth.utils.Utils;
 
@@ -41,18 +45,39 @@ public class PlayingActivity extends BaseActivity {
     private ObjectAnimator mNeedleAnim;
     private ObjectAnimator mRotateAnim;
     private AnimatorSet mAnimatorSet;
+    private int mPosition;
+    private String mAlbumUri;
+    private List<MusicInfo> mMusicInfoList;
 
     @Override
     public void init() {
         setContentView(R.layout.activity_playing);
         ButterKnife.bind(this);
         initToolbar();
+        toolbar.setBackground(null);
         tvTitle.setText(getString(R.string.now_playing));
-        List<MusicInfo> musicInfoList = MusicInfo.listAll(MusicInfo.class);
-        Uri albumUri = ContentUris.withAppendedId(Uri.parse(MusicUtils.MUSIC_ALBUM_URI),
-                musicInfoList.get(0).getAlbumId());
-        MyApplication.getImageLoader(this).displayImage(String.valueOf(albumUri), ivAlbumCover, Utils.
-                        getImageOptions(R.mipmap.logo,360));
+        mPosition = getIntent().getIntExtra(Utils.POSITION, 0);
+        mMusicInfoList = MusicInfo.listAll(MusicInfo.class);
+        mAlbumUri = mMusicInfoList.get(mPosition).getAlbumUri();
+        MyApplication.getImageLoader(PlayingActivity.this).displayImage(mAlbumUri,
+                ivAlbumCover, Utils.getImageOptions(R.mipmap.logo, 360));
+        new AlbumCoverAsyncTask().execute();
+    }
+
+    private class AlbumCoverAsyncTask extends AsyncTask<Void, Void, Drawable> {
+
+        @Override
+        protected Drawable doInBackground(Void... voids) {
+            Drawable drawable = GaussianBlurUtil.BoxBlurFilter(MusicUtils.createThumbFromUir(
+                    PlayingActivity.this, Uri.parse(mAlbumUri)));
+            return drawable;
+        }
+
+        @Override
+        protected void onPostExecute(Drawable drawable) {
+            layoutActivityPlay.setBackground(drawable);
+
+        }
     }
 
     @OnClick({R.id.layout_activity_play, R.id.iv_play})
