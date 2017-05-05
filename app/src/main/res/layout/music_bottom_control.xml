@@ -7,11 +7,11 @@
 
     <ProgressBar
         android:id="@+id/progress_bar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_height="wrap_content"
-        android:maxHeight="@dimen/seek_bar_height"
-        android:minHeight="@dimen/seek_bar_height"
+        android:maxHeight="@dimen/progress_bar_height"
+        android:minHeight="@dimen/progress_bar_height"
         />
 
     <RelativeLayout

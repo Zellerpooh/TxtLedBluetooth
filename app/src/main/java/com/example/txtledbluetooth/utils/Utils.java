@@ -27,7 +27,7 @@ import java.util.HashMap;
 public class Utils {
     public static final String ITEM_RIGHT_TEXT = "item_right_text";
     public static final String AUDIO_PROMPTS_DEFAULT_MODEL = "Voice and Tones";
-    public static final String BLE_NAME = "Creative Halo-207";
+    public static final String BLE_NAME = "Creative Halo";
     public static final String BLE_ADDRESS = "ble_address";
     public static final String RECEIVE_SERVICE = "6677";
     public static final String SEND_SERVICE = "7777";
