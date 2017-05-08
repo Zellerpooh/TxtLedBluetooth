@@ -13,6 +13,8 @@ import android.support.annotation.Nullable;
 import com.example.txtledbluetooth.utils.Utils;
 
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,12 +28,14 @@ public class MusicService extends Service {
     public static final int UPDATE_DELAY = 500;
     private MediaPlayer mMediaPlayer;
     private Timer mTimer;
+    private MusicObservable mMusicObservable;
+    private String mCurrentPlayUrl;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        mMusicObservable = new MusicObservable();
         mMediaPlayer = new MediaPlayer();
-
     }
 
     @Nullable
@@ -43,7 +47,7 @@ public class MusicService extends Service {
     class MusicControl extends Binder implements MusicInterface {
 
         @Override
-        public void play(String songUrl, Handler handler) {
+        public void play(String songUrl) {
             try {
                 if (mMediaPlayer == null) {
                     mMediaPlayer = new MediaPlayer();
@@ -52,7 +56,8 @@ public class MusicService extends Service {
                 mMediaPlayer.setDataSource(songUrl);
                 mMediaPlayer.prepare();
                 mMediaPlayer.start();
-                addTimer(handler);
+                mCurrentPlayUrl=songUrl;
+                addTimer();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -84,10 +89,15 @@ public class MusicService extends Service {
             return mMediaPlayer.isPlaying();
         }
 
+        @Override
+        public void addObserver(Observer observer) {
+            mMusicObservable.addObserver(observer);
+        }
+
 
     }
 
-    private void addTimer(final Handler handler) {
+    private void addTimer() {
         //如果没有创建计时器对象
         if (mTimer == null) {
             mTimer = new Timer();
@@ -96,15 +106,23 @@ public class MusicService extends Service {
                                 public void run() {
                                     int duration = mMediaPlayer.getDuration();
                                     int currentProgress = mMediaPlayer.getCurrentPosition();
-                                    Message msg = handler.obtainMessage();
                                     Bundle bundle = new Bundle();
                                     bundle.putInt(Utils.DURATION, duration);
                                     bundle.putInt(Utils.CURRENT_PROGRESS, currentProgress);
-                                    msg.setData(bundle);
-                                    handler.sendMessage(msg);
+                                    bundle.putString(Utils.CURRENT_PLAY_URL, mCurrentPlayUrl);
+                                    mMusicObservable.notifyChanged(bundle);
+
                                 }
                             },
                     UPDATE_DELAY, UPDATE_PERIOD);
+        }
+    }
+
+
+    public class MusicObservable extends Observable {
+        public void notifyChanged(Bundle bundle) {
+            this.setChanged();
+            this.notifyObservers(bundle);
         }
     }
 

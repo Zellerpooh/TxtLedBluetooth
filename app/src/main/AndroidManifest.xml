@@ -32,6 +32,7 @@
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.example.txtledbluetooth.bean" />
+
         <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,7 +48,9 @@
 
         <service android:name=".music.service.MusicService" />
 
-        <activity android:name=".music.PlayingActivity"/>
+        <activity
+            android:name=".music.PlayingActivity"
+            android:launchMode="singleInstance" />
     </application>
 
 </manifest>

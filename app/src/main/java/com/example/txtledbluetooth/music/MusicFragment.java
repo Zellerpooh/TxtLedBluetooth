@@ -1,7 +1,6 @@
 package com.example.txtledbluetooth.music;
 
 import android.content.ComponentName;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.Uri;
@@ -13,6 +12,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +38,8 @@ import com.yanzhenjie.permission.PermissionYes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +55,7 @@ import static com.example.txtledbluetooth.main.MainActivity.REQUEST_CODE_SETTING
  */
 
 public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRightClickListener,
-        MusicAdapter.OnItemClickListener, MusicView {
+        MusicAdapter.OnItemClickListener, MusicView, Observer {
     public static final String TAG = MusicFragment.class.getSimpleName();
     public static final int PERMISSION_REQUEST_CODE = 100;
     @BindView(R.id.recycler_view)
@@ -80,22 +82,6 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
     private int mCurrentPosition = -1;
     private boolean mIsCurrentPlay;
     private boolean mIsExistPlayData;
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Bundle bundle = msg.getData();
-            int duration = bundle.getInt(Utils.DURATION);
-            int currentProgress = bundle.getInt(Utils.CURRENT_PROGRESS);
-            progressBar.setMax(duration);
-            progressBar.setProgress(currentProgress);
-            if (progressBar.getProgress() == duration) {
-                mMusicPresenter.playMusic(mHandler, mMusicInterface, mMusicInfoArrayList.
-                        get(getNextSongPosition()).getUrl());
-                ivMusicControl.setImageResource(R.mipmap.icon_play);
-            }
-
-        }
-    };
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -175,7 +161,7 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
                 ivMusicControl.setImageResource(R.mipmap.icon_play);
             }
         } else {
-            mMusicPresenter.playMusic(mHandler, mMusicInterface, musicInfo.getUrl());
+            mMusicPresenter.playMusic(mMusicInterface, musicInfo.getUrl());
             ivMusicControl.setImageResource(R.mipmap.icon_play);
             mIsExistPlayData = true;
         }
@@ -272,7 +258,7 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
                                 mCurrentPosition > -1)) {
                             mCurrentPosition = 0;
                         }
-                        mMusicPresenter.playMusic(mHandler, mMusicInterface,
+                        mMusicPresenter.playMusic(mMusicInterface,
                                 mMusicInfoArrayList.get(mCurrentPosition).getUrl());
                         ivMusicControl.setImageResource(R.mipmap.icon_play);
                         mIsExistPlayData = true;
@@ -296,11 +282,27 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             mMusicInterface = (MusicInterface) iBinder;
+            mMusicInterface.addObserver(MusicFragment.this);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
 
+        }
+    }
+
+    //观察者模式更新ui
+    @Override
+    public void update(Observable observable, Object object) {
+        Bundle bundle = (Bundle) object;
+        int duration = bundle.getInt(Utils.DURATION);
+        int currentProgress = bundle.getInt(Utils.CURRENT_PROGRESS);
+        progressBar.setMax(duration);
+        progressBar.setProgress(currentProgress);
+        if (progressBar.getProgress() == duration) {
+            mMusicPresenter.playMusic(mMusicInterface, mMusicInfoArrayList.
+                    get(getNextSongPosition()).getUrl());
+            ivMusicControl.setImageResource(R.mipmap.icon_play);
         }
     }
 
@@ -319,5 +321,11 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
     public void onPause() {
         super.onPause();
         SharedPreferenceUtils.saveLastPlayPosition(getActivity(), mCurrentPosition);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unbindService(mServiceConn);
     }
 }

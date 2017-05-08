@@ -13,5 +13,5 @@ import com.example.txtledbluetooth.music.service.MusicInterface;
 
 public interface MusicPresenter {
     void scanMusic(Context context);
-    void playMusic(Handler handler, MusicInterface musicInterface,String songUrl);
+    void playMusic( MusicInterface musicInterface,String songUrl);
 }

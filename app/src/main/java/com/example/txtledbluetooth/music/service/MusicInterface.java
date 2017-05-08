@@ -2,6 +2,8 @@ package com.example.txtledbluetooth.music.service;
 
 import android.os.Handler;
 
+import java.util.Observer;
+
 /**
  * Created by KomoriWu
  * on 2017-05-04.
@@ -9,7 +11,7 @@ import android.os.Handler;
 
 public interface MusicInterface {
 
-    void play(String songUrl, Handler handler);
+    void play(String songUrl);
 
     void pausePlay();
 
@@ -18,4 +20,5 @@ public interface MusicInterface {
     void seekTo(int progress);
 
     boolean isPlaying();
+    void addObserver(Observer observer);
 }

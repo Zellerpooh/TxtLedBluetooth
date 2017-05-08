@@ -57,12 +57,12 @@ public class MusicPresenterImpl implements MusicPresenter {
     }
 
     @Override
-    public void playMusic(final Handler handler, final MusicInterface musicInterface,
+    public void playMusic(final MusicInterface musicInterface,
                           final String songUrl) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                musicInterface.play(songUrl, handler);
+                musicInterface.play(songUrl);
                 return null;
             }
 
