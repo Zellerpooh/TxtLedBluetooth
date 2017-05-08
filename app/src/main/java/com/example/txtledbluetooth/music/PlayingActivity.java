@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -74,7 +73,7 @@ public class PlayingActivity extends BaseActivity implements Observer {
     private MusicInterface mMusicInterface;
     private Intent mIntent;
     private MyServiceConn mServiceConn;
-    private int mUpdatePosition;
+    private int mCurrentPosition;
 
     @Override
     public void init() {
@@ -91,7 +90,7 @@ public class PlayingActivity extends BaseActivity implements Observer {
         toolbar.setBackground(null);
         tvTitle.setText(getString(R.string.now_playing));
         mIntentPosition = getIntent().getIntExtra(Utils.POSITION, 0);
-        mUpdatePosition=mIntentPosition;
+        mCurrentPosition = mIntentPosition;
         mMusicInfoList = MusicInfo.listAll(MusicInfo.class);
         initPlayUi(mIntentPosition);
     }
@@ -99,10 +98,17 @@ public class PlayingActivity extends BaseActivity implements Observer {
     @Override
     protected void onRestart() {
         super.onRestart();
-        if (mUpdatePosition != mIntentPosition) {
-            initPlayUi(mUpdatePosition);
+        if (mCurrentPosition != mIntentPosition) {
+            initPlayUi(mCurrentPosition);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
     private void initPlayUi(int position) {
         MusicInfo musicInfo = mMusicInfoList.get(position);
         tvMusicName.setText(musicInfo.getTitle());
@@ -111,6 +117,7 @@ public class PlayingActivity extends BaseActivity implements Observer {
         MyApplication.getImageLoader(PlayingActivity.this).displayImage(mAlbumUri,
                 ivAlbumCover, Utils.getImageOptions(R.mipmap.placeholder_disk_play_program, 360));
         new AlbumCoverAsyncTask().execute();
+
     }
 
     private void initService() {
@@ -148,34 +155,36 @@ public class PlayingActivity extends BaseActivity implements Observer {
                 break;
 
             case R.id.iv_play:
-                initNeedleAnim();
-                initRotateAnim();
-                mAnimatorSet = new AnimatorSet();
-                mAnimatorSet.play(mNeedleAnim).before(mRotateAnim);
-                mAnimatorSet.start();
-
+                if (mMusicInterface.isPlaying()) {
+                    startPlayAnim();
+                }
                 break;
         }
     }
 
-    private void initRotateAnim() {
+    private void startPlayAnim() {
         if (mRotateAnim == null) {
             mRotateAnim = ObjectAnimator.ofFloat(layoutAlbumCover, ROTATION, 0f, 360f);
-            mRotateAnim.setDuration(5000);
-            mRotateAnim.setRepeatCount(-1);//设置动画重复次数，这里-1代表无限
-            mRotateAnim.setRepeatMode(Animation.ABSOLUTE);//设置动画循环模式。
-            mRotateAnim.setInterpolator(new LinearInterpolator());
         }
-    }
+        mRotateAnim.setDuration(10000);
+        mRotateAnim.setRepeatCount(-1);//设置动画重复次数，这里-1代表无限
+        mRotateAnim.setRepeatMode(Animation.ABSOLUTE);//设置动画循环模式。
+        mRotateAnim.setInterpolator(new LinearInterpolator());
 
-    private void initNeedleAnim() {
         if (mNeedleAnim == null) {
             mNeedleAnim = ObjectAnimator.ofFloat(ivNeedle, ROTATION, -25, 0);
-            mNeedleAnim.setDuration(200);
-            mNeedleAnim.setRepeatMode(0);
-            mNeedleAnim.setInterpolator(new LinearInterpolator());
         }
+        mNeedleAnim.setDuration(200);
+        mNeedleAnim.setRepeatMode(0);
+        mNeedleAnim.setInterpolator(new LinearInterpolator());
+
+        if (mAnimatorSet == null) {
+            mAnimatorSet = new AnimatorSet();
+        }
+        mAnimatorSet.play(mNeedleAnim).before(mRotateAnim);
+        mAnimatorSet.start();
     }
+
 
     class MyServiceConn implements ServiceConnection {
         @Override
@@ -191,23 +200,46 @@ public class PlayingActivity extends BaseActivity implements Observer {
     }
 
     @Override
-    public void update(Observable observable, Object object) {
-        Bundle bundle = (Bundle) object;
-        int duration = bundle.getInt(Utils.DURATION);
-        int currentProgress = bundle.getInt(Utils.CURRENT_PROGRESS);
-        String currentUrl = bundle.getString(Utils.CURRENT_PLAY_URL);
-        for (int i = 0; i < mMusicInfoList.size(); i++) {
-            if (currentUrl.equals(mMusicInfoList.get(i).getUrl())) {
-                mUpdatePosition = i;
+    public void update(Observable observable, final Object object) {
+        new AsyncTask<Void, Void, Bundle>() {
+            @Override
+            protected Bundle doInBackground(Void... voids) {
+                return (Bundle) object;
             }
+
+            @Override
+            protected void onPostExecute(Bundle bundle) {
+                super.onPostExecute(bundle);
+                int duration = bundle.getInt(Utils.DURATION);
+                int currentProgress = bundle.getInt(Utils.CURRENT_PROGRESS);
+                String currentUrl = bundle.getString(Utils.CURRENT_PLAY_URL);
+                for (int i = 0; i < mMusicInfoList.size(); i++) {
+                    if (currentUrl.equals(mMusicInfoList.get(i).getUrl())) {
+                        mCurrentPosition = i;
+                    }
+                }
+                tvTimeRight.setText(Utils.getPlayTime(duration));
+                tvTimeLeft.setText(Utils.getPlayTime(currentProgress));
+                seekBarPlay.setMax(duration);
+                seekBarPlay.setProgress(currentProgress);
+                if (seekBarPlay.getProgress() == duration) {
+                    initPlayUi(getNextSongPosition());
+                }
+
+            }
+        }.execute();
+
+
+    }
+
+    private int getNextSongPosition() {
+        mCurrentPosition += 1;
+        int nexSongPosition = mCurrentPosition;
+        if (nexSongPosition >= mMusicInfoList.size()) {
+            nexSongPosition = 0;
+            mCurrentPosition = 0;
         }
-//        tvTimeRight.setText(duration/3600);
-//        tvTimeLeft.setText(currentProgress);
-        seekBarPlay.setMax(duration);
-        seekBarPlay.setProgress(currentProgress);
-//        if (seekBarPlay.getProgress() == duration) {
-//
-//        }
+        return nexSongPosition;
     }
 
     @Override

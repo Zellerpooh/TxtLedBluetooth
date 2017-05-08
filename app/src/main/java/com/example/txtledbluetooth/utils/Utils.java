@@ -33,7 +33,7 @@ public class Utils {
     public static final String SEND_SERVICE = "7777";  //调试0000
     public static final String LIGHT_MODEL_NAME = "light_model_name";
     public static final String LIGHT_MODEL_ID = "light_model_id";
-    public static final String DURATION  = "duration";
+    public static final String DURATION = "duration";
     public static final String CURRENT_PROGRESS = "current_progress";
     public static final String CURRENT_PLAY_URL = "current_play_url";
     public static final String SONG_URL = "song_url";
@@ -156,5 +156,12 @@ public class Utils {
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.READ_EXTERNAL_STORAGE};
         return permissions[position];
+    }
+
+    public static String getPlayTime(int time) {
+        int musicTime = time / 1000;
+        String minute = musicTime / 60 < 10 ? "0" + musicTime / 60 : musicTime / 60 + "";
+        String second = musicTime % 60 < 10 ? "0" + musicTime % 60 : musicTime % 60 + "";
+        return minute + ":" + second;
     }
 }

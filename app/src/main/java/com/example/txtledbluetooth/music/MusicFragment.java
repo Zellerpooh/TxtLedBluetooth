@@ -293,17 +293,29 @@ public class MusicFragment extends BaseFragment implements MusicAdapter.OnIvRigh
 
     //观察者模式更新ui
     @Override
-    public void update(Observable observable, Object object) {
-        Bundle bundle = (Bundle) object;
-        int duration = bundle.getInt(Utils.DURATION);
-        int currentProgress = bundle.getInt(Utils.CURRENT_PROGRESS);
-        progressBar.setMax(duration);
-        progressBar.setProgress(currentProgress);
-        if (progressBar.getProgress() == duration) {
-            mMusicPresenter.playMusic(mMusicInterface, mMusicInfoArrayList.
-                    get(getNextSongPosition()).getUrl());
-            ivMusicControl.setImageResource(R.mipmap.icon_play);
-        }
+    public void update(Observable observable, final Object object) {
+        new AsyncTask<Void, Void, Bundle>() {
+            @Override
+            protected Bundle doInBackground(Void... voids) {
+                return (Bundle) object;
+            }
+
+            @Override
+            protected void onPostExecute(Bundle bundle) {
+                super.onPostExecute(bundle);
+                int duration = bundle.getInt(Utils.DURATION);
+                int currentProgress = bundle.getInt(Utils.CURRENT_PROGRESS);
+                progressBar.setMax(duration);
+                progressBar.setProgress(currentProgress);
+                if (progressBar.getProgress() == duration) {
+                    mMusicPresenter.playMusic(mMusicInterface, mMusicInfoArrayList.
+                            get(getNextSongPosition()).getUrl());
+                    ivMusicControl.setImageResource(R.mipmap.icon_play);
+                }
+            }
+        }.execute();
+
+
     }
 
     private int getNextSongPosition() {
