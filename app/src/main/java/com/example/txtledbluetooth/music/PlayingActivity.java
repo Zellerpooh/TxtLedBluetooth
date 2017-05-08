@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -33,7 +34,7 @@ public class PlayingActivity extends BaseActivity {
     @BindView(R.id.layout_activity_play)
     RelativeLayout layoutActivityPlay;
     @BindView(R.id.layout_album_cover)
-    RelativeLayout layoutAlbumCover;
+    FrameLayout layoutAlbumCover;
     @BindView(R.id.layout_volume)
     LinearLayout layoutVolume;
     @BindView(R.id.iv_needle)
@@ -68,7 +69,7 @@ public class PlayingActivity extends BaseActivity {
         tvSinger.setText(musicInfo.getArtist());
         mAlbumUri = musicInfo.getAlbumUri();
         MyApplication.getImageLoader(PlayingActivity.this).displayImage(mAlbumUri,
-                ivAlbumCover, Utils.getImageOptions(R.mipmap.logo, 360));
+                ivAlbumCover, Utils.getImageOptions(R.mipmap.icon_morph, 360));
         new AlbumCoverAsyncTask().execute();
     }
 

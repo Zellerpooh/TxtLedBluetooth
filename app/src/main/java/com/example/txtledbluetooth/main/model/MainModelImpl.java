@@ -27,7 +27,7 @@ import static com.inuker.bluetooth.library.Constants.REQUEST_SUCCESS;
 
 public class MainModelImpl implements MainModel {
     private static final int SEARCH_TIMEOUT = 5000;
-    private static final int SEARCH_TIMEOUT_NUMBER = 3;
+    private static final int SEARCH_TIMEOUT_NUMBER = 2;
 
     @Override
     public void initBle(final Context context, final BluetoothClient client, final BleConnectOptions
@@ -46,8 +46,11 @@ public class MainModelImpl implements MainModel {
                     @Override
                     public void onDeviceFounded(SearchResult device) {
                         if (device.getName().contains(Utils.BLE_NAME)) {
-                            connBle(context, client, bleConnectOptions, device.getAddress(),
-                                    device.getName(), onInitBleListener);
+                            if (device.getAddress().contains("6A")) {  //调试
+                                client.stopSearch();
+                                connBle(context, client, bleConnectOptions, device.getAddress(),
+                                        device.getName(), onInitBleListener);
+                            }
                         }
                     }
 
@@ -58,7 +61,6 @@ public class MainModelImpl implements MainModel {
 
                     @Override
                     public void onSearchCanceled() {
-                        onInitBleListener.OnException(context.getString(R.string.search_cancelled));
                     }
                 });
 

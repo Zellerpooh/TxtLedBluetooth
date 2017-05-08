@@ -1,9 +1,11 @@
 package com.example.txtledbluetooth.main;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,10 +15,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.txtledbluetooth.R;
+import com.example.txtledbluetooth.about.AboutFragment;
+import com.example.txtledbluetooth.application.MyApplication;
 import com.example.txtledbluetooth.base.BaseActivity;
 import com.example.txtledbluetooth.dashboard.DashboardFragment;
 import com.example.txtledbluetooth.light.LightFragment;
@@ -24,7 +30,6 @@ import com.example.txtledbluetooth.main.presenter.MainPresenter;
 import com.example.txtledbluetooth.main.presenter.MainPresenterImpl;
 import com.example.txtledbluetooth.main.view.MainView;
 import com.example.txtledbluetooth.music.MusicFragment;
-import com.example.txtledbluetooth.about.AboutFragment;
 import com.example.txtledbluetooth.setting.SettingFragment;
 import com.example.txtledbluetooth.sources.SourcesFragment;
 import com.example.txtledbluetooth.utils.AlertUtils;
@@ -37,6 +42,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements MainView {
     public static final int PERMISSION_REQUEST_CODE = 100;
@@ -48,6 +54,8 @@ public class MainActivity extends BaseActivity implements MainView {
     NavigationView navigationView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+    @BindView(R.id.tv_toolbar_right)
+    TextView tvScan;
     private ActionBarDrawerToggle mDrawerToggle;
     private MainPresenter mPresenter;
     private DashboardFragment mDashboardFragment;
@@ -58,6 +66,7 @@ public class MainActivity extends BaseActivity implements MainView {
     private AboutFragment mAboutFragment;
     private long mExitTime;
     private Fragment mCurrentFragment;
+    private ProgressDialog mProgressDialog;
 
     @Override
     public void init() {
@@ -65,7 +74,7 @@ public class MainActivity extends BaseActivity implements MainView {
         ButterKnife.bind(this);
         mPresenter = new MainPresenterImpl(this);
         initToolbar();
-
+        tvScan.setText(R.string.scan);
         mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.drawer_open, R.string.drawer_close);
         mDrawerToggle.setHomeAsUpIndicator(null);
@@ -78,20 +87,25 @@ public class MainActivity extends BaseActivity implements MainView {
         navigationView.setItemBackground(getResources().getDrawable(R.drawable.menu_item));
         setupDrawerContent(navigationView);
 
-        mCurrentFragment=new DashboardFragment();
-//        switchDashboard();
-//        // 先判断是否有权限。
-//        if (AndPermission.hasPermission(this, Utils.getPermission(0),
-//                Utils.getPermission(1))) {
-//            mPresenter.initBle(this);
-//        } else {
-//            AndPermission.with(this)
-//                    .requestCode(PERMISSION_REQUEST_CODE)
-//                    .permission(Utils.getPermission(0), Utils.getPermission(1))
-//                    .send();
-//        }
-        switchMusic();
+        mCurrentFragment = new DashboardFragment();
+        switchDashboard();
+        initPermission();
+//        switchMusic();
 
+    }
+
+    private void initPermission() {
+        // 先判断是否有权限。
+        if (AndPermission.hasPermission(this, Utils.getPermission(0),
+                Utils.getPermission(1))) {
+            mPresenter.initBle(this);
+
+        } else {
+            AndPermission.with(this)
+                    .requestCode(PERMISSION_REQUEST_CODE)
+                    .permission(Utils.getPermission(0), Utils.getPermission(1))
+                    .send();
+        }
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -107,74 +121,92 @@ public class MainActivity extends BaseActivity implements MainView {
                 });
     }
 
+    @OnClick(R.id.tv_toolbar_right)
+    public void onViewClicked() {
+        initPermission();
+    }
+
     @Override
     public void showProgress() {
-        showProgressDialog(R.string.init_the_bluetooth);
+        mProgressDialog =ProgressDialog.show(this, "", getString(R.string.init_the_bluetooth),
+                true, true, new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        AlertUtils.showAlertDialog(MainActivity.this, R.string.search_cancelled);
+                        MyApplication.getBluetoothClient(MainActivity.this).stopSearch();
+                    }
+                });
     }
 
     @Override
     public void switchDashboard() {
+        tvScan.setVisibility(View.VISIBLE);
         tvTitle.setText(R.string.dashboard);
         if (mDashboardFragment == null) {
             mDashboardFragment = new DashboardFragment();
         }
 //        showFragment(mDashboardFragment);
-        switchContent(mCurrentFragment,mDashboardFragment);
+        switchContent(mCurrentFragment, mDashboardFragment);
     }
 
     @Override
     public void switchSources() {
+        tvScan.setVisibility(View.GONE);
         tvTitle.setText(R.string.sources);
         if (mSourcesFragment == null) {
             mSourcesFragment = new SourcesFragment();
         }
 //        showFragment(mSourcesFragment);
-        switchContent(mCurrentFragment,mSourcesFragment);
+        switchContent(mCurrentFragment, mSourcesFragment);
     }
 
     @Override
     public void switchMusic() {
+        tvScan.setVisibility(View.GONE);
         tvTitle.setText(R.string.music);
         if (mMusicFragment == null) {
             mMusicFragment = new MusicFragment();
         }
 //        showFragment(mMusicFragment);
-        switchContent(mCurrentFragment,mMusicFragment);
+        switchContent(mCurrentFragment, mMusicFragment);
     }
 
     @Override
     public void switchLighting() {
+        tvScan.setVisibility(View.GONE);
         tvTitle.setText(R.string.lighting);
         if (mLightFragment == null) {
             mLightFragment = new LightFragment();
         }
 //        showFragment(mLightFragment);
-        switchContent(mCurrentFragment,mLightFragment);
+        switchContent(mCurrentFragment, mLightFragment);
     }
 
     @Override
     public void switchSettings() {
+        tvScan.setVisibility(View.GONE);
         tvTitle.setText(R.string.settings);
         if (mSettingFragment == null) {
             mSettingFragment = new SettingFragment();
         }
 //        showFragment(mSettingFragment);
-        switchContent(mCurrentFragment,mSettingFragment);
+        switchContent(mCurrentFragment, mSettingFragment);
     }
 
     @Override
     public void switchAbout() {
+        tvScan.setVisibility(View.GONE);
         tvTitle.setText(R.string.about);
         if (mAboutFragment == null) {
             mAboutFragment = new AboutFragment();
         }
 //        showFragment(mAboutFragment);
-        switchContent(mCurrentFragment,mAboutFragment);
+        switchContent(mCurrentFragment, mAboutFragment);
     }
 
     @Override
     public void hideProgress() {
-        hideProgressDialog();
+        mProgressDialog.hide();
     }
 
     @Override
@@ -283,4 +315,6 @@ public class MainActivity extends BaseActivity implements MainView {
             AndPermission.defaultSettingDialog(this, REQUEST_CODE_SETTING).show();
         }
     }
+
+
 }

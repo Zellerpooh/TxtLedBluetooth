@@ -15,24 +15,31 @@
         android:id="@+id/layout_play"
         android:layout_width="match_parent"
         android:layout_height="@dimen/play_height"
-        android:layout_marginBottom="@dimen/divide_padding_right"
         android:layout_below="@+id/layout_appbar"
+        android:layout_marginBottom="@dimen/divide_padding_right"
         android:orientation="horizontal">
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/layout_album_cover"
             android:layout_width="@dimen/play_iv_size"
             android:layout_height="@dimen/play_iv_size"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/et_color_board"
-            android:background="@mipmap/fm_play_disc"
+            android:background="@mipmap/play_disc_halo"
             android:gravity="center">
 
             <ImageView
+                android:layout_width="255dp"
+                android:layout_height="255dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/fm_play_disc" />
+
+            <ImageView
                 android:id="@+id/iv_album_cover"
-                android:layout_width="170dp"
-                android:layout_height="170dp" />
-        </RelativeLayout>
+                android:layout_width="165dp"
+                android:layout_height="165dp"
+                android:layout_gravity="center" />
+        </FrameLayout>
 
 
         <com.example.txtledbluetooth.widget.AlbumViewPager
