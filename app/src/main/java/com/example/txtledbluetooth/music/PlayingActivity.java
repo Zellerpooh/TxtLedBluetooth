@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -80,11 +81,17 @@ public class PlayingActivity extends BaseActivity implements Observer {
         setContentView(R.layout.activity_playing);
         ButterKnife.bind(this);
         initToolbar();
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveTaskToBack(true);
+            }
+        });
         initService();
         toolbar.setBackground(null);
         tvTitle.setText(getString(R.string.now_playing));
         mIntentPosition = getIntent().getIntExtra(Utils.POSITION, 0);
-
+        mUpdatePosition=mIntentPosition;
         mMusicInfoList = MusicInfo.listAll(MusicInfo.class);
         initPlayUi(mIntentPosition);
     }
